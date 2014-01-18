@@ -131,6 +131,15 @@ b.pinMode('P9_11', b.OUTPUT);
 b.pinMode('P9_12', b.OUTPUT);
 
 b.pinMode('P9_13', b.INPUT);
+b.pinMode('P9_14', b.INPUT);
+b.pinMode('P9_15', b.INPUT);
+b.pinMode('P9_16', b.INPUT);
+b.pinMode('P9_17', b.INPUT);
+b.pinMode('P9_18', b.INPUT);
+b.pinMode('P9_21', b.INPUT);
+b.pinMode('P9_23', b.INPUT); 
+
+
 
 
 
@@ -139,12 +148,14 @@ setInterval(checkInputs,100);
 
 function checkInputs(){
     for (var i in inputsArray) {
-        checkKey(b.digitalRead(inputsArray[i].pin),inputsArray[i].id,i);   
+        checkKey(b.digitalRead(inputsArray[i].pin),inputsArray[i].id,i); 
+        //console.log(inputsArray[i].pin+' '+inputsArray[i].id+' '+i);
     }
 }
 
 function checkKey(x, deviceid, arrayid) {
-    if (x == 1) {
+    if (x == 0) {
+        console.log(deviceid+' '+' on');
 		if (inputsArray[arrayid].mem == 0) {
 			inputsArray[arrayid].mem = 1;
             var timeText = getDateTime();
@@ -171,6 +182,7 @@ function checkKey(x, deviceid, arrayid) {
 			  }
 	    }
 	} else {
+        console.log(deviceid+' '+' off');
         if (inputsArray[arrayid].mem == 1){io.sockets.emit('input change', deviceid+'-off-0');}
 	    inputsArray[arrayid].mem = 0;
 	}
@@ -327,7 +339,7 @@ io.sockets.on('connection', function(socket){
          var pinNr = pinStr.substr(3);
          var pinCon = pinStr.substr(0,2);
         
-        //console.log('action '+data+'<'+pinStr+'>' +pinCon+' ' +pinNr);
+        console.log('action '+data+'<'+pinStr+'>' +pinCon+' ' +pinNr);
         var timeText = getDateTime();
     		if (devicesArray[devicenr].val == 0) {
 				b.digitalWrite(pinStr, b.HIGH);
