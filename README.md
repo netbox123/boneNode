@@ -2,7 +2,7 @@ BoneNode a Beaglebone black remote
 ==============
 
 A set of pages and scripts for the (http://beagleboard.org/Products/BeagleBone%20Black).
-It my first Github projects, code is still a mess and not tested yet.
+It my first Github project, code is still a mess and not tested yet.
 This is for
    * HMI interfacing the BBB
    * learning jqx widgets and how to get rid of them ;)
