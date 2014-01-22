@@ -1,5 +1,6 @@
 var	pagesArray = [];
 var	pageItemsArray = [];
+var actionsArray = [];
 var	devicesArray = [];
 var inputsArray = [];
 var iseditmode = 0;
@@ -7,89 +8,23 @@ var iseditbkgmode = 0;
 var dragstartx = 0;
 var dragstarty = 0;
 var aid = [];
-
-function drag_start(ev) {
-	if (iseditmode){
-		$("#pageItemPanel").hide();
-		event.dataTransfer.effectAllowed='move';
-		dragstartx = ev.clientX;
-		dragstarty = ev.clientY;
-		//alert('id '+ev.target.getAttribute('id'));
-		ev.dataTransfer.setData("text/plain", ev.target.getAttribute('id'));
-	}else{
-		event.dataTransfer.effectAllowed='none';
-	}
-}
-
-function drag_over(event) {
-	event.preventDefault();
-}
-
-function drop(event) {
-	if (iseditmode){
-		event.preventDefault();
-		var data = event.dataTransfer.getData("Text");
-		var query_str = "";
-
-		//alert(pageItemsArray[data.substr(6)].id);
-		query_str += "UPDATE  `nodesql`.`page_items_ini` SET  ";
-		query_str += "`xpos` =  '"+(pageItemsArray[data.substr(6)].xpos+event.clientX-dragstartx)+"', `ypos` =  '"+(pageItemsArray[data.substr(6)].ypos+event.clientY-dragstarty)+"' ";
-		query_str += " WHERE  `page_items_ini`.`id` ="+pageItemsArray[data.substr(6)].id;
-		sendQuery(query_str, pageItemsArray[data.substr(6)].id, 'page_items_ini', pageItemsArray[data.substr(6)].xpos+event.clientX-dragstartx, pageItemsArray[data.substr(6)].ypos+event.clientY-dragstarty);     
-	}
-}
+var curDate, curSec, curMin, curHour, secRot, minRot, hourRot;
 
 window.onload = function() {
-    		var sec     = document.getElementById('sec');
-            var min     = document.getElementById('min');
-            var hour    = document.getElementById('hour');
-            var tmpRotValue  = "";
-            window.resizeTo(1024, 768);
-
+    window.resizeTo(1024, 768);
+	var sec     = document.getElementById('sec');
+	var min     = document.getElementById('min');
+	var hour    = document.getElementById('hour');
+	var tmpRotValue  = "";
 }
 
-
-            var curDate, curSec, curMin, curHour, secRot, minRot, hourRot;
-
-            function setRotation(elem, degrees) {
-                tmpRotValue = "rotate(" + degrees + "deg)";
-                elem.setAttribute(
-                "style",
-                "-webkit-transform:"+tmpRotValue+"; -moz-transform:"+tmpRotValue+"; -ms-transform:"+tmpRotValue+"; -o-transform:"+tmpRotValue+"; transform:"+tmpRotValue+";" 
-                );
-            }
-
-function tick(curDate) {
-      // get the current date and time:
-      //curDate = new Date();
-      // split up:
-      curSec   = curDate.getSeconds();
-      curMin   = curDate.getMinutes();
-      curHour  = curDate.getHours();
-      // make sure, the hour is in the range of [0..11] and not in [12..23]
-      if ( curHour > 11 ) {
-         curHour -= 12;
-      }
-      // calculate the rotations per hand:
-      secRot   = curSec * 6;     // 360�/60sec = 6� per second
-      minRot   = curMin * 6;     // 360�/60min = 6� per minute
-      hourRot  = curHour * 30 + curMin/2;   // 360�/12hours = 30� per hour
-      // apply rotations:
-      setRotation(sec,  secRot);
-      setRotation(min,  minRot);
-      setRotation(hour, hourRot);
-}
-   
-
-Number.prototype.padLeft = function(base,chr){
-    var  len = (String(base || 10).length - String(this).length)+1;
-    return len > 0? new Array(len).join(chr || '0')+this : this;
-}
 
 function ControlPageLoad() {
 	var pageItemA = [];
+    //console.log('count '+pageItemsArray.length);
 	for(j=0; j < pageItemsArray.length; j++){
 		pageItemA = pageItemsArray[j];
+		//console.log(pageItemsArray[j].id+' '+pageItemsArray[j].type);
 		if (pageItemA.type == 10) {
 			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input type='button' value='Button' id='widgetid"+j+"' /></div>");
 			$("#widgetid"+j).jqxButton({ width: pageItemA.width, height: pageItemA.height, theme: 'bootstrap'}); 
@@ -172,7 +107,11 @@ function ControlPageLoad() {
 		 } else if (pageItemA.type == 26) {
 			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'>"+window_input_key+"</div>");
 			init_window_input_key();
-
+			
+		 } else if (pageItemA.type == 27) {
+			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'>"+window_actions()+"</div>");
+			init_window_actions();
+ 			
 		 } else if (pageItemA.type == 99) {
 			$('#ControlPage').append("<div class='bkg-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><img draggable='false' src='images/"+pageItemA.action+"' ></div>");
 
@@ -214,10 +153,20 @@ jQuery(function($){
     window.SendServerCommand = function (serverscript){
         socket.emit('sendservercommand', serverscript , function(data){
     		if(data){
-				//$('#nickWrap').hide();
-				//$('#contentWrap').show();
+				
 			} else{
-				//$nickError.html('That username is already taken!  Try again.');
+				
+			}
+    	})	
+    };
+    
+    window.SendAction = function (buttonid){
+        var actionid = buttonid - 5000;
+        socket.emit('sendaction', actionid , function(data){
+        	if(data){
+				
+			} else{
+				
 			}
     	})	
     };
@@ -249,7 +198,6 @@ jQuery(function($){
 	socket.on('devices', function(data){
 		devicesArray = [];
 		for(i=0; i < data.length; i++){
-			//console.log(data[i].id+' - '+data[i].val);
 			devicesArray.push(data[i]); 
 		}
 	});
@@ -258,16 +206,23 @@ jQuery(function($){
 	socket.on('inputs', function(data){
 		inputsArray = [];
 		for(i=0; i < data.length; i++){
-			//console.log(data[i].id+' - '+data[i].val);
 			inputsArray.push(data[i]); 
 		}
+	});
+    
+    //  -- Receiving device list from server --
+    socket.on('actions', function(data){
+		actionsArray = [];
+		for(i=0; i < data.length; i++){
+			actionsArray.push(data[i]); 
+		}
+        //console.log('actionsreceived');
 	});
 
 	//  -- Receiving page list from server --	
 	socket.on('pages', function(data){
 	    pagesArray = [];
 		for(i=0; i < data.length; i++){
-			//pagesA  = data[i].split(';');
 			pagesArray.push(data[i]);
 		}
 	});
@@ -275,8 +230,10 @@ jQuery(function($){
 	//  -- Receiving pageitem list from server --	
 	socket.on('pageitems', function(data){
 		pageItemsArray = [];
+        //console.log('count '+data.length);
 		for(i=0; i < data.length; i++){
 			pageItemsArray.push(data[i]);
+            //console.log('receiving '+data[i].id);
 		}
 		// Update page
         ControlPageLoad();
@@ -368,7 +325,7 @@ jQuery(function($){
     //  -- Receiving input change from server --
 	socket.on('input change', function(data){
 		var ActionA = [];
-		console.log('data'+data);
+		//console.log('data'+data);
 		ActionA  = data.split('-');
 		if(ActionA[2] == 0){
 	        $("#widgetid"+ActionA[0]).prop("checked", false);
@@ -408,16 +365,13 @@ jQuery(function($){
      
     //  -- Client connected --
     socket.on('connect', function(data){
-		    $.av.hide(aid);
-         
+		    $.av.hide(aid);  
 	 });
     
     //  -- sendQuery --
     window.sendQuery = function(queryString, recid, rectype, recX, recY) { 
     	//alert('sendQuery'+queryString);
-         socket.emit('send query', {msg: queryString, id: recid, type: rectype, xpos: recX, ypos: recY});
-         
-         
+         socket.emit('send query', {msg: queryString, id: recid, type: rectype, xpos: recX, ypos: recY});  
 	}
     
     
@@ -452,15 +406,8 @@ jQuery(function($){
                 scrollTop: $("#"+actionStr[1]).offset().top + offset
             }, 2000);
         }
-        
-        
-        
 
-        
-        
-        
+
       } 	
 	}
-    
-
 });

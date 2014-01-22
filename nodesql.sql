@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 18, 2014 at 12:12 PM
+-- Generation Time: Jan 22, 2014 at 11:00 AM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.6
 
@@ -29,19 +29,19 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `action_ini` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `omschr` varchar(256) NOT NULL,
-  `test` varchar(50) NOT NULL,
+  `events` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `action_ini`
 --
 
-INSERT INTO `action_ini` (`id`, `name`, `omschr`, `test`) VALUES
-(1, 'Alles uit', '', ''),
-(2, 'Woonkamer aan', '', ''),
-(3, 'test', '', '');
+INSERT INTO `action_ini` (`id`, `name`, `events`) VALUES
+(1, 'Alles uit', '1-off-0;22-off-0;26-off-0;36-off-0;8-off-0;25-off-0;24-off-0;23-off-0;27-off-0;28-off-0;29-off-0;31-off-0;34-off-0;35-off-0'),
+(2, 'Woonkamer aan', '1-on-100;22-on-100;26-on-100;36-on-100;8-on-100'),
+(3, 'test', '1-on-100'),
+(7, 'test off', '1-off-0');
 
 -- --------------------------------------------------------
 
@@ -58,40 +58,41 @@ CREATE TABLE IF NOT EXISTS `device_ini` (
   `mem` int(20) NOT NULL,
   `pin` varchar(8) NOT NULL,
   `val` int(11) NOT NULL,
+  `action` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2005 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2014 ;
 
 --
 -- Dumping data for table `device_ini`
 --
 
-INSERT INTO `device_ini` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`) VALUES
-(1, 'Woonkamer', 77, 1, '', 0, 'P8_16', 0),
-(8, 'Eettafel', 2, 1, '', 0, 'P8_17', 0),
-(25, 'Nachtlampje', 0, 1, '', 0, 'P8_18', 0),
-(24, 'Slaapkamer', 0, 1, '', 0, 'P8_16', 0),
-(23, 'Hal entree', 0, 1, '', 0, 'P9_12', 0),
-(22, 'Spotjes', 0, 1, '', 0, 'P8_7', 0),
-(26, 'Gang', 0, 1, '', 0, 'P8_9', 0),
-(27, 'Douche', 0, 1, '', 0, 'P8_15', 0),
-(28, 'Achterdeur', 0, 1, '', 0, 'P8_14', 0),
-(29, 'Toilet', 0, 1, '', 0, 'P8_8', 0),
-(31, 'Keuken', 0, 1, '', 0, 'P8_18', 0),
-(34, 'Trap', 0, 1, '', 0, 'P8_17', 0),
-(35, 'Buffer', 0, 1, '', 0, 'P8_19', 0),
-(1002, 'TempSensor1', 0, 2, '28-00000495815b', 0, '', 10),
-(1003, 'BoneTime', 0, 2, 'time', 0, '', 0),
-(1004, 'BoneDate', 0, 2, 'date', 0, '', 0),
-(1005, 'BoneClock', 0, 2, 'seconds', 0, '', 0),
-(1006, 'Set clock', 0, 2, 'Button', 0, '', 0),
-(1007, 'Temp script', 0, 2, 'Button', 0, '', 0),
-(1000, 'Edit items', 0, 2, 'Switch', 0, '', 0),
-(1001, 'Edit bkgnd', 0, 2, 'Switch', 0, '', 0),
-(1008, 'Reload serverDB', 0, 2, 'Button', 0, '', 0),
-(2001, 'key 1', 0, 3, 'input', 0, 'P9_13', 0),
-(2002, 'key 2', 0, 3, 'input', 0, 'P9_13', 0),
-(2003, 'key 3', 0, 3, 'input', 0, 'P9_13', 0),
-(2004, 'key 4', 0, 3, 'input', 0, 'P9_13', 0);
+INSERT INTO `device_ini` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, `action`) VALUES
+(1, 'Woonkamer', 77, 1, '', 0, 'P8_16', 0, 0),
+(8, 'Eettafel', 2, 1, '', 0, 'P8_17', 0, 0),
+(25, 'Nachtlampje', 0, 1, '', 0, 'P8_18', 0, 0),
+(24, 'Slaapkamer', 0, 1, '', 0, 'P8_16', 0, 0),
+(23, 'Hal entree', 0, 1, '', 0, 'P8_8', 0, 0),
+(22, 'Spot schilderij', 0, 1, '', 0, 'P8_7', 0, 0),
+(36, 'Spotjes tv', 0, 1, '', 0, 'P9_11', 0, 0),
+(27, 'Douche', 0, 1, '', 0, 'P8_15', 0, 0),
+(28, 'Achterdeur', 0, 1, '', 0, 'P8_14', 0, 0),
+(29, 'Toilet', 0, 1, '', 0, 'P9_12', 0, 0),
+(31, 'Keuken', 0, 1, '', 0, 'P8_18', 0, 0),
+(34, 'Trap', 0, 1, '', 0, 'P8_26', 0, 0),
+(35, 'Buffer', 0, 1, '', 0, 'P8_19', 0, 0),
+(1002, 'TempSensor1', 0, 2, '28-00000495815b', 0, '', 10, 0),
+(1003, 'BoneTime', 0, 2, 'time', 0, '', 0, 0),
+(1004, 'BoneDate', 0, 2, 'date', 0, '', 0, 0),
+(1005, 'BoneClock', 0, 2, 'seconds', 0, '', 0, 0),
+(1006, 'Set clock', 0, 2, 'Button', 0, '', 0, 0),
+(1007, 'Temp script', 0, 2, 'Button', 0, '', 0, 0),
+(1000, 'Edit items', 0, 2, 'Switch', 0, '', 0, 0),
+(1001, 'Edit bkgnd', 0, 2, 'Switch', 0, '', 0, 0),
+(1008, 'Reload serverDB', 0, 2, 'Button', 0, '', 0, 0),
+(2001, 'key 1', 0, 3, 'input', 0, 'P9_13', 0, 1),
+(2002, 'key 2', 0, 3, 'input', 0, 'P9_14', 0, 2),
+(2003, 'key 3', 0, 3, 'input', 0, 'P9_15', 0, 3),
+(2004, 'key 4', 0, 3, 'input', 0, 'P9_16', 0, 4);
 
 -- --------------------------------------------------------
 
@@ -153,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `page_items_ini` (
   `height` int(11) NOT NULL,
   `action` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
 --
 -- Dumping data for table `page_items_ini`
@@ -162,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `page_items_ini` (
 INSERT INTO `page_items_ini` (`id`, `name`, `page_id`, `page_name`, `device_id`, `type`, `xpos`, `ypos`, `width`, `height`, `action`) VALUES
 (1, 'Eettafel', 1, 'overview', 8, 17, 170, 84, 28, 28, 'toggle'),
 (2, 'Woonkamer', 1, 'overview', 1, 17, 82, 236, 28, 28, 'toggle'),
-(3, 'Spotjes', 1, 'clocktime', 22, 17, 129, 172, 28, 28, 'toggle'),
+(3, 'Spotjes schilderij', 1, 'clocktime', 22, 17, 129, 172, 28, 28, 'toggle'),
 (4, 'WebButton', 1, 'overview', 22, 2, 337, 229, 95, 28, 'toggle'),
 (5, 'GoClock', 1, 'overview', 0, 3, 337, 265, 95, 28, 'clocktime'),
 (6, 'GoBuffer', 1, 'overview', 0, 3, 337, 301, 95, 28, 'buffer'),
@@ -186,11 +187,11 @@ INSERT INTO `page_items_ini` (`id`, `name`, `page_id`, `page_name`, `device_id`,
 (31, 'SwitchSmallGr', 1, 'overview', 8, 22, 968, 162, 37, 21, ''),
 (32, 'SwitchSmallBl', 1, 'overview', 8, 23, 966, 187, 37, 21, ''),
 (35, 'Window_pref', 1, 'overview', 0, 24, 689, 71, 245, 200, ''),
-(36, 'Window_log', 1, 'overview', 0, 25, 577, 394, 345, 200, ''),
-(37, 'Picture', 1, 'overview', 0, 27, 41, 56, 545, 400, ''),
+(36, 'Window_log', 1, 'overview', 0, 25, 15, 796, 345, 200, ''),
+(37, 'Picture', 1, 'overview', 0, 28, 660, 402, 545, 400, ''),
 (38, 'Keuken', 1, 'overview', 31, 17, 302, 145, 28, 28, 'toggle'),
-(39, 'Spotjes', 1, 'clocktime', 22, 17, 217, 290, 28, 28, 'toggle'),
-(40, 'Gang', 1, 'clocktime', 26, 17, 88, 126, 28, 28, 'toggle'),
+(39, 'Spotjes tv', 1, 'clocktime', 36, 17, 217, 290, 28, 28, 'toggle'),
+(40, 'Voordeur', 1, 'clocktime', 23, 17, 88, 126, 28, 28, 'toggle'),
 (41, 'Toilet', 1, 'clocktime', 29, 17, 39, 83, 28, 28, 'toggle'),
 (42, 'Slaapkamer', 1, 'clocktime', 24, 17, 227, 479, 28, 28, 'toggle'),
 (43, 'Nachtlampje', 1, 'clocktime', 25, 17, 186, 579, 28, 28, 'toggle'),
@@ -199,7 +200,10 @@ INSERT INTO `page_items_ini` (`id`, `name`, `page_id`, `page_name`, `device_id`,
 (46, 'Trap', 1, 'clocktime', 34, 17, 125, 401, 28, 28, 'toggle'),
 (47, 'Buffer', 1, 'clocktime', 35, 17, 626, 81, 28, 28, 'toggle'),
 (48, 'Buffer', 1, 'clocktime', 35, 17, 541, 82, 28, 28, 'toggle'),
-(49, 'Window_input_key', 1, 'overview', 0, 26, 322, 332, 245, 200, '');
+(49, 'Window_input_key', 1, 'overview', 0, 26, 688, 427, 245, 200, ''),
+(50, 'Window_action', 1, 'overview', 0, 27, 322, 332, 245, 200, ''),
+(52, 'Window_input_key', 1, 'overview', 0, 26, 688, 427, 245, 200, ''),
+(53, 'Window_input_key', 1, 'overview', 0, 26, 688, 427, 245, 200, '');
 
 -- --------------------------------------------------------
 

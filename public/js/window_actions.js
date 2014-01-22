@@ -21,7 +21,7 @@ function window_actions(){
 function init_window_actions(){
     for(j=0; j < actionsArray.length; j++){
         var jid = actionsArray[j].id + 5000;
-         $('#widgetid'+jid).jqxButton({ width: 90, height: 24, theme: 'bootstrap'}); 
+         $('#widgetid'+jid).jqxButton({ width: 50, height: 24, theme: 'bootstrap'}); 
          $('#widgetid'+jid).bind('click', function (event) {
              var eventid = event.target.getAttribute('id').substr(8);
              SendAction(eventid);

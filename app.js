@@ -9,12 +9,13 @@ function puts(error, stdout, stderr) { sys.puts(stdout) }
 inputsArray = [];
 devicesArray = [];
 pageItemsArray = [];
+actionsArray = [];
 
 var path = require('path');
 var express = require('express'),
     app = express();
 app.use(express.static(path.join(__dirname, 'public')));
-var	server = require('http').createServer(app),
+var    server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
     b = require('bonescript');
 	nicknames = [],
@@ -74,7 +75,7 @@ function loadDatbase() {
   	database : 'nodesql'
     });
 	connection.connect();
-	connection.query('SELECT * FROM device_ini', function(err, result, fields) {
+	connection.query('SELECT * FROM device_ini', function(err, result) {
         devicesArray = [];
 		if (err) throw err;
 		for (var i in result) {
@@ -82,7 +83,7 @@ function loadDatbase() {
 			devicesArray.push(device);
 		}
 	});
-	connection.query('SELECT * FROM page_ini', function(err, result, fields) {
+	connection.query('SELECT * FROM page_ini', function(err, result) {
         pagesArray = [];
 		if (err) throw err;
 		for (var i in result) {
@@ -90,15 +91,24 @@ function loadDatbase() {
 			pagesArray.push(page); 
 		}
 	});
-	connection.query('SELECT * FROM page_items_ini order by type DESC', function(err, result, fields) {
+	connection.query('SELECT * FROM page_items_ini order by type DESC', function(err, result) {
         pageItemsArray = [];
 		if (err) throw err;
 		for (var i in result) {
 			var pageItem = result[i];
+            //console.log(pageItem.id+' '+pageItem.type);
 			pageItemsArray.push(pageItem);
 		}
 	});
-    connection.query('SELECT * FROM device_ini WHERE type=3', function(err, result, fields) {
+    connection.query('SELECT * FROM action_ini', function(err, result) {
+        actionItemsArray = [];
+		if (err) throw err;
+		for (var i in result) {
+			var actionItem = result[i];
+			actionsArray.push(actionItem);
+		}
+	});
+    connection.query('SELECT * FROM device_ini WHERE type=3', function(err, result) {
         inputsArray = [];
 		if (err) throw err;
 		for (var i in result) {
@@ -110,6 +120,7 @@ function loadDatbase() {
 }
 
 console.log('Server listening on 192.168.1.41:4000');
+
 setInterval(function() {b.readTextFile(temperature, setTemperature);}, 1000);
 
 
@@ -139,11 +150,9 @@ b.pinMode('P9_18', b.INPUT);
 b.pinMode('P9_21', b.INPUT);
 b.pinMode('P9_23', b.INPUT); 
 
-
-
-
-
-
+server.listen(4000);
+app.get('/', function(req, res){res.sendfile(__dirname + '/index.html');});
+setTimeout(function(){runAction(2);},1000);
 setInterval(checkInputs,100);
 
 function checkInputs(){
@@ -155,45 +164,17 @@ function checkInputs(){
 
 function checkKey(x, deviceid, arrayid) {
     if (x == 0) {
-        console.log(deviceid+' '+' on');
-		if (inputsArray[arrayid].mem == 0) {
-			inputsArray[arrayid].mem = 1;
+        if (inputsArray[arrayid].mem == 0) {
+	        inputsArray[arrayid].mem = 1;
             var timeText = getDateTime();
             io.sockets.emit('input change', deviceid+'-on-100');
-			if (inputsArray[arrayid].val == 0) {
-				b.digitalWrite('P8_12', b.HIGH);
-				inputsArray[arrayid].val = 100;
-				//console.log('turn lamp on');
-				io.sockets.emit('new message', {
-					msg:  'P8_12 on',
-					nick: timeText + 'Key:P8_19 >'
-				});
-			 }
-	   	     else {
-				b.digitalWrite('P8_12', b.LOW);
-				inputsArray[arrayid].val = 0;
-				//console.log('turn lamp off');
-				
-				io.sockets.emit('new message', {
-					msg: 'P8_12 off',
-					nick: timeText + 'Key:P8_19 >'
-				});
-
-			  }
-	    }
-	} else {
-        console.log(deviceid+' '+' off');
+            runAction(inputsArray[arrayid].action);
+        }
+    } else {
         if (inputsArray[arrayid].mem == 1){io.sockets.emit('input change', deviceid+'-off-0');}
-	    inputsArray[arrayid].mem = 0;
-	}
+        inputsArray[arrayid].mem = 0;
+    }
 }
-
-
-server.listen(4000);
-
-app.get('/', function(req, res){
-	res.sendfile(__dirname + '/index.html');
-});
 
 io.sockets.on('connection', function(socket){
 	socket.on('new user', function(data, callback){
@@ -213,17 +194,19 @@ io.sockets.on('connection', function(socket){
                 timeText: timeText
 			});
 			nicknames.push(socket.nickname);
-			updateNicknames();
+			sendAllArrays();
 		}
 	});
     
     
 	
-	//  -- Update Nicknames --
-	function updateNicknames(){
+	//  -- sendAllArrays to client --
+	function sendAllArrays(){
+        //console.log('sendAllArrays');
 		socket.emit('usernames', nicknames);
 		socket.emit('devices', devicesArray);
         socket.emit('inputs', inputsArray);
+        socket.emit('actions', actionsArray);
 		socket.emit('pages', pagesArray);
 		socket.emit('pageitems', pageItemsArray);
 	}
@@ -266,7 +249,7 @@ io.sockets.on('connection', function(socket){
                     nick: 'echo BB-W1:00A0 > /sys/devices/bone_capemgr.9/slots',
     				msg:  '',
                     data: data,
-                    timeText: timeText
+                    timeText: 'testtimetext'
 				});
             
             console.log('starttemp');
@@ -276,10 +259,24 @@ io.sockets.on('connection', function(socket){
             io.sockets.emit('new message', {msg: 'reloaddb - database reloaded', nick: timeText });
         } else if(temparray[0] == 'savedb'){
             console.log('savedb');
-        }
-        
-		
+        }	
 	});
+    
+     //  -- SendAction received from client --
+    socket.on('sendaction', function(data){
+        for (var i in actionsArray) {
+            if (data == actionsArray[i].id){
+                io.sockets.emit('new message', {
+                title: 'Run '+actionsArray[i].name,
+                nick: 'action'+data,
+                msg:  '',
+                data: data,
+                timeText: actionsArray[i].events
+		        });
+            }
+        }
+        runAction(data);
+    });
     
     //  -- Query received from client --
 	socket.on('send query', function(data){
@@ -373,7 +370,60 @@ io.sockets.on('connection', function(socket){
 	socket.on('disconnect', function(data){
 		if(!socket.nickname) return;
 		nicknames.splice(nicknames.indexOf(socket.nickname), 1);
-		updateNicknames();
+		//updateNicknames();
 	});
 
-}); 
+});
+
+function runAction(actioinid) {
+        for (var i in actionsArray) {
+            if (actioinid == actionsArray[i].id){
+                //console.log(i + ' ' + actionsArray[i].events); 
+                var event_array = actionsArray[i].events.split(';');
+                for (var j in event_array) {
+                    var oneE_array = event_array[j].split('-');
+                    if (oneE_array[1] == 'on'){
+                        switchLamp(oneE_array[0],1);
+                    } else if (oneE_array[1] == 'off') {
+                        switchLamp(oneE_array[0],0);
+                    } else if (oneE_array[1] == 'toggle') {
+                        switchLamp(oneE_array[0],0);
+                    } else if (oneE_array[1] == 'dim') {
+                        switchLamp(oneE_array[0],0);
+                    }
+                    sleep(100);
+                    
+                }
+            }
+            
+         }
+}
+
+function switchLamp(deviceid, onoff) {
+        for (var i in devicesArray) {
+            if (deviceid == devicesArray[i].id){
+                if (onoff){
+                    //console.log(devicesArray[i].pin);
+                    b.digitalWrite(devicesArray[i].pin, b.HIGH);
+                    devicesArray[i].val = 100;
+                    io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+                } else {
+                    //console.log(devicesArray[i].pin);
+                    b.digitalWrite(devicesArray[i].pin, b.LOW);
+                    devicesArray[i].val = 0;
+                    io.sockets.emit('device change', devicesArray[i].id + '-off-0');
+                }
+            }
+            
+         }
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+        break;
+        }
+    }
+}
+  			
