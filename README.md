@@ -38,9 +38,25 @@ TODO
 
 Stuff to do:
 
-* adding (timed)events and controlscripts
 * reorganize the structure
 * cleaning the code 
-* Serial in for my accu monitor 
 * moving jqx out of the code 
+* Building the windows really dynamic, and scrolling
+* starting echo BB-W1:00A0 > /sys/devices/bone_capemgr.9/slots automatic
+* getting the time from the browser when it is not set.
+* adding alarms on temperatures and accu monitor
 
+Done
+----
+
+History:
+
+* 7 times/2 sec I read the temperature files, want that to move that to python. 
+* Splitted the getTemperatures(2sec) loop from the getSerial (1sec) loop
+* Buttons(inputs) switch to ground, added inverse mode (for the PIR sensors)
+* SerialPort works in Python, each 23 packets (approx 1 sec) read in nodejs.
+* Added timed-timed-off action. e.g. 7-toff-10 turns on device 7 and off after 10 sec.
+* Added toggle action e.g. 25-toggle-xx toggles device 25
+* ActionScripts work  4-on-100;16-off-0 turns device 4 on, 16 off
+* an Input(key,button or PIR) triggers an actionscript.
+* moving jqx out of the code 
