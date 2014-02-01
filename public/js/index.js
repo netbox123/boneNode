@@ -109,14 +109,15 @@ function ControlPageLoad() {
 		 } else if (pageItemA.type == 26) {
 			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'>"+window_input_key+"</div>");
 			init_window_input_key();
-			
 		 } else if (pageItemA.type == 27) {
 			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'>"+window_actions()+"</div>");
 			init_window_actions();
-			
 		} else if (pageItemA.type == 28) {
 			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'>"+window_bmv+"</div>");
 			init_window_bmv();
+		} else if (pageItemA.type == 29) {
+			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'>"+window_temp+"</div>");
+			init_window_temp();
  			
 		 } else if (pageItemA.type == 99) {
 			$('#ControlPage').append("<div class='bkg-wrap' id='wrapid"+j+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><img draggable='false' src='images/"+pageItemA.action+"' ></div>");
@@ -279,14 +280,22 @@ jQuery(function($){
             if (OneValueA[0] == '1003'){$("#widgetid1003").html(OneValueA[1]);}
             if (OneValueA[0] == '1004'){$("#widgetid1004").html(OneValueA[1]);}
             if (OneValueA[0] == '1005'){datetime.setTime(OneValueA[1]);tick(datetime);}
-            if (OneValueA[0] == '3001'){$("#widgetid3001").html(Number(OneValueA[1]/1000).toFixed(3)+' V');Vval = Number(OneValueA[1]/1000);}
-            if (OneValueA[0] == '3002'){$("#widgetid3002").html(Number(OneValueA[1]/1000).toFixed(3)+' A');Ival = Number(OneValueA[1]/1000);}
+            if (OneValueA[0] == '3001'){$("#widgetid3001").html(Number(OneValueA[1]/1000).toFixed(2)+' V');Vval = Number(OneValueA[1]/1000);}
+            if (OneValueA[0] == '3002'){$("#widgetid3002").html(Number(OneValueA[1]/1000).toFixed(2)+' A');Ival = Number(OneValueA[1]/1000);}
             if (OneValueA[0] == '3002'){$("#widgetid3008").html(Number(Vval*Ival).toFixed(0)+' W');}
             if (OneValueA[0] == '3003'){$("#widgetid3003").html(Number(OneValueA[1]/1000).toFixed(2)+' Ah');}
             if (OneValueA[0] == '3004'){$("#widgetid3004").html(Number(OneValueA[1]/10).toFixed(1)+' %');}
             if (OneValueA[0] == '3005'){$("#widgetid3005").html(Number(OneValueA[1]).toFixed(0)+' m.');}
             if (OneValueA[0] == '3006'){$("#widgetid3006").html(OneValueA[1]);}
             if (OneValueA[0] == '3007'){$("#widgetid3007").html(OneValueA[1]);}
+            if (OneValueA[0] == '4001'){$("#widgetid4001").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4002'){$("#widgetid4002").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4003'){$("#widgetid4003").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4004'){$("#widgetid4004").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4005'){$("#widgetid4005").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4006'){$("#widgetid4006").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4007'){$("#widgetid4007").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4008'){$("#widgetid4008").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
 
         }
         

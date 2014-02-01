@@ -1,6 +1,6 @@
 function window_actions(){
 	var html="";
-	html +="<div class='window' style='height:300px;width:230px;'>";
+	html +="<div class='window' style='height:160px;width:220px;'>";
 	html +="    <nav>";
 	html +="        <a href='#' class='close'></a>";
 	html +="        <a href='#' class='minimize'></a>";

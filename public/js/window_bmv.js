@@ -1,5 +1,5 @@
 var window_bmv="";
-window_bmv +="<div class='window' style='height:300px;width:230px;'>";
+window_bmv +="<div class='window' style='height:300px;width:220px;'>";
 window_bmv +="    <nav>";
 window_bmv +="        <a href='#' class='close'></a>";
 window_bmv +="        <a href='#' class='minimize'></a>";
