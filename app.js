@@ -5,7 +5,6 @@ var lib_tool = require('./tool.js');
 var lib_database = require('./database.js');
 var tempdirectory ='/sys/bus/w1/devices/';
 
-
 inputsArray = [];
 devicesArray = [];
 pageItemsArray = [];
@@ -33,8 +32,8 @@ setPins();
 loadDatbase();
 initSerial_BMV600();
 initSerial_Arduino();
-setTimeout(function(){ InitApp(); },1000); // relax a bit, waiting for DB.
 
+setTimeout(function(){ InitApp(); },1000); // relax a bit, waiting for DB.
 function InitApp() {
     setInterval(function() {getAccumonitor();}, 1000);
     setInterval(function() {getTemperature();}, 2000);
@@ -55,23 +54,14 @@ io.sockets.on('connection', function(socket){
 			socket.nickname = data;
             var address = socket.handshake.address;
             console.log(data+' connected from '+address.address + ':' + address.port);
-    		io.sockets.emit('new message', {
-                title: 'Client ' + address.address + ' connected',
-                nick: socket.nickname,
-				msg:  '',
-                data: '',
-                timeText: timeText
-			});
+    		io.sockets.emit('new message', {title: 'Client ' + address.address + ' connected',nick: socket.nickname,timeText: timeText});
 			nicknames.push(socket.nickname);
 			sendAllArrays();
 		}
 	});
     
-    
-	
 	//  -- sendAllArrays to client --
 	function sendAllArrays(){
-        //console.log('sendAllArrays');
 		socket.emit('usernames', nicknames);
 		socket.emit('devices', devicesArray);
         socket.emit('inputs', inputsArray);
@@ -95,7 +85,6 @@ io.sockets.on('connection', function(socket){
                 valstr += devicesArray[i].id+'#'+devicesArray[i].val + '*';
             }
         }
-        //console.log(valstr);
 		socket.emit('sendallvalues', {msg: valstr});
 	});
     
@@ -135,13 +124,7 @@ io.sockets.on('connection', function(socket){
     socket.on('sendaction', function(data){
         for (var i in actionsArray) {
             if (data == actionsArray[i].id){
-                io.sockets.emit('new message', {
-                title: 'Run '+actionsArray[i].name,
-                nick: 'action'+data,
-                msg:  '',
-                data: data,
-                timeText: actionsArray[i].events
-		        });
+                io.sockets.emit('new message', {title: 'Run '+actionsArray[i].name,nick: 'action'+data,data: data,timeText: actionsArray[i].events});
             }
         }
         runAction(data);
@@ -172,16 +155,8 @@ io.sockets.on('connection', function(socket){
         }
         
         var timeText = lib_tool.getDateTime();
-    	io.sockets.emit('new message', {
-    				msg: data.id+' moved',
-					nick: timeText + 'Web ' + data.xpos+'-'+data.ypos +' >'
-		        });
-        io.sockets.emit('pageitem change', {
-        			id: data.id,
-					xpos: data.xpos,
-                    ypos: data.ypos
-		        });
-        //console.log('query '+data.msg);
+    	io.sockets.emit('new message', {msg: data.id+' moved',nick: timeText + 'Web ' + data.xpos+'-'+data.ypos +' >'});
+        io.sockets.emit('pageitem change', {id: data.id,xpos: data.xpos,ypos: data.ypos});
 	});
 	
 	//  -- Action received from client --
@@ -196,7 +171,6 @@ io.sockets.on('connection', function(socket){
             if (adevice.id == deviceNrA[2]){
                 devicenr = i;
             }
-            
          }
          var pinStr = devicesArray[devicenr].pin;
          var pinNr = pinStr.substr(3);
@@ -208,27 +182,13 @@ io.sockets.on('connection', function(socket){
 				b.digitalWrite(pinStr, b.HIGH);
 				devicesArray[devicenr].val = 100;
                 io.sockets.emit('device change', deviceNrA[2]+'-on-100');
-				io.sockets.emit('new message', {
-                    title: 'Device ' + devicesArray[devicenr].name + ' turned on',
-                    nick: socket.nickname,
-					msg:  pinStr+' on',
-                    data: data,
-                    timeText: timeText
-				});
+				io.sockets.emit('new message', {title: 'Device ' + devicesArray[devicenr].name + ' turned on',nick: socket.nickname,msg:  pinStr+' on',data: data,timeText: timeText});
 			}
 			else {
 				b.digitalWrite(pinStr, b.LOW);
 				devicesArray[devicenr].val = 0;
-				
                 io.sockets.emit('device change', deviceNrA[2]+'-off-0');
-				io.sockets.emit('new message', {
-                    title: 'Device ' + devicesArray[devicenr].name + ' turned off',
-                    nick: socket.nickname,
-					msg: pinStr+' off',
-					data: data,
-                    timeText: timeText
-				});
-
+				io.sockets.emit('new message', {title: 'Device ' + devicesArray[devicenr].name + ' turned off',nick: socket.nickname,msg: pinStr+' off',data: data,timeText: timeText});
 			}
 	});
 	
@@ -251,17 +211,17 @@ function checkInputs(){
 }
 
 function checkKey(x, deviceid, arrayid) {
-    	if ((x == 0 & inputsArray[arrayid].inv == 0) | (x == 1 & inputsArray[arrayid].inv == 1)) {
-			if (inputsArray[arrayid].mem == 0) {
-				inputsArray[arrayid].mem = 1;
-				var timeText = lib_tool.getDateTime();
-				io.sockets.emit('input change', deviceid+'-on-100');
-				runAction(inputsArray[arrayid].action);
-			}
-		} else {
-			if (inputsArray[arrayid].mem == 1){io.sockets.emit('input change', deviceid+'-off-0');}
-			inputsArray[arrayid].mem = 0;
+	if ((x == 0 & inputsArray[arrayid].inv == 0) | (x == 1 & inputsArray[arrayid].inv == 1)) {
+		if (inputsArray[arrayid].mem == 0) {
+			inputsArray[arrayid].mem = 1;
+			var timeText = lib_tool.getDateTime();
+			io.sockets.emit('input change', deviceid+'-on-100');
+			runAction(inputsArray[arrayid].action);
 		}
+	} else {
+		if (inputsArray[arrayid].mem == 1){io.sockets.emit('input change', deviceid+'-off-0');}
+		inputsArray[arrayid].mem = 0;
+	}
 }
 
 function loadDatbase() {
@@ -349,19 +309,19 @@ function setPins(){
 function initSerial_BMV600(){
     var spawn = require('child_process').spawn,ls    = spawn('python',['/var/lib/cloud9/jqx/temp.py']);
     ls.stdout.on('data', function (data) {
-    //console.log('data: ' + data.toString() +' ' +typeof data);
-    var temparray = data.toString().split('\r');
-    for (var i in temparray) {
-        var tempvalarray = temparray[i].split('\t');
-        //console.log('var: ' + tempvalarray[0].replace('\n','') +' = ' + tempvalarray[1]);
-        if (tempvalarray[0].replace('\n','') == 'V'){bmv_v = tempvalarray[1]}
-        if (tempvalarray[0].replace('\n','') == 'I'){bmv_i = tempvalarray[1]}
-        if (tempvalarray[0].replace('\n','') == 'CE'){bmv_ce = tempvalarray[1]}
-        if (tempvalarray[0].replace('\n','') == 'SOC'){bmv_soc = tempvalarray[1]}
-        if (tempvalarray[0].replace('\n','') == 'TTG'){bmv_ttg = tempvalarray[1]}
-        if (tempvalarray[0].replace('\n','') == 'Alarm'){bmv_alarm = tempvalarray[1]}
-        if (tempvalarray[0].replace('\n','') == 'Relay'){bmv_relay = tempvalarray[1]}
-    }
+		//console.log('data: ' + data.toString() +' ' +typeof data);
+		var temparray = data.toString().split('\r');
+		for (var i in temparray) {
+			var tempvalarray = temparray[i].split('\t');
+			//console.log('var: ' + tempvalarray[0].replace('\n','') +' = ' + tempvalarray[1]);
+			if (tempvalarray[0].replace('\n','') == 'V'){bmv_v = tempvalarray[1]}
+			if (tempvalarray[0].replace('\n','') == 'I'){bmv_i = tempvalarray[1]}
+			if (tempvalarray[0].replace('\n','') == 'CE'){bmv_ce = tempvalarray[1]}
+			if (tempvalarray[0].replace('\n','') == 'SOC'){bmv_soc = tempvalarray[1]}
+			if (tempvalarray[0].replace('\n','') == 'TTG'){bmv_ttg = tempvalarray[1]}
+			if (tempvalarray[0].replace('\n','') == 'Alarm'){bmv_alarm = tempvalarray[1]}
+			if (tempvalarray[0].replace('\n','') == 'Relay'){bmv_relay = tempvalarray[1]}
+		}
     });
 }
 
@@ -375,86 +335,86 @@ function initSerial_Arduino(){
 }
 
 function runAction(actioinid) {
-        for (var i in actionsArray) {
-            if (actioinid == actionsArray[i].id){
-                //console.log(i + ' ' + actionsArray[i].events); 
-                runRawAction(actionsArray[i].events);
-            }
-            
-         }
+	for (var i in actionsArray) {
+		if (actioinid == actionsArray[i].id){
+			//console.log(i + ' ' + actionsArray[i].events); 
+			runRawAction(actionsArray[i].events);
+		}
+		
+	 }
 }
 
 function runRawAction(theaction) {
-                //console.log(i + ' ' + actionsArray[i].events); 
-                var event_array = theaction.split(';');
-                for (var j in event_array) {
-                    var oneE_array = event_array[j].split('-');
-                    if (oneE_array[1] == 'on'){
-                        switchLamp(oneE_array[0],1);
-                    } else if (oneE_array[1] == 'off') {
-                        switchLamp(oneE_array[0],0);
-                    } else if (oneE_array[1] == 'toggle') {
-                        toggleLamp(oneE_array[0],0);
-                    } else if (oneE_array[1] == 'dim') {
-                        switchLamp(oneE_array[0],0);
-                    } else if (oneE_array[1] == 'toff') {
-                        toffLamp(oneE_array[0],oneE_array[2]);
-                    }
-                    sleep(100);
-                    
-                }
+	//console.log(i + ' ' + actionsArray[i].events); 
+	var event_array = theaction.split(';');
+	for (var j in event_array) {
+		var oneE_array = event_array[j].split('-');
+		if (oneE_array[1] == 'on'){
+			switchLamp(oneE_array[0],1);
+		} else if (oneE_array[1] == 'off') {
+			switchLamp(oneE_array[0],0);
+		} else if (oneE_array[1] == 'toggle') {
+			toggleLamp(oneE_array[0],0);
+		} else if (oneE_array[1] == 'dim') {
+			switchLamp(oneE_array[0],0);
+		} else if (oneE_array[1] == 'toff') {
+			toffLamp(oneE_array[0],oneE_array[2]);
+		}
+		sleep(100);
+		
+	}
 }
 
 function switchLamp(deviceid, onoff) {
-        for (var i in devicesArray) {
-            if (deviceid == devicesArray[i].id){
-                if (onoff){
-                    //console.log(devicesArray[i].pin);
-                    b.digitalWrite(devicesArray[i].pin, b.HIGH);
-                    devicesArray[i].val = 100;
-                    io.sockets.emit('device change', devicesArray[i].id + '-on-100');
-                } else {
-                    //console.log(devicesArray[i].pin);
-                    b.digitalWrite(devicesArray[i].pin, b.LOW);
-                    devicesArray[i].val = 0;
-                    io.sockets.emit('device change', devicesArray[i].id + '-off-0');
-                }
-            }
-            
-         }
+	for (var i in devicesArray) {
+		if (deviceid == devicesArray[i].id){
+			if (onoff){
+				//console.log(devicesArray[i].pin);
+				b.digitalWrite(devicesArray[i].pin, b.HIGH);
+				devicesArray[i].val = 100;
+				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+			} else {
+				//console.log(devicesArray[i].pin);
+				b.digitalWrite(devicesArray[i].pin, b.LOW);
+				devicesArray[i].val = 0;
+				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
+			}
+		}
+		
+	 }
 }
 
 function toffLamp(deviceid, sec) {
-        for (var i in devicesArray) {
-            if (deviceid == devicesArray[i].id){
-                var timenow = new Date().getTime();
-                //console.log(sec + '-' + timenow + '-' +(parseInt(timenow/1000)+parseInt(sec)));
-                b.digitalWrite(devicesArray[i].pin, b.HIGH);
-                devicesArray[i].val = 100;
-                devicesArray[i].toff = parseInt(timenow/1000)+parseInt(sec);
-                io.sockets.emit('device change', devicesArray[i].id + '-on-100');
-            }
-            
-         }
+	for (var i in devicesArray) {
+		if (deviceid == devicesArray[i].id){
+			var timenow = new Date().getTime();
+			//console.log(sec + '-' + timenow + '-' +(parseInt(timenow/1000)+parseInt(sec)));
+			b.digitalWrite(devicesArray[i].pin, b.HIGH);
+			devicesArray[i].val = 100;
+			devicesArray[i].toff = parseInt(timenow/1000)+parseInt(sec);
+			io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+		}
+		
+	 }
 }
 
 function toggleLamp(deviceid, nu) {
-        for (var i in devicesArray) {
-            if (deviceid == devicesArray[i].id){
-                if (devicesArray[i].val == 0){
-                    //console.log(devicesArray[i].pin);
-                    b.digitalWrite(devicesArray[i].pin, b.HIGH);
-                    devicesArray[i].val = 100;
-                    io.sockets.emit('device change', devicesArray[i].id + '-on-100');
-                } else {
-                    //console.log(devicesArray[i].pin);
-                    b.digitalWrite(devicesArray[i].pin, b.LOW);
-                    devicesArray[i].val = 0;
-                    io.sockets.emit('device change', devicesArray[i].id + '-off-0');
-                }
-            }
-            
-         }
+	for (var i in devicesArray) {
+		if (deviceid == devicesArray[i].id){
+			if (devicesArray[i].val == 0){
+				//console.log(devicesArray[i].pin);
+				b.digitalWrite(devicesArray[i].pin, b.HIGH);
+				devicesArray[i].val = 100;
+				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+			} else {
+				//console.log(devicesArray[i].pin);
+				b.digitalWrite(devicesArray[i].pin, b.LOW);
+				devicesArray[i].val = 0;
+				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
+			}
+		}
+		
+	 }
 }
 
 function sleep(milliseconds) {
