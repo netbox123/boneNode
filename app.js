@@ -146,6 +146,7 @@ io.sockets.on('connection', function(socket){
 
         });
         connection.end();
+        console.log('data.id='+data.id);
         for(j=0; j < pageItemsArray.length; j++){
             pageItemA = pageItemsArray[j];
               if(pageItemA.id == data.id){
@@ -161,36 +162,9 @@ io.sockets.on('connection', function(socket){
 	
 	//  -- Action received from client --
 	socket.on('send action', function(data){
-        var deviceNrA = [];
-        var adevice = [];
-        var devicenr = 0;
-        deviceNrA = data.split('-');
-        for (var i in devicesArray) {
-            adevice = devicesArray[i];
-            //console.log(adevice.id +' -- '+deviceNrA[2]);
-            if (adevice.id == deviceNrA[2]){
-                devicenr = i;
-            }
-         }
-         var pinStr = devicesArray[devicenr].pin;
-         var pinNr = pinStr.substr(3);
-         var pinCon = pinStr.substr(0,2);
-        
-        console.log('action '+data+'<'+pinStr+'>' +pinCon+' ' +pinNr);
-        var timeText = lib_tool.getDateTime();
-    		if (devicesArray[devicenr].val == 0) {
-				b.digitalWrite(pinStr, b.HIGH);
-				devicesArray[devicenr].val = 100;
-                io.sockets.emit('device change', deviceNrA[2]+'-on-100');
-				io.sockets.emit('new message', {title: 'Device ' + devicesArray[devicenr].name + ' turned on',nick: socket.nickname,msg:  pinStr+' on',data: data,timeText: timeText});
-			}
-			else {
-				b.digitalWrite(pinStr, b.LOW);
-				devicesArray[devicenr].val = 0;
-                io.sockets.emit('device change', deviceNrA[2]+'-off-0');
-				io.sockets.emit('new message', {title: 'Device ' + devicesArray[devicenr].name + ' turned off',nick: socket.nickname,msg: pinStr+' off',data: data,timeText: timeText});
-			}
-	});
+        runRawAction(data)
+        console.log('data '+data);
+    });
 	
 	//  -- Client disconnected --
 	socket.on('disconnect', function(data){
@@ -216,12 +190,25 @@ function checkKey(x, deviceid, arrayid) {
 			inputsArray[arrayid].mem = 1;
 			var timeText = lib_tool.getDateTime();
 			io.sockets.emit('input change', deviceid+'-on-100');
+            setDeviceVal(deviceid,100);
 			runAction(inputsArray[arrayid].action);
 		}
 	} else {
-		if (inputsArray[arrayid].mem == 1){io.sockets.emit('input change', deviceid+'-off-0');}
+		if (inputsArray[arrayid].mem == 1){
+            io.sockets.emit('input change', deviceid+'-off-0');
+            setDeviceVal(deviceid,0);
+            }
 		inputsArray[arrayid].mem = 0;
 	}
+}
+
+function setDeviceVal(deviceid, val) {
+    for (var i in devicesArray) {
+		if (deviceid == devicesArray[i].id){
+			devicesArray[i].val = val;
+		}
+		
+	 }
 }
 
 function loadDatbase() {

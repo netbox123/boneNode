@@ -13,7 +13,7 @@ window_input_key +="		<span class='tasks-list-desc'>Key 1 (P8_19)</span>";
 window_input_key +="    	<div class='tasks-list-mark'><input id='widgetid2001' height='30' width='55' type='checkbox' class='ios-switch tinyswitch' /><div><div></div></div></div>";
 window_input_key +="	 </label>";
 window_input_key +="	 <label class='tasks-list-item'>";
-window_input_key +="    	<span class='tasks-list-desc'>Key 2 (P8_19)</span>";
+window_input_key +="    	<span class='tasks-list-desc'>Kachel pomp</span>";
 window_input_key +="        <div class='tasks-list-mark'><input id='widgetid2002' height='30' width='55' type='checkbox' class='ios-switch tinyswitch' /><div><div></div></div></div>";
 window_input_key +="	 </label>  ";
 

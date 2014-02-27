@@ -64,7 +64,9 @@ function init_window_pref(){
 				 }
       });
       $("#widgetid1006").jqxButton({ width: 90, height: 24, theme: 'bootstrap'}); 
-      $("#widgetid1006").bind('click', function (event) {SendServerCommand('settime-'+Date.now());});
+      var milliseconds = new Date().getTime();
+      milliseconds += 3600000;
+      $("#widgetid1006").bind('click', function (event) {SendServerCommand('settime-'+milliseconds);});
       $("#widgetid1007").jqxButton({ width: 90, height: 24, theme: 'bootstrap'});
       $("#widgetid1007").bind('click', function (event) {SendServerCommand('starttemp');});
       $("#widgetid1008").jqxButton({ width: 90, height: 24, theme: 'bootstrap'});

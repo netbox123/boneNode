@@ -20,12 +20,16 @@ function drop(event) {
 		event.preventDefault();
 		var data = event.dataTransfer.getData("Text");
 		var query_str = "";
-
-		//alert(pageItemsArray[data.substr(6)].id);
+        for(j=0; j < pageItemsArray.length; j++){
+            if (pageItemsArray[j].id == data.substr(6)){
+                var Arrayid = j;
+            }
+        }
+		console.log(data.substr(6)+'-'+pageItemsArray[Arrayid]+'-'+Arrayid);
 		query_str += "UPDATE  `nodesql`.`page_items_ini` SET  ";
-		query_str += "`xpos` =  '"+(pageItemsArray[data.substr(6)].xpos+event.clientX-dragstartx)+"', `ypos` =  '"+(pageItemsArray[data.substr(6)].ypos+event.clientY-dragstarty)+"' ";
-		query_str += " WHERE  `page_items_ini`.`id` ="+pageItemsArray[data.substr(6)].id;
-		sendQuery(query_str, pageItemsArray[data.substr(6)].id, 'page_items_ini', pageItemsArray[data.substr(6)].xpos+event.clientX-dragstartx, pageItemsArray[data.substr(6)].ypos+event.clientY-dragstarty);     
+		query_str += "`xpos` =  '"+(pageItemsArray[Arrayid].xpos+event.clientX-dragstartx)+"', `ypos` =  '"+(pageItemsArray[Arrayid].ypos+event.clientY-dragstarty)+"' ";
+		query_str += " WHERE  `page_items_ini`.`id` ="+pageItemsArray[Arrayid].id;
+		sendQuery(query_str, pageItemsArray[Arrayid].id, 'page_items_ini', pageItemsArray[Arrayid].xpos+event.clientX-dragstartx, pageItemsArray[Arrayid].ypos+event.clientY-dragstarty);     
 	}
 }
 
