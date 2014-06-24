@@ -1,3 +1,6 @@
+var RunningOnBBB = 0;
+var LogLevel = 0;
+
 var sys = require('sys');
 var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
@@ -24,8 +27,13 @@ bmv_relay = '';
 var path = require('path');
 var express = require('express'),app = express();
 app.use(express.static(path.join(__dirname, 'public')));
-var server = require('http').createServer(app),io = require('socket.io').listen(server),b = require('bonescript');
-io.set('log level', 0); // reduce logging
+if (RunningOnBBB){
+     var server = require('http').createServer(app),io = require('socket.io').listen(server),b = require('bonescript');
+    } else {
+       var server = require('http').createServer(app),io = require('socket.io').listen(server);
+}
+
+io.set('log level', LogLevel); // reduce logging
 
 console.log('Loading database into array...');
 setPins();
@@ -179,7 +187,9 @@ io.sockets.on('connection', function(socket){
 
 function checkInputs(){
     for (var i in inputsArray) {
-        checkKey(b.digitalRead(inputsArray[i].pin),inputsArray[i].id,i); 
+        if (RunningOnBBB){
+            checkKey(b.digitalRead(inputsArray[i].pin),inputsArray[i].id,i); 
+        }
         //console.log(inputsArray[i].pin+' '+inputsArray[i].id+' '+i);
     }
 }
@@ -252,6 +262,7 @@ function getAccumonitor() {
 }
 
 function getTemperature() {
+  if (RunningOnBBB){
     for (var i in devicesArray) {
     (function(i) {       
         if (devicesArray[i].type == 4){
@@ -264,9 +275,11 @@ function getTemperature() {
             }
      })(i);
      }
+  }
 }
 
 function setPins(){
+  if (RunningOnBBB){
     b.pinMode('P8_7', b.OUTPUT);
     b.pinMode('P8_8', b.OUTPUT);
     b.pinMode('P8_9', b.OUTPUT);
@@ -291,6 +304,7 @@ function setPins(){
     b.pinMode('P9_18', b.INPUT);
     b.pinMode('P9_21', b.INPUT);
     b.pinMode('P9_23', b.INPUT);
+  }
 }
 
 function initSerial_BMV600(){
@@ -357,12 +371,16 @@ function switchLamp(deviceid, onoff) {
 		if (deviceid == devicesArray[i].id){
 			if (onoff){
 				//console.log(devicesArray[i].pin);
-				b.digitalWrite(devicesArray[i].pin, b.HIGH);
+				if (RunningOnBBB){
+				    b.digitalWrite(devicesArray[i].pin, b.HIGH);
+				}
 				devicesArray[i].val = 100;
 				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
 			} else {
 				//console.log(devicesArray[i].pin);
-				b.digitalWrite(devicesArray[i].pin, b.LOW);
+				if (RunningOnBBB){
+				    b.digitalWrite(devicesArray[i].pin, b.LOW);
+				}
 				devicesArray[i].val = 0;
 				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
 			}
@@ -376,7 +394,9 @@ function toffLamp(deviceid, sec) {
 		if (deviceid == devicesArray[i].id){
 			var timenow = new Date().getTime();
 			//console.log(sec + '-' + timenow + '-' +(parseInt(timenow/1000)+parseInt(sec)));
-			b.digitalWrite(devicesArray[i].pin, b.HIGH);
+			if (RunningOnBBB){
+			    b.digitalWrite(devicesArray[i].pin, b.HIGH);
+			}
 			devicesArray[i].val = 100;
 			devicesArray[i].toff = parseInt(timenow/1000)+parseInt(sec);
 			io.sockets.emit('device change', devicesArray[i].id + '-on-100');
@@ -390,12 +410,16 @@ function toggleLamp(deviceid, nu) {
 		if (deviceid == devicesArray[i].id){
 			if (devicesArray[i].val == 0){
 				//console.log(devicesArray[i].pin);
-				b.digitalWrite(devicesArray[i].pin, b.HIGH);
+				if (RunningOnBBB){
+				    b.digitalWrite(devicesArray[i].pin, b.HIGH);
+				}
 				devicesArray[i].val = 100;
 				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
 			} else {
 				//console.log(devicesArray[i].pin);
-				b.digitalWrite(devicesArray[i].pin, b.LOW);
+				if (RunningOnBBB){
+				    b.digitalWrite(devicesArray[i].pin, b.LOW);
+				}
 				devicesArray[i].val = 0;
 				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
 			}

@@ -24,11 +24,12 @@ window.onload = function() {
 
 
 function ControlPageLoad() {
+    var xcount;
 	var pageItemA = [];
     //console.log('count '+pageItemsArray.length);
-	for(j=0; j < pageItemsArray.length; j++){
-		pageItemA = pageItemsArray[j];
-		//console.log(j+' '+pageItemsArray[j].id+' '+pageItemsArray[j].type);
+	for(xcount=0; xcount < pageItemsArray.length; xcount++){
+		pageItemA = pageItemsArray[xcount];
+		//console.log(xcount+' '+pageItemsArray[xcount].id+' '+pageItemsArray[xcount].type);
 		if (pageItemA.type == 10) {
 			$('#ControlPage').append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input type='button' value='Button' id='widgetid"+pageItemA.id+"' /></div>");
 			$("#widgetid"+pageItemA.id).jqxButton({ width: pageItemA.width, height: pageItemA.height, theme: 'bootstrap'}); 
@@ -338,7 +339,7 @@ jQuery(function($){
                 }
             if (OneValueA[0] == '4005'){
                 $("#widgetid4005").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[70].refresh(Number(OneValueA[1]/1000).toFixed(1));
+                //widgetidJG[70].refresh(Number(OneValueA[1]/1000).toFixed(1));
                 }
             if (OneValueA[0] == '4006'){
                 $("#widgetid4006").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
@@ -348,7 +349,11 @@ jQuery(function($){
                 $("#widgetid4007").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
                 widgetidJG[72].refresh(Number(OneValueA[1]/1000).toFixed(1));
                 }
-            if (OneValueA[0] == '4008'){$("#widgetid4008").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');}
+            if (OneValueA[0] == '4008'){
+                $("#widgetid4008").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
+                widgetidJG[73].refresh(Number(OneValueA[1]/1000).toFixed(1));
+                }
+            
             if (OneValueA[0] == '4009'){
                 $("#widgetid4009").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
                 widgetidJG[73].refresh(Number(OneValueA[1]/1000).toFixed(1));
