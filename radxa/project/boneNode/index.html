@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Bonenode</title>
+	<meta name="viewport" content="initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="apple-touch-fullscreen" content="yes" />
+	<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144x144-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57-precomposed.png" />
+    <link rel="apple-touch-startup-image" href="images/startscreen-320x460.png">
+    
+    <!-- jQuery classes -->
+    <link rel="stylesheet" href="styles/jqx.base.css" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/page_item.js"></script>
+    <script src="js/window_pref.js"></script>
+    <script src="js/window_bmv.js"></script>
+    <script src="js/window_temp.js"></script>
+    <script src="js/window_input_key.js"></script>
+    <script src="js/window_log.js"></script>
+    <script src="js/window_actions.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/tools.js"></script>
+	<script src="js/index.js"></script>
+    <script src="js/alert_view.min.js"></script>
+    
+    <script src="js/raphael.2.1.0.min.js"></script>
+    <script src="js/justgage.1.0.1.min.js"></script>
+    
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxchart.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxgauge.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxswitchbutton.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
+
+	<link rel="stylesheet" href="css/clock.css">
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body >
+
+
+
+
+
+
+
+
+
+
+<div id="background" name="background">
+<menu><div></div>
+<ul>
+    <li><a style="font-size: 20px; text-shadow: 0px 1px 0px white;">&#63743;</a>
+        <div>
+        <ul>
+            <li><a href="#" onclick="menuAbout();">About This Mac</a></li>
+            <li><a href="#">Software Update...</a></li>
+            <li><a href="#">App Store...</a></li>
+            <li class="separator"></li>
+            <li><a href="#">Force Quit...<span>&#8997;&#8984;&#9099;</span></a></li>
+            <li class="separator"></li>
+            <li><a href="#">Sleep...<span>&#8997;&#8984;&#9167;</span></a></li>
+            <li><a href="#">Restart...</a></li>
+            <li><a href="#">Shut Down...</a></li>
+            <li class="separator"></li>
+            <li><a href="#">Log Out John Smith...<span>&#8679;&#8984;Q</span></a></li>
+        </ul>
+        </div>
+    </li>
+    <li><a><b>Application</b></a>
+        <div>
+            <ul>
+                <li><a href="#">About Application</a></li>
+                <li><a href="#">Check for Updates...</a></li>
+                <li class="separator"></li>
+                <li><a href="#">Preferences...<span>&#8984;,</span></a></li>
+                <li class="separator"></li>
+                <li><a href="#">Hide Application</a></li>
+                <li><a href="#">Hide Others</a></li>
+                <li><a href="#" class="disabled">Show All</a></li>                
+                <li class="separator"></li>
+                <li><a href="#">Quit Application...<span>&#8984;Q</span></a></li>
+                
+            </ul>
+        </div>
+    </li>
+    <li><a href="#">File</a>
+        <div>
+        <ul>
+            <li><a href="#">New File<span>&#8984;N</span></a></li>
+            <li><a href="#">New Window<span>&#8679;&#8984;N</span></a></li>
+            <li class="separator"></li>
+            <li><a href="#" class="disabled">Save...<span>&#8984;S</span></a></li>            
+            <li><a href="#" class="disabled">Save As...<span>&#8679;&#8984;S</span></a></li>
+            <li><a href="#">Close<span>&#8984;W</span></a></li>
+        </ul>
+        </div>
+    </li>
+    <li><a href="#">Edit</a>
+        <div>
+            <ul>
+                <li><a href="#" class="disabled">Undo<span>&#8984;Z</span></a></li>
+                <li><a href="#" class="disabled">Redo<span>&#8679;&#8984;Z</span></a></li>
+                <li class="separator"></li>
+                <li><a href="#" class="disabled">Cut<span>&#8984;X</span></a></li>
+                <li><a href="#" class="disabled">Copy<span>&#8984;C</span></a></li>
+                <li><a href="#" class="disabled">Paste<span>&#8984;V</span></a></li>
+                <li><a href="#">Select All<span>&#8984;A</span></a></li>
+                <li class="separator"></li>
+                <li><a href="#">Show Clipboard</a></li>
+                <li class="separator"></li>
+                <li><a href="#">Special Characters...</a></li>
+            </ul>
+        </div>
+    </li>
+    <li><a href="#">View</a></li>
+    <li><a href="#">Go</a>
+        <div>
+            <ul>
+                <li><a href="http://wiki.radxa.com/Rock/extension_header" target="_blank">Rock/extension header</a></li>
+                <li><a href="#" class="disabled">Redo<span>&#8679;&#8984;Z</span></a></li>
+                <li class="separator"></li>
+                <li><a href="#" class="disabled">Cut<span>&#8984;X</span></a></li>
+                <li><a href="#" class="disabled">Copy<span>&#8984;C</span></a></li>
+                <li><a href="#" class="disabled">Paste<span>&#8984;V</span></a></li>
+                <li><a href="#">Select All<span>&#8984;A</span></a></li>
+                <li class="separator"></li>
+                <li><a href="#">Show Clipboard</a></li>
+                <li class="separator"></li>
+                <li><a href="#">Special Characters...</a></li>
+            </ul>
+        </div>
+    </li>
+    <li><a href="#">Window</a>
+        <div >
+        <ul id="menuitem">
+            <li><a href="#page1">Menu</a></li>
+            <li><a  onclick="menuWindow('page2');">Clock</a></li>
+            <li><a href="#page3">page3</a></li>
+            <li><a href="#page4">page4</a></li>
+            <li><a href="#page5">page5</a></li>
+            <li><a href="#page6">page6</a></li>
+        </ul>
+        </div>
+    </li>
+    <li><a href="#">Help</a></li>
+</ul>
+<div class="barTime" id="barTime"></div>
+<div class="barAccuPerc" id="barAccuPerc"></div>
+<div class="barBuffTemp" id="barBuffTemp"></div>
+<div class="barBuffTemp2" id="barBuffTempWidgetid"></div>
+</menu>
+</div>
+
+	<div style="left: 0px;" id="ControlPage" class="itemswrap" ondrop="drop(event)" ondragover="drag_over(event)">
+		<section id="page1" class="section" style="background: transparent url('css/images/blue_stripe_pattern-wallpaper.jpg') 0 0 no-repeat;left:0px;">
+			<div >
+                <div class="alert_view_center offset1 span10"></div>
+			</div>
+		</section>
+	
+		<section id="page2" class="section" style="top:-10px;background: transparent url('css/images/wood_wall_2-wallpaper.jpg') 0 0 no-repeat;left:0px;">
+			<a name="page2"></a>
+			<div id="clockbkgnd">
+				<h2 id="clocktime"><a href="#clocktime"></a></h2>
+				<div class="itemswrap" id="_clocktime"></div>
+				 <div id="clock">
+					 <div class="mechanics">
+						<div id="hour"></div>
+						<div id="min"></div>
+						<div id="sec"></div>
+						<div id="button"></div>
+					 </div>
+				  </div>
+			</div>
+		</section>
+	
+		<section id="page3"  class="section" style="top:-10px;background: transparent url('css/images/light_gray-wallpaper.jpg') 0 0 no-repeat;left:0px;">
+		</section>
+        
+        <section id="page4"  class="section" style="top:-10px;background: transparent url('css/images/wood_background.jpg') 0 0 no-repeat;left:0px;">
+		</section>
+        
+        <section id="page5"  class="section" style="top:-10px;background: transparent url('css/images/bkg_water.jpg') 0 0 no-repeat;left:0px;">
+    	</section>
+        
+        <section id="page6"  class="section" style="top:-10px;background: transparent url('css/images/wood panels_50.jpg') 0 0 no-repeat;left:0px;">
+        </section>
+      
+            
+	</div>
+
+</body>
+</html>
