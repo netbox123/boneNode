@@ -2,10 +2,20 @@ var RunningOnBBB = 0;
 var LogLevel = 0;
 
 var sys = require('sys');
+var b = require('bonescript');
+var mysql               = require('mysql');
 var exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 var lib_tool = require('./tool.js');
 var lib_database = require('./database.js');
+var b = require('bonescript');
+var serialPortDue = '/dev/ttyO4';
+var optionsPort = {baudrate: 9600, parser: b.serialParsers.readline("\n")};
+var serialPortData = '';
+
+
+
+
 var tempdirectory ='/sys/bus/w1/devices/';
 
 inputsArray = [];
@@ -24,32 +34,43 @@ bmv_ttg = '';
 bmv_alarm = '';
 bmv_relay = '';
 
+due_step = '';
+due_pins = '';
+
+t_BU = '';
+t_WK = '';
+t_K1 = '';
+t_K2 = '';
+t_B1 = '';
+t_B2 = '';
+t_B3 = '';
+t_G1 = '';
+t_G2 = '';
+
 var path = require('path');
 var express = require('express'),app = express();
 app.use(express.static(path.join(__dirname, 'public')));
-if (RunningOnBBB){
-     var server = require('http').createServer(app),io = require('socket.io').listen(server),b = require('bonescript');
-    } else {
-       var server = require('http').createServer(app),io = require('socket.io').listen(server);
-}
+var server = require('http').createServer(app),io = require('socket.io').listen(server);
 
-io.set('log level', LogLevel); // reduce logging
 
-console.log('Loading database into array...');
+io.set('log level', 1 ); // reduce logging
+
+console.log('Loading database...');
 setPins();
 loadDatbase();
-initSerial_BMV600();
-initSerial_Arduino();
-
 setTimeout(function(){ InitApp(); },1000); // relax a bit, waiting for DB.
+
 function InitApp() {
-    setInterval(function() {getAccumonitor();}, 1000);
-    setInterval(function() {getTemperature();}, 2000);
+    b.serialOpen(serialPortDue, optionsPort, onSerial);
+    console.log('serialPortDue opened...');
+    setInterval(function() {UpdateDevicesArray();}, 1000);
+    //setInterval(function() {logDatabase();}, 30*60*1000);
     server.listen(4000); // listen on port 4000
-    app.get('/', function(req, res){res.sendfile(__dirname + '/index.html');});
-    console.log('Server listening on 192.168.1.41:4000');
-    setInterval(checkInputs,100);
-    runAction(2);
+    app.get('/', function(req, res){res.sendFile(__dirname + '/index.html');});
+    console.log('Server listening on port 4000');
+    //setInterval(checkInputs,100);
+    //runAction(2); // run schript at boot
+    //setTimeout(function(){ SyncDevicesArrayFromSerial(); },3000); // Sync from serial.
 }
 
 io.sockets.on('connection', function(socket){
@@ -94,6 +115,13 @@ io.sockets.on('connection', function(socket){
             }
         }
 		socket.emit('sendallvalues', {msg: valstr});
+		//console.log(valstr);
+	});
+	
+	//  -- getSerialText received from client --
+	socket.on('getserialtext', function(data){
+        socket.emit('sendserialtext', {msg: serialPortData});
+		//console.log(valstr);
 	});
     
     //  -- Servercommand received from client --
@@ -120,8 +148,9 @@ io.sockets.on('connection', function(socket){
             
             console.log('starttemp');
         } else if(temparray[0] == 'reloaddb'){
-        	loadDatbase();
+        	//loadDatbase();
             console.log('reloaddb - database reloaded');
+            SyncDevicesArrayFromSerial();
             io.sockets.emit('new message', {msg: 'reloaddb - database reloaded', nick: timeText });
         } else if(temparray[0] == 'savedb'){
             console.log('savedb');
@@ -154,24 +183,26 @@ io.sockets.on('connection', function(socket){
 
         });
         connection.end();
-        console.log('data.id='+data.id);
-        for(j=0; j < pageItemsArray.length; j++){
-            pageItemA = pageItemsArray[j];
-              if(pageItemA.id == data.id){
-                  pageItemA.xpos = data.xpos;
-                  pageItemA.ypos = data.ypos;
-              }
-        }
+        //console.log('data.id='+data.id);
+        if (data.rectype='page_items_ini'){
+          for(j=0; j < pageItemsArray.length; j++){
+                pageItemA = pageItemsArray[j];
+                  if(pageItemA.id == data.id){
+                      pageItemA.xpos = data.xpos;
+                      pageItemA.ypos = data.ypos;
+                  }
+            }
         
-        var timeText = lib_tool.getDateTime();
-    	io.sockets.emit('new message', {msg: data.id+' moved',nick: timeText + 'Web ' + data.xpos+'-'+data.ypos +' >'});
-        io.sockets.emit('pageitem change', {id: data.id,xpos: data.xpos,ypos: data.ypos});
+            var timeText = lib_tool.getDateTime();
+        	io.sockets.emit('new message', {msg: data.id+' moved',nick: timeText + 'Web ' + data.xpos+'-'+data.ypos +' >'});
+            io.sockets.emit('pageitem change', {id: data.id,xpos: data.xpos,ypos: data.ypos});
+        }
 	});
 	
 	//  -- Action received from client --
 	socket.on('send action', function(data){
         runRawAction(data)
-        console.log('data '+data);
+        //console.log('data '+data);
     });
 	
 	//  -- Client disconnected --
@@ -184,6 +215,43 @@ io.sockets.on('connection', function(socket){
 });
 
 //  ------------------------------------------------------------------------------------------------------------------------
+
+function onSerial(x) {
+    if (x.err) {
+        console.log('***ERROR*** ' + JSON.stringify(x));
+    }
+    if (x.event == 'open') {
+       //console.log('***OPENED***');
+    }
+    if (x.event == 'data') {
+        //console.log(String(x.data));
+        try {
+            serialPortData = String(x.data);
+            data_json = JSON.parse(String(x.data));
+            due_step = data_json.due.step;
+            due_pins = data_json.due.pins;
+            bmv_v = data_json.due.bmv_V;
+            bmv_i = data_json.due.bmv_I;
+            bmv_ce = data_json.due.bmv_CE;
+            bmv_soc = data_json.due.bmv_SOC;
+            bmv_ttg = data_json.due.bmv_TTG;
+            bmv_alarm = data_json.due.bmv_Alarm;
+            bmv_relay = data_json.due.bmv_Relay;
+            t_K1 = data_json.due.t_K1;
+            t_K2 = data_json.due.t_K2;
+            t_B1 = data_json.due.t_B1;
+            t_B2 = data_json.due.t_B2;
+            t_B3 = data_json.due.t_B3;
+            t_G1 = data_json.due.t_G1;
+            t_G2 = data_json.due.t_G2;
+            t_WK = data_json.due.t_WK;
+            t_BU = data_json.due.t_BU;
+            SyncDevicesArrayFromSerial();
+        } catch (e) {
+            console.log('Serial parse error ' + e);
+        }
+    }
+}
 
 function checkInputs(){
     for (var i in inputsArray) {
@@ -230,22 +298,33 @@ function loadDatbase() {
     lib_database.connectionEnd();
 }
 
-function getAccumonitor() {
+function UpdateDevicesArray() {
     var datetime = new Date();
     var timenow = new Date().getTime(); 
     timenow = parseInt(timenow/1000);
     for (var i in devicesArray) {
-        if (devicesArray[i].id == 1002){devicesArray[i].val = 20;}
+        if (devicesArray[i].id == 1002){devicesArray[i].val = due_step;}
         if (devicesArray[i].id == 1003){devicesArray[i].val = [(datetime.getHours()).padLeft(), (datetime.getMinutes()).padLeft(), datetime.getSeconds().padLeft()].join(':');}
         if (devicesArray[i].id == 1004){devicesArray[i].val = [datetime.getDate().padLeft(), (datetime.getMonth()+1).padLeft(), datetime.getFullYear()].join('-');}
         if (devicesArray[i].id == 1005){devicesArray[i].val = Date.now();}
-        if (devicesArray[i].id == 3001){devicesArray[i].val = bmv_v;}
-        if (devicesArray[i].id == 3002){devicesArray[i].val = bmv_i;}
-        if (devicesArray[i].id == 3003){devicesArray[i].val = bmv_ce;}
-        if (devicesArray[i].id == 3004){devicesArray[i].val = bmv_soc;}
-        if (devicesArray[i].id == 3005){devicesArray[i].val = bmv_ttg;}
+        if (devicesArray[i].id == 3001){devicesArray[i].val = Number(bmv_v/1000).toFixed(2)+' V';}
+        if (devicesArray[i].id == 3002){devicesArray[i].val = Number(bmv_i/1000).toFixed(2)+' A';}
+        if (devicesArray[i].id == 3003){devicesArray[i].val = Number(bmv_ce/1000).toFixed(2)+' Ah';}
+        if (devicesArray[i].id == 3004){devicesArray[i].val = Number(bmv_soc/10).toFixed(1)+' %';}
+        if (devicesArray[i].id == 3005){devicesArray[i].val = Number(bmv_ttg).toFixed(0)+' m.';}
         if (devicesArray[i].id == 3006){devicesArray[i].val = bmv_alarm;}
         if (devicesArray[i].id == 3007){devicesArray[i].val = bmv_relay;}
+        
+        if (devicesArray[i].id == 4002){devicesArray[i].val = Number(t_K1).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4003){devicesArray[i].val = Number(t_K2).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4004){devicesArray[i].val = Number(t_B1).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4005){devicesArray[i].val = Number(t_B2).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4006){devicesArray[i].val = Number(t_B3).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4009){devicesArray[i].val = Number(t_G2).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4008){devicesArray[i].val = Number(t_BU).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4007){devicesArray[i].val = Number(t_G1).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4001){devicesArray[i].val = Number(t_WK).toFixed(1)+'&deg;C';}
+        
         if ((devicesArray[i].toff>0) & (devicesArray[i].toff<timenow)){
             devicesArray[i].toff=0;
             switchLamp(devicesArray[i].id,0);
@@ -261,22 +340,26 @@ function getAccumonitor() {
      }
 }
 
-function getTemperature() {
-  if (RunningOnBBB){
+function SyncDevicesArrayFromSerial() {
     for (var i in devicesArray) {
-    (function(i) {       
-        if (devicesArray[i].type == 4){
-            b.readTextFile(tempdirectory+devicesArray[i].opm+'/w1_slave', function(data){
-                var tempfile= data.data.split('t=');
-                if (tempfile[1]>0){
-                    devicesArray[i].val=tempfile[1];
-                }
-                });
+        if (devicesArray[i].due > 20 & devicesArray[i].due < 54) {
+            var pos = devicesArray[i].due - 20;
+            var res = due_pins.substring(pos, pos+1);
+            if (res == '1'){
+                //turnOn(devicesArray[i].due); 
+                devicesArray[i].val = 100;
+				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+            } else {
+                //turnOff(devicesArray[i].due); 
+                devicesArray[i].val = 0;
+				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
             }
-     })(i);
+            devicesArray[i].due
+            //console.log(pos + '-' +devicesArray[i].due + '-' + res);
+        }
      }
-  }
 }
+
 
 function setPins(){
   if (RunningOnBBB){
@@ -307,34 +390,6 @@ function setPins(){
   }
 }
 
-function initSerial_BMV600(){
-    var spawn = require('child_process').spawn,ls    = spawn('python',['/var/lib/cloud9/jqx/temp.py']);
-    ls.stdout.on('data', function (data) {
-		//console.log('data: ' + data.toString() +' ' +typeof data);
-		var temparray = data.toString().split('\r');
-		for (var i in temparray) {
-			var tempvalarray = temparray[i].split('\t');
-			//console.log('var: ' + tempvalarray[0].replace('\n','') +' = ' + tempvalarray[1]);
-			if (tempvalarray[0].replace('\n','') == 'V'){bmv_v = tempvalarray[1]}
-			if (tempvalarray[0].replace('\n','') == 'I'){bmv_i = tempvalarray[1]}
-			if (tempvalarray[0].replace('\n','') == 'CE'){bmv_ce = tempvalarray[1]}
-			if (tempvalarray[0].replace('\n','') == 'SOC'){bmv_soc = tempvalarray[1]}
-			if (tempvalarray[0].replace('\n','') == 'TTG'){bmv_ttg = tempvalarray[1]}
-			if (tempvalarray[0].replace('\n','') == 'Alarm'){bmv_alarm = tempvalarray[1]}
-			if (tempvalarray[0].replace('\n','') == 'Relay'){bmv_relay = tempvalarray[1]}
-		}
-    });
-}
-
-function initSerial_Arduino(){
-    var spawn2 = require('child_process').spawn,ls2 = spawn2('python',['/var/lib/cloud9/jqx/arduino.py']);
-    ls2.stdout.on('data', function (data) {
-        var s = data.toString().substring(0, data.toString().length - 3);
-        //console.log('data:' + s +'=');
-        runRawAction(s);
-    });
-}
-
 function runAction(actioinid) {
 	for (var i in actionsArray) {
 		if (actioinid == actionsArray[i].id){
@@ -361,8 +416,6 @@ function runRawAction(theaction) {
 		} else if (oneE_array[1] == 'toff') {
 			toffLamp(oneE_array[0],oneE_array[2]);
 		}
-		sleep(100);
-		
 	}
 }
 
@@ -370,17 +423,11 @@ function switchLamp(deviceid, onoff) {
 	for (var i in devicesArray) {
 		if (deviceid == devicesArray[i].id){
 			if (onoff){
-				//console.log(devicesArray[i].pin);
-				if (RunningOnBBB){
-				    b.digitalWrite(devicesArray[i].pin, b.HIGH);
-				}
+				turnOn(devicesArray[i].due);
 				devicesArray[i].val = 100;
 				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
 			} else {
-				//console.log(devicesArray[i].pin);
-				if (RunningOnBBB){
-				    b.digitalWrite(devicesArray[i].pin, b.LOW);
-				}
+				turnOff(devicesArray[i].due);
 				devicesArray[i].val = 0;
 				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
 			}
@@ -393,10 +440,7 @@ function toffLamp(deviceid, sec) {
 	for (var i in devicesArray) {
 		if (deviceid == devicesArray[i].id){
 			var timenow = new Date().getTime();
-			//console.log(sec + '-' + timenow + '-' +(parseInt(timenow/1000)+parseInt(sec)));
-			if (RunningOnBBB){
-			    b.digitalWrite(devicesArray[i].pin, b.HIGH);
-			}
+			turnOn(devicesArray[i].due);
 			devicesArray[i].val = 100;
 			devicesArray[i].toff = parseInt(timenow/1000)+parseInt(sec);
 			io.sockets.emit('device change', devicesArray[i].id + '-on-100');
@@ -409,23 +453,27 @@ function toggleLamp(deviceid, nu) {
 	for (var i in devicesArray) {
 		if (deviceid == devicesArray[i].id){
 			if (devicesArray[i].val == 0){
-				//console.log(devicesArray[i].pin);
-				if (RunningOnBBB){
-				    b.digitalWrite(devicesArray[i].pin, b.HIGH);
-				}
+				turnOn(devicesArray[i].due);
 				devicesArray[i].val = 100;
 				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
 			} else {
-				//console.log(devicesArray[i].pin);
-				if (RunningOnBBB){
-				    b.digitalWrite(devicesArray[i].pin, b.LOW);
-				}
+				turnOff(devicesArray[i].due);
 				devicesArray[i].val = 0;
 				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
 			}
 		}
 		
 	 }
+}
+
+function turnOn(deviceid) {
+ //   serialPort.write(deviceid + '=1\n');
+ b.serialWrite(serialPortDue, deviceid + '=1\n');
+}
+
+function turnOff(deviceid) {
+ //   serialPort.write(deviceid + '=0\n');
+ b.serialWrite(serialPortDue, deviceid + '=0\n');
 }
 
 function sleep(milliseconds) {
@@ -440,5 +488,16 @@ function sleep(milliseconds) {
 Number.prototype.padLeft = function(base,chr){
     var  len = (String(base || 10).length - String(this).length)+1;
     return len > 0? new Array(len).join(chr || '0')+this : this;
+}
+
+function logDatabase() {
+    var connection = mysql.createConnection({host: 'localhost',user: 'root',password: 'pipo',database: 'nodesql'});
+    var querystring = "INSERT INTO `nodesql`.`log` (`t_WK`, `t_K1`, `t_K2`, `t_B1`, `t_B2`, `t_B3`, `t_G1`, `t_G2`, `t_BU`, `b_V`, `b_I`, `b_CE`, `b_SOC`) VALUES ("+t_WK+", "+t_K1+", "+t_K2+", "+t_B1+", "+t_B2+", "+t_B3+", "+t_G1+", "+t_G2+", "+t_BU+", "+bmv_v+", "+bmv_i+", "+bmv_ce+", "+bmv_soc+");"
+    //console.log(querystring);
+    connection.connect();
+   // connection.query(querystring, function(err, result) {
+   // 	if (err) throw err;
+//	});
+	
 }
   			

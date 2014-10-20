@@ -1,4 +1,4 @@
-﻿/*Rounded Corners*/
+/*Rounded Corners*/
 /*top-left rounded Corners*/
 .jqx-rc-tl
 {
@@ -2980,7 +2980,7 @@ of the horizontal scrollbar.*/
     border-right-width: 1px !important;
 }
 /*applied to all widgets*/
-.jqx-widget{-ms-touch-action: none; zoom: 1; color: #000000; -moz-background-clip: padding; background-clip: padding-box; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; -webkit-appearance: none; -webkit-background-clip: padding-box; direction: ltr; -webkit-tap-highlight-color: rgba(0,0,0,0); font-family: Verdana,Arial,sans-serif; font-style: normal; font-size: 13px;}
+.jqx-widget{-ms-touch-action: none; zoom: 1; color: #000000; -moz-background-clip: padding; background-clip: padding-box; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; -webkit-appearance: none; -webkit-background-clip: padding-box; direction: ltr; -webkit-tap-highlight-color: rgba(0,0,0,0); font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif; font-style: normal; font-size: 13px;}
 
 .jqx-item{-ms-touch-action: none; color: inherit; border: 1px solid transparent; background: transparent; -webkit-text-size-adjust: none;}
 

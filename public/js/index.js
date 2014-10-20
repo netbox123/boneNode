@@ -4,12 +4,19 @@ var actionsArray = [];
 var	devicesArray = [];
 var inputsArray = [];
 var iseditmode = 0;
+var iswineditmode = 0;
 var iseditbkgmode = 0; 
 var dragstartx = 0;
 var dragstarty = 0;
+var windowdragstartx = 0;
+var windowdragstarty = 0;
+var windoweventtarget = 0;
+var itemeventtarget = 0;
+var zordermax = 10;
 var aid = [];
 var Vval = 0;
 var Ival = 0;
+var due_step = 0;
 var curDate, curSec, curMin, curHour, secRot, minRot, hourRot;
 
 var widgetidJG = [];
@@ -20,6 +27,120 @@ window.onload = function() {
 	var min     = document.getElementById('min');
 	var hour    = document.getElementById('hour');
 	var tmpRotValue  = "";
+}
+
+function initWindows() {
+    for(j=0; j < pagesArray.length; j++){
+    	console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name);
+    	var windowHTML = "";
+    	var windowVisible = "";
+    	if (pagesArray[j].vis){windowVisible='windows-vis';}
+		windowHTML += '<div class="windowdrag" id="windowdrag' + pagesArray[j].id + '" style="left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px;">';
+		windowHTML += '<div id="window' + pagesArray[j].id + '" class="window ' + windowVisible + '" ondrop="window_drop(event)" style=" overflow:hidden; width:'+pagesArray[j].width+'px; height:'+pagesArray[j].height+'px;">';
+		
+		windowHTML += ' 	<nav class="control-window">';
+		windowHTML += '     <a href="#finder" class="close" onclick="menuWindow_closeOne(' + pagesArray[j].id + ')">close</a>';
+		windowHTML += '     <a href="#" class="minimize">minimize</a>';
+		windowHTML += '     <a href="#" class="deactivate">deactivate</a>';
+		windowHTML += '     </nav>';
+		windowHTML += '     <h1 class="titleInside" id="titleInside' + pagesArray[j].id + '">' + pagesArray[j].name + '</h1>';
+		windowHTML += '     <div class="container">';
+		windowHTML += '     	<div class="container-inside">';
+		windowHTML += '         </div>';
+		windowHTML += '     </div>';
+		windowHTML += ' </div>';
+		windowHTML += ' </div>';
+			console.log(windowHTML);
+    	$('#page').append(windowHTML);
+    	var a = 3;
+    	$('#windowdrag' + pagesArray[j].id)
+    		.draggable({ 
+    			start: function(e) {window_drag_start(e);},
+    			stop: function(e) {windowDragStop(e);}
+    		});
+    	$('#window' + pagesArray[j].id)
+    	  	.resizable({
+        		start: function(e, ui) {windoweventtarget = e.target.getAttribute('id');},
+        		resize: function(e, ui) {},
+        		stop: function(e, ui) {windowResizeStop(e, ui);}
+    		});
+    	$('#windowdrag' + pagesArray[j].id).on('click', function (event) {
+						//console.log(event.target.getAttribute('id')); 
+						var eventid = $(this).attr("id");
+						$(this).css("z-index", zordermax++);
+						console.log('WindowClicked ='+eventid);
+			}); 
+    	var xcount;
+		var pageItemA = [];
+    	//console.log('count '+pageItemsArray.length);
+		for(xcount=0; xcount < pageItemsArray.length; xcount++){
+			pageItemA = pageItemsArray[xcount];
+			//console.log(xcount+' '+pageItemsArray[xcount].id+' '+pageItemsArray[xcount].type);
+			if (pageItemA.page_id == pagesArray[j].id) {
+				
+				
+				if (pageItemA.type == 1) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'>0</div></label></div>");
+				
+				} else if (pageItemA.type == 2) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center;' class='about-this'><p>"+pageItemA.name+"</p></div></div>");
+
+				} else if (pageItemA.type == 3) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><p><a style='text-align:center;' class='about-this button about' href='#'>"+pageItemA.name+"</a></p></div>");
+
+				} else if (pageItemA.type == 4) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px; text-align:middle;'><ul style='width:"+pageItemA.width+"px;'><li style='text-align:center;'><strong>"+pageItemA.name+" </strong> "+pageItemA.action+"</li></ul></div>");
+
+				} else if (pageItemA.type == 5) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center; font-size:10px; color:#000;'><p>"+pageItemA.action+"</p></div></div>");
+
+				} else if (pageItemA.type == 6) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><textarea class='serialTextAreaClass' style=' background-color:black; color:#ccc; font-family:monospace; font-size:12.5px;' id='serialTextArea' rows='13' cols='95'>test</textarea></div>");
+
+				} else if (pageItemA.type == 7) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'></div>");
+
+
+				} else if (pageItemA.type == 17) {
+					console.log("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
+					$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
+					$("#widgetid"+pageItemA.id).jqxCheckBox({ width: pageItemA.width, height: pageItemA.height });  
+					$("#wraptopid"+pageItemA.id).on('click', function (event) {
+						//console.log(event.target.getAttribute('id')); 
+						var eventid = event.target.getAttribute('id').substr(9);
+						ButtonClicked(2+'-'+eventid);
+						console.log('ButtonClicked ='+$(this).attr("id"));
+					});  
+					for(k=0; k < devicesArray.length; k++){	
+						if( devicesArray[k].id == pageItemA.device_id) {
+							if(devicesArray[k].val == 0){
+								$("#widgetid"+pageItemA.id).jqxCheckBox({ checked:false });
+							}else{
+								$("#widgetid"+pageItemA.id).jqxCheckBox({ checked:true });
+							}
+						}
+					} 
+					
+				} else if (pageItemA.type == 99) {
+				$('#window' + pagesArray[j].id).append("<div class='bkg-wrap' id='wrapid"+pageItemA.id+"' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><img draggable='false' src='images/"+pageItemA.action+"' ></div>");
+				}	
+				
+				$("#wrapid"+pageItemA.id).draggable({ 
+    					start: function(e) {drag_start(e);},
+    					stop: function(e) {DragStop(e);}
+    			});
+			}
+		}
+    }
+    // Init menu's
+    var menuWindowCalc = '';
+    for(j=0; j < pagesArray.length; j++){
+		if(pagesArray[j].vis){
+				menuWindowCalc += '<li onclick="menuWindow_openOne('+pagesArray[j].id+')">'+pagesArray[j].name+'</li>'
+		}
+	}
+	console.log('menuWindowCalc ' + menuWindowCalc);
+	$("#menuWindowInject").html(menuWindowCalc);
 }
 
 
@@ -162,9 +283,14 @@ jQuery(function($){
     
     
     SendFirst();   
-    setInterval(function() {getallvalues();}, 1000);
+    setInterval(function() {getAllValues();}, 1000);
+    setInterval(function() {getSerialText();}, 1000);
    
-    function getallvalues(){
+    function getSerialText(){
+    	socket.emit('getserialtext', function(){ })	
+    };
+
+    function getAllValues(){
         socket.emit('getallvalues', function(){	})	
     };
     
@@ -265,8 +391,9 @@ jQuery(function($){
 			pageItemsArray.push(data[i]);
             //console.log('receiving '+data[i].id);
 		}
-		// Update page
-        ControlPageLoad();
+		// Init windows
+        //ControlPageLoad();
+        initWindows();
 	});
 	
 
@@ -290,78 +417,131 @@ jQuery(function($){
 	});
     
     //  -- Receiving allvalues from server --
+	//socket.on('sendallvalues', function(data){
+     //   var ValuesA = [];
+    //    var OneValueA = [];
+//		//console.log('data'+data.msg);
+//		ValuesA  = data.msg.split('*');
+ //       var datetime = new Date();
+  //      for(j=0; j < ValuesA.length-1; j++){
+        //for(j=0; j < 0; j++){
+            //console.log('ValuesA '+j+' '+ValuesA[j]);
+    //        OneValueA  = ValuesA[j].split('#');
+      //      if (OneValueA[0] == '1002'){$("#widgetid1002").html(OneValueA[1]);}
+        //    if (OneValueA[0] == '1003'){$("#widgetid1003").html(OneValueA[1]);}
+        //    if (OneValueA[0] == '1004'){$("#widgetid1004").html(OneValueA[1]);}
+        //    if (OneValueA[0] == '1005'){datetime.setTime(OneValueA[1]-3600000);tick(datetime);}
+        //    if (OneValueA[0] == '3001'){$("#widgetid3001").html(Number(OneValueA[1]/1000).toFixed(2)+' V');Vval = Number(OneValueA[1]/1000);}
+        //    if (OneValueA[0] == '3002'){$("#widgetid3002").html(Number(OneValueA[1]/1000).toFixed(2)+' A');Ival = Number(OneValueA[1]/1000);}
+        //    if (OneValueA[0] == '3002'){$("#widgetid3008").html(Number(Vval*Ival).toFixed(0)+' W');}
+         //   if (OneValueA[0] == '3003'){$("#widgetid3003").html(Number(OneValueA[1]/1000).toFixed(2)+' Ah');}
+         //   if (OneValueA[0] == '3004'){$("#widgetid3004").html(Number(OneValueA[1]/10).toFixed(1)+' %');}
+         //   if (OneValueA[0] == '3005'){$("#widgetid3005").html(Number(OneValueA[1]).toFixed(0)+' m.');}
+         //   if (OneValueA[0] == '3006'){$("#widgetid3006").html(OneValueA[1]);}
+         //   if (OneValueA[0] == '3007'){$("#widgetid3007").html(OneValueA[1]);}
+         //   if (OneValueA[0] == '2002'){
+         //          if(OneValueA[1] == 0){
+		//				$("#widgetid62").prop("checked", false);
+         //               $("#widgetid2002").prop("checked", false);
+	//				}else{
+      //                  $("#widgetid62").prop("checked", true);
+	//					$("#widgetid2002").prop("checked", true);
+	//				};
+	//			};
+    //        
+        //      if (OneValueA[0] == '4001'){
+       //           $("#widgetid4001").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+                  //widgetidJG[58].refresh(Number(OneValueA[1]).toFixed(1));
+       //           }
+     //       if (OneValueA[0] == '4002'){
+     //           $("#widgetid4002").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+     //           widgetidJG[60].refresh(Number(OneValueA[1]).toFixed(1));
+     //           }
+     //       if (OneValueA[0] == '4003'){
+     //           $("#widgetid4003").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+     //           widgetidJG[61].refresh(Number(OneValueA[1]).toFixed(1));
+     //           }
+    //        if (OneValueA[0] == '4004'){
+    //            $("#widgetid4004").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+     //           widgetidJG[69].refresh(Number(OneValueA[1]).toFixed(1));
+     //           }
+     //       if (OneValueA[0] == '4005'){
+     //           $("#widgetid4005").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+     //           widgetidJG[70].refresh(Number(OneValueA[1]).toFixed(1));
+     //           }
+     //       if (OneValueA[0] == '4006'){
+     //           $("#widgetid4006").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+    //            widgetidJG[71].refresh(Number(OneValueA[1]).toFixed(1));
+    //            }
+     //       if (OneValueA[0] == '4007'){
+     //           $("#widgetid4007").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+     //           widgetidJG[72].refresh(Number(OneValueA[1]).toFixed(1));
+     //           }
+     //       if (OneValueA[0] == '4009'){
+     //           $("#widgetid4009").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+     //           widgetidJG[73].refresh(Number(OneValueA[1]).toFixed(1));
+     //           }
+            
+    //        if (OneValueA[0] == '4008'){
+      //          $("#widgetid4008").html(Number(OneValueA[1]).toFixed(2)+'&deg;C');
+        //        widgetidJG[74].refresh(Number(OneValueA[1]).toFixed(1));
+          //      }
+
+  //      }
+        
+//	});
+	
+	
+	
+	
+	//  -- Receiving allvalues from server --
 	socket.on('sendallvalues', function(data){
         var ValuesA = [];
         var OneValueA = [];
 		//console.log('data'+data.msg);
 		ValuesA  = data.msg.split('*');
         var datetime = new Date();
-        for(j=0; j < ValuesA.length-1; j++){
-            //console.log('ValuesA '+j+' '+ValuesA[j]);
-            OneValueA  = ValuesA[j].split('#');
-            if (OneValueA[0] == '1002'){$("#widgetid1002").html(Number(OneValueA[1]).toFixed(1));}
-            if (OneValueA[0] == '1003'){$("#widgetid1003").html(OneValueA[1]);}
-            if (OneValueA[0] == '1004'){$("#widgetid1004").html(OneValueA[1]);}
-            if (OneValueA[0] == '1005'){datetime.setTime(OneValueA[1]-3600000);tick(datetime);}
-            if (OneValueA[0] == '3001'){$("#widgetid3001").html(Number(OneValueA[1]/1000).toFixed(2)+' V');Vval = Number(OneValueA[1]/1000);}
-            if (OneValueA[0] == '3002'){$("#widgetid3002").html(Number(OneValueA[1]/1000).toFixed(2)+' A');Ival = Number(OneValueA[1]/1000);}
-            if (OneValueA[0] == '3002'){$("#widgetid3008").html(Number(Vval*Ival).toFixed(0)+' W');}
-            if (OneValueA[0] == '3003'){$("#widgetid3003").html(Number(OneValueA[1]/1000).toFixed(2)+' Ah');}
-            if (OneValueA[0] == '3004'){$("#widgetid3004").html(Number(OneValueA[1]/10).toFixed(1)+' %');}
-            if (OneValueA[0] == '3005'){$("#widgetid3005").html(Number(OneValueA[1]).toFixed(0)+' m.');}
-            if (OneValueA[0] == '3006'){$("#widgetid3006").html(OneValueA[1]);}
-            if (OneValueA[0] == '3007'){$("#widgetid3007").html(OneValueA[1]);}
-            if (OneValueA[0] == '2002'){
-                    if(OneValueA[1] == 0){
-						$("#widgetid62").prop("checked", false);
-                        $("#widgetid2002").prop("checked", false);
-					}else{
-                        $("#widgetid62").prop("checked", true);
-						$("#widgetid2002").prop("checked", true);
-					};
-				};
-            
-            if (OneValueA[0] == '4001'){
-                $("#widgetid4001").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[58].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4002'){
-                $("#widgetid4002").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[60].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4003'){
-                $("#widgetid4003").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[61].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4004'){
-                $("#widgetid4004").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[69].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4005'){
-                $("#widgetid4005").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                //widgetidJG[70].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4006'){
-                $("#widgetid4006").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[71].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4007'){
-                $("#widgetid4007").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[72].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            if (OneValueA[0] == '4008'){
-                $("#widgetid4008").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[73].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-            
-            if (OneValueA[0] == '4009'){
-                $("#widgetid4009").html(Number(OneValueA[1]/1000).toFixed(2)+'&deg;C');
-                widgetidJG[73].refresh(Number(OneValueA[1]/1000).toFixed(1));
-                }
-
+        
+        
+        for(j=0; j < pagesArray.length; j++){
+    		//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name);
+        	if (pagesArray[j].vis){
+        		
+        		
+        		for(xcount=0; xcount < pageItemsArray.length; xcount++){
+					
+        			if (pageItemsArray[xcount].page_id == pagesArray[j].id){
+        				//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name+ ' ' + pageItemsArray[xcount].name);
+        				//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name+ ' >>' + pageItemsArray[xcount].name);
+        				for(k=0; k < ValuesA.length-1; k++){
+            				OneValueA  = ValuesA[k].split('#');
+            				if (OneValueA[0] == pageItemsArray[xcount].device_id){
+            					//$("#widgetid1002").html(OneValueA[1]);
+            					
+            					if (pageItemsArray[xcount].type == 1) {
+									$('#widgetid' + pageItemsArray[xcount].id).html(OneValueA[1]);
+									//console.log('#widgetid' + pageItemsArray[xcount].id); 
+				
+								} else if (pageItemA.type == 17) {
+									
+								}
+            					
+            				
+            				}
+        				}
+        			}
+        		}
+        	}
         }
         
 	});
+	
+	//  -- Receiving allvalues from server --
+	socket.on('sendserialtext', function(data){
+		//console.log('data'+data.msg);
+		$('#serialTextArea').val(data.msg+$('#serialTextArea').val()); 
+	});
+
 	
 	//  -- Receiving device change from server --
 	socket.on('device change', function(data){
@@ -370,6 +550,7 @@ jQuery(function($){
 		//console.log('data'+data);
 		ActionA  = data.split('-');
 		for(j=0; j < pageItemsArray.length; j++){
+		//for(j=0; j < 0; j++){
 			pageItemA = pageItemsArray[j];
 			if (pageItemA.device_id == ActionA[0]) {
 			    if (pageItemA.type == 11){
