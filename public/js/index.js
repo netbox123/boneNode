@@ -35,41 +35,53 @@ function initWindows() {
     	var windowHTML = "";
     	var windowVisible = "";
     	if (pagesArray[j].vis){windowVisible='windows-vis';}
-		windowHTML += '<div class="windowdrag" id="windowdrag' + pagesArray[j].id + '" style="left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px;">';
-		windowHTML += '<div id="window' + pagesArray[j].id + '" class="window ' + windowVisible + '" ondrop="window_drop(event)" style=" overflow:hidden; width:'+pagesArray[j].width+'px; height:'+pagesArray[j].height+'px;">';
+//		windowHTML += '<div class="windowdrag" id="windowdrag' + pagesArray[j].id + '" style="left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px;">';
+		windowHTML += '<div id="window' + pagesArray[j].id + '" class="window ' + windowVisible + '"  style=" overflow:hidden; left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px; width:'+pagesArray[j].width+'px; height:'+pagesArray[j].height+'px;">';
 		
 		windowHTML += ' 	<nav class="control-window">';
-		windowHTML += '     <a href="#finder" class="close" onclick="menuWindow_closeOne(' + pagesArray[j].id + ')">close</a>';
+		windowHTML += '     <a class="close" onclick="menuWindow_closeOne(' + pagesArray[j].id + ')">close</a>';
 		windowHTML += '     <a href="#" class="minimize">minimize</a>';
-		windowHTML += '     <a href="#" class="deactivate">deactivate</a>';
+		windowHTML += '     <a class="maximize" onclick="openWindowInfo(' + pagesArray[j].id + ');">maximize</a>';
 		windowHTML += '     </nav>';
-		windowHTML += '     <h1 class="titleInside" id="titleInside' + pagesArray[j].id + '">' + pagesArray[j].name + '</h1>';
+		windowHTML += '     <div><h1 class="titleInside" id="titleInside' + pagesArray[j].id + '">' + pagesArray[j].name + '</h1></div>';
 		windowHTML += '     <div class="container">';
 		windowHTML += '     	<div class="container-inside">';
 		windowHTML += '         </div>';
 		windowHTML += '     </div>';
 		windowHTML += ' </div>';
-		windowHTML += ' </div>';
-			console.log(windowHTML);
+//		windowHTML += ' </div>';
+//			console.log(windowHTML);
     	$('#page').append(windowHTML);
-    	var a = 3;
-    	$('#windowdrag' + pagesArray[j].id)
-    		.draggable({ 
-    			start: function(e) {window_drag_start(e);},
-    			stop: function(e) {windowDragStop(e);}
+//    	var a = 3;
+//    	$('#windowdrag' + pagesArray[j].id)
+//    		.draggable({ 
+//    			start: function(e) {window_drag_start(e);},
+//    			stop: function(e) {windowDragStop(e);}
+//    		});
+//    	$('#window' + pagesArray[j].id)
+//    	  	.resizable({
+//        		start: function(e, ui) {windoweventtarget = e.target.getAttribute('id');},
+//        		resize: function(e, ui) {},
+//        		stop: function(e, ui) {windowResizeStop(e, ui);}
+//    		});
+		$('#window' + pagesArray[j].id)
+    		.resizable({
+        		start: function(e, ui) {window_resize_start(e, ui);},
+        		stop: function(e, ui) {window_resize_stop(e, ui);}
+    		})
+    		.draggable({
+        		start: function(e, ui) {window_drag_start(e, ui);},
+        		stop: function(e, ui) {window_drag_stop(e, ui);},
+        		handle: '.titleInside'
+    		})
+    		.on({
+    			click: function (event) {
+    				var eventid = $(this).attr("id").substr(6);
+					$(this).css("z-index", zordermax++);
+					updateWindowInfo(eventid);
+    			}
     		});
-    	$('#window' + pagesArray[j].id)
-    	  	.resizable({
-        		start: function(e, ui) {windoweventtarget = e.target.getAttribute('id');},
-        		resize: function(e, ui) {},
-        		stop: function(e, ui) {windowResizeStop(e, ui);}
-    		});
-    	$('#windowdrag' + pagesArray[j].id).on('click', function (event) {
-						//console.log(event.target.getAttribute('id')); 
-						var eventid = $(this).attr("id");
-						$(this).css("z-index", zordermax++);
-						console.log('WindowClicked ='+eventid);
-			}); 
+
     	var xcount;
 		var pageItemA = [];
     	//console.log('count '+pageItemsArray.length);
@@ -86,7 +98,7 @@ function initWindows() {
 				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center;' class='about-this'><p>"+pageItemA.name+"</p></div></div>");
 
 				} else if (pageItemA.type == 3) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><p><a style='text-align:center;' class='about-this button about' href='#'>"+pageItemA.name+"</a></p></div>");
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><p><a style='text-align:center;' class='about-this button about' onclick='"+pageItemA.action+"'>"+pageItemA.name+"</a></p></div>");
 
 				} else if (pageItemA.type == 4) {
 				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px; text-align:middle;'><ul style='width:"+pageItemA.width+"px;'><li style='text-align:center;'><strong>"+pageItemA.name+" </strong> "+pageItemA.action+"</li></ul></div>");
@@ -98,11 +110,17 @@ function initWindows() {
 				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><textarea class='serialTextAreaClass' style=' background-color:black; color:#ccc; font-family:monospace; font-size:12.5px;' id='serialTextArea' rows='13' cols='95'>test</textarea></div>");
 
 				} else if (pageItemA.type == 7) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input type='text' id='input"+pageItemA.id+"'></input></div>");
+
+				} else if (pageItemA.type == 8) {
+				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'><input type='text' id='input"+pageItemA.id+"'></input></div></label></div>");
+
+				} else if (pageItemA.type == 9) {
 				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'></div>");
 
 
 				} else if (pageItemA.type == 17) {
-					console.log("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
+					//console.log("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
 					$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
 					$("#widgetid"+pageItemA.id).jqxCheckBox({ width: pageItemA.width, height: pageItemA.height });  
 					$("#wraptopid"+pageItemA.id).on('click', function (event) {
@@ -139,8 +157,12 @@ function initWindows() {
 				menuWindowCalc += '<li onclick="menuWindow_openOne('+pagesArray[j].id+')">'+pagesArray[j].name+'</li>'
 		}
 	}
-	console.log('menuWindowCalc ' + menuWindowCalc);
-	$("#menuWindowInject").html(menuWindowCalc);
+	 $("#jqxMenu").jqxMenu({ width: '100%', height: '22px', theme: 'custom'});
+     $("#jqxMenu").css('visibility', 'visible');
+	//console.log('menuWindowCalc ' + menuWindowCalc);
+	//$("#menuWindowInject").html(menuWindowCalc);
+	$("#jqxMenu").jqxMenu('disable', 'menuEitCut', true);
+	
 }
 
 
@@ -327,6 +349,26 @@ jQuery(function($){
     	})	
     };
 	
+	window.SendDueSerial = function (serialText){
+        socket.emit('senddueserial', serialText , function(data){
+        	if(data){
+				
+			} else{
+				
+			}
+    	})	
+    };
+    
+    window.SaveWindow = function (ItemData){
+        socket.emit('savewindow', ItemData , function(data){
+        	if(data){
+				
+			} else{
+				
+			}
+    	})	
+    };
+    
 	//  -- Send username to server --
 	$nickForm.submit(function(e){
 		e.preventDefault();
@@ -414,6 +456,41 @@ jQuery(function($){
         });
         var box = $("#logtextarea");
         box.val(data.nick + data.msg + "\n" + box.val());
+	});
+	
+	//  -- Receiving windowUpdate from server --
+	socket.on('windowUpdate', function(data){
+        console.log('windowUpdate data '+data.msg.name);
+        
+       
+
+        
+        
+        var windowItemA = [];
+        console.log('data.id '+ data.msg.name);
+        for(j=0; j < pagesArray.length; j++){
+            windowItemA = pagesArray[j];
+              if(windowItemA.id == data.msg.id){
+              	  console.log('data.id '+ data.msg.id + '>>' + parseInt(data.msg.xpos) + '>>' + parseInt(data.msg.ypos) );
+                  windowItemA.xpos = parseInt(data.msg.xpos);
+                  windowItemA.ypos = parseInt(data.msg.ypos);
+                  windowItemA.name = data.msg.name;
+		          windowItemA.width = parseInt(data.msg.width);
+		          windowItemA.height = parseInt(data.msg.height);
+		          windowItemA.vis = data.msg.vis;
+              }
+        }
+        $("#window" + data.msg.id).css({
+        	top: parseInt(data.msg.ypos), left: parseInt(data.msg.xpos),
+        	width: parseInt(data.msg.width), height: parseInt(data.msg.height)
+        });
+        if (data.msg.vis){
+        	 menuWindow_openOne(data.msg.id)
+        } else {
+        	menuWindow_closeOne(data.msg.id)
+        }
+        $("titleInside" + data.msg.id).text(data.msg.name);
+       // $("#window" + data.msg.id).titleInside.html(data.msg.name); 
 	});
     
     //  -- Receiving allvalues from server --

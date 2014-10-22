@@ -1,14 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en-US" class="no-js">
 <head>
+	<title>BoneApp</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="viewport" content="width=1024, initial-scale=1">
 	<link rel="apple-touch-icon" href="images/apple-touch-icon-72x72-.png" />
-	
-	<title>BoneApp</title>
-	
 	<meta name="description" content="BoneApp an BBB NodeJS experiment." />
+	
 	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
     <script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
@@ -17,8 +16,7 @@
 	<script type="text/javascript" src="js/modernizr.js"></script>
 	<script type="text/javascript" src="js/fix-and-clock.js"></script>
 	<script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
-	<script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
-	
+	<script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>	
 	<script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxpanel.js"></script>
@@ -27,9 +25,9 @@
     <script src="js/alert_view.min.js"></script>
     <script src="js/raphael.2.1.0.min.js"></script>
     <script src="js/justgage.1.0.1.min.js"></script>
-    
-    <link rel="stylesheet" href="styles/jqx.base.css" type="text/css" />
+  
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+    <link rel="stylesheet" href="styles/jqx.base.css" type="text/css" />
 	<link rel="canonical" href="http://www.beaglebone.org" />
 	<link rel="stylesheet" href="css/alert_view.css">
 	<link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
@@ -41,22 +39,9 @@
             font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
         }
     </style>
-	
-
 </head>
 
 <body>
-
-<!-- FAIL -->
-<div id="fail">
-	<div class="fail-browser-logo">
-    	<img src="img/apple-logo-login.png" alt="Mac OS X" />
-    </div>
-    <div class="fail-browser">
-        <p><strong>I'm sorry to inform you that your browser don't support CSS3 Animations!</strong></p> 
-        <p>This site uses features that <em>require</em> a modern browser - why not try <a href="http://www.mozilla.org/en-US/firefox/fx/" target="_blank" title="Download Firefox">Firefox</a> ?</p>
-    </div>
-</div>
 
 <!-- BOOT -->
 <div id="pageLoading">
@@ -66,576 +51,312 @@
 	</div>
 </div>
 
-<!-- LOGIN -->
-<div id="pageLogin">
-	<header id="headlogin">
-		<nav id="menu-dx-login">
-    	<ul>
-   			<li class="wireless"></li>
-    		<li class="time">
-    		<ul>
-				<li class="hours"> </li>
-    			<li class="point">:</li>
-    			<li class="min"> </li>
-        	</ul>
-    		</li>
-		</ul>
-    	</nav>
-    </header>
-	<div class="new-apple-logo"></div>
-    
-    <div class="user-avatar">
-        <div id="avatar">
-        <a href="#hide" class="hide" id="hide"></a>
-        <a href="#show" class="show" id="show"></a>
-        <div id="cover"></div>
-        <div class="ava-css">
-        <img src="img/Lion.gif" />
-        </div>
-        <div class="logName">
-        <p>Martijn Heeroma</p>
-        </div>
-        <div id="switch">
-        <div class="validate">
-        <form action="#page">
-        	<input type="password" id="password" placeholder="Password" />
-            <input type="submit" class="submit" />
-            <div class="tooltip-pass">
-            <p>Password: admin</p>
-            </div>
-            </form>
-        </div>
-        </div>
-        </div>
-        </div>
-    </div>
-
-<!-- DESKTOP -->
+<!-- PAGE -->
 <div id="page">
-
-
-
-
-<script type="text/javascript">
-            $(document).ready(function () {
-                // Create a jqxMenu
-                $("#jqxMenu").jqxMenu({ width: '670', height: '22px', theme: 'custom'});
-                $("#jqxMenu").css('visibility', 'visible');
-               
-            });
-        </script>
-
-		<div id='jqxWidget' style='height: 100px;'>
-            <div id='jqxMenu' style='visibility: hidden; margin-left: 5px;'>
-                <ul style='padding-top: 0px; margin-top: 0px; border-top: 0px;'>
-                    <li style='padding-top: 2px;'>a
-                        <ul style='width: 250px;'>
-                        	<li onclick="menuWindow_openOne(50);">About This Mac</li>
-            				<li onclick="menuClicked('File','Updates')" >Software Updates...</li>
-            				<li>App Store...</li>
-            				<li type='separator'></li>
-            				<li>System Preferences...</li>
-            			</ul>
-            		</li>
-                    <li style='padding-top: 2px;'><strong>Finder</strong>
-                        <ul style='width: 250px;'>
-                            <li><a href="#Education">Education</a></li>
-                            <li><a href="#Financial">Financial services</a></li>
-                            <li><a href="#Government">Government</a></li>
-                            <li><a href="#Manufacturing">Manufacturing</a></li>
-                            <li type='separator'></li>
-                            <li>Software Solutions
-                                <ul style='width: 220px;'>
-                                    <li><a href="#ConsumerPhoto">Consumer photo and video</a></li>
-                                    <li><a href="#Mobile">Mobile</a></li>
-                                    <li><a href="#RIA">Rich Internet applications</a></li>
-                                    <li><a href="#TechnicalCommunication">Technical communication</a></li>
-                                    <li><a href="#Training">Training and eLearning</a></li>
-                                    <li><a href="#WebConferencing">Web conferencing</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">All industries and solutions</a></li>
-                        </ul>
-                    </li>
-                    <li style='padding-top: 2px;'>File
-                        <ul>
-                            <li><a href="#PCProducts">PC products</a></li>
-                            <li><a href="#MobileProducts">Mobile products</a></li>
-                            <li><a href="#AllProducts">All products</a></li>
-                        </ul>
-                    </li>
-                    <li style='padding-top: 2px;'>Edit
-                        <ul style='width: 200px;'>
-                            <li><a href="#SupportHome">Support home</a></li>
-                            <li><a href="#CustomerService">Customer Service</a></li>
-                            <li><a href="#KB">Knowledge base</a></li>
-                            <li><a href="#Books">Books</a></li>
-                            <li><a href="#Training">Training and certification</a></li>
-                            <li><a href="#SupportPrograms">Support programs</a></li>
-                            <li><a href="#Forums">Forums</a></li>
-                            <li><a href="#Documentation">Documentation</a></li>
-                            <li><a href="#Updates">Updates</a></li>
-                        </ul>
-                    </li>
-                    <li style='padding-top: 2px;'>Go
-                        <ul style='width: 200px;'>
-                            <li><a href="#Designers">Designers</a></li>
-                            <li><a href="#Developers">Developers</a></li>
-                            <li><a href="#Educators">Educators and students</a></li>
-                            <li><a href="#Partners">Partners</a></li>
-                            <li type='separator'></li>
-                            <li>By resource
-                                <ul>
-                                    <li><a href="#Labs">Labs</a></li>
-                                    <li><a href="#TV">TV</a></li>
-                                    <li><a href="#Forums">Forums</a></li>
-                                    <li><a href="#Exchange">Exchange</a></li>
-                                    <li><a href="#Blogs">Blogs</a></li>
-                                    <li><a href="#Experience Design">Experience Design</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li style='padding-top: 2px;'>Window
-                        <ul style='width: 180px;'>
-                            <li><a href="#About">About Us</a></li>
-                            <li><a href="#Press">Press</a></li>
-                            <li><a href="#Investor">Investor Relations</a></li>
-                            <li><a href="#CorporateAffairs">Corporate Affairs</a></li>
-                            <li><a href="#Careers">Careers</a></li>
-                            <li><a href="#Showcase">Showcase</a></li>
-                            <li><a href="#Events">Events</a></li>
-                            <li><a href="#ContactUs">Contact Us</a></li>
-                            <li><a href="#Become an affiliate">Become an affiliate</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <br />
-
-        </div>
+	<!-- MENU -->
+	<div id='jqxWidget' style='height: 42px;'>
+		<div id='jqxMenu' style='visibility: hidden; margin-left: 0px;'>
+			<ul class='menuBarClass'  style='padding-top: 0px; margin-top: 0px; border-top: 0px;'>
+				<li style='padding-top: 2px;'>
+					<ul style='width: 250px;'>
+						<li onclick="menuWindow_openOne(50);">About This Mac</li>
+						<li onclick="menuClicked('File','Updates')" >Software Updates...</li>
+						<li>App Store...</li>
+						<li type='separator'></li>
+						<li>System Preferences...</li>
+						<li type='separator'></li>
+						<li>Force Quit...</li>
+						<li type='separator'></li>
+						<li>Sleep</li>
+						<li>Restart...</li>
+						<li>Shut Down...</li>
+						<li type='separator'></li>
+						<li>Log Out...</li>
+					</ul>
+				</li>
+				<li style='padding-top: 2px;'><strong>Finder</strong>
+					<ul style='width: 250px;'>
+						<li onclick="menuWindow_openOne(51);">About Finder</li>
+						<li type='separator'></li>
+						<li>Preferences...</li>
+						<li type='separator'></li>
+						<li>Secure Empty Trash...</li>
+						<li type='separator'></li>
+						<li>Services
+						<ul class="sublist-menu">
+						   <li class="disable">No Services Apply</li>
+						   <li>Services Preferences...</li>
+						</ul>
+						</li>
+						<li type='separator'></li>
+						<li>Hide Finder</li>
+						<li>Hide Others</li>
+					</ul>
+				</li>
+				<li style='padding-top: 2px;'>File
+					<ul style='width: 250px;'>
+						<li>New Finder Window</li>
+						<li>New Folder</li>
+						<li class="disable">New Folder with Selection</li>
+						<li>New Smart Folder</li>
+						<li>New Burn Folder</li>
+						<li class="disable">Open</li>
+						<li class="disable">Open With</li>
+						<li class="disable">Print</li>
+						<li class="disable">Close Window</li>
+						<li type='separator'></li>
+						<li>Get Info</li>
+						<li type='separator'></li>
+						<li class="disable">Compress</li>
+						<li type='separator'></li>
+						<li class="disable">Duplicate</li>
+						<li class="disable">Make Alias</li>
+						<li class="disable">Quick Look</li>
+						<li class="disable">Show Original</li>
+						<li class="disable">Add to Sidebar</li>
+						<li type='separator'></li>
+						<li class="disable">Move to Trash</li>
+						<li class="disable">Eject</li>
+						<li>Burn "Desktop" to Disc...</li>
+						<li type='separator'></li>
+						<li>Find</li>
+						<li type='separator'></li>
+						<li class="disable">Label:</li>
+					</ul>
+				</li>
+				<li style='padding-top: 2px;'>Edit
+					<ul style='width: 200px;'>
+						<li onclick="menuClicked('Edit','editWindow')">Edit Window</li>
+						<li onclick="menuClicked('Edit','newWindow')">New Window</li>
+						<li type='separator'></li>
+						<li onclick="menuClicked('Edit','editItems')">Edit Items</li>
+						<li onclick="menuClicked('Edit','newItem')">New Item</li>
+						<li type='separator'></li>
+						<li id="menuEitCut">Cut</li>
+						<li class="disable">Copy</li>
+						<li class="disable">Paste</li>
+						<li>Select All</li>
+						<li type='separator'></li>
+						<li>Show Clipboard</li>
+						<li type='separator'></li>
+						<li>Special Characters...</li>
+					</ul>
+				</li>
+				<li style='padding-top: 2px;'>Go
+					<ul style='width: 200px;'>
+						<li onclick="menuWindow_openOne(60);">Serial monitor</li>
+						<li type='separator'></li>
+					</ul>
+				</li>
+				<li style='padding-top: 2px;'>Window
+					<ul style='width: 180px;'>
+						<li onclick="menuClicked('Window','closeAll')">Close All</li>
+						<li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
+						<li type='separator'></li>
+						<li onclick="menuWindow_openOne(2);">Info</li>
+						<li onclick="menuWindow_openOne(1);">Floorplan</li>
+						<li onclick="menuWindow_openOne(6);">BMV-600</li>
+						<li onclick="menuWindow_openOne(7);">Temperaturen</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div> <!-- MENU end -->
         
         
-        
-        
-        
 
-<header id="head">
-	<nav id="menu">
-    	<ul>
-        <li class="apple">
-        	<a href="#all">Apple</a>
-            <ul class="sublist">
-            <li onclick="menuWindow_openOne(50);">About This Mac</li>
-            <li onclick="menuClicked('File','Updates')" >Software Updates...</li>
-            <li>App Store...</li>
-            <li class="divider"></li>
-            <li>System Preferences...</li>
-            <li>Dock
-            	<span class="arrow"></span>
-                <ul class="sublist-menu">
-                <li>Turn Hiding Off</li>
-                <li>Turn Magnification Off</li>
-                <li class="divider"></li>
-                <li>Position on Left</li>
-                <li>Position on Bottom</li>
-                <li>Position on Right</li>
-                <li class="divider"></li>
-                <li>Dock Preferences...</li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li>Recent Items
-            	<span class="arrow"></span>
-                <ul class="sublist-menu">
-                <li class="disable">Applications</li>
-                <li class="divider"></li>
-                <li class="disable">Documents</li>
-                <li class="divider"></li>
-                <li class="disable">Servers</li>
-                <li class="divider"></li>
-                <li>Clear Menu</li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li>Force Quit...</li>
-            <li class="divider"></li>
-            <li>Sleep</li>
-            <li>Restart...</li>
-            <li>Shut Down...</li>
-            <li class="divider"></li>
-            <li>Log Out...</li>
-            </ul>
-        </li>
-        <li class="here">
-        	<a href="#all">Finder</a>
-        	<ul class="sublist">
-            <li><a href="#finder" data-rel="show">About Finder</a></li>
-            <li class="divider"></li>
-            <li>Preferences...</li>
-            <li class="divider"></li>
-            <li>Secure Empty Trash...</li>
-            <li class="divider"></li>
-            <li>Services
-            	<span class="arrow"></span>
-                <ul class="sublist-menu">
-                <li class="disable">No Services Apply</li>
-                <li>Services Preferences...</li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li>Hide Finder</li>
-            <li>Hide Others</li>
-            <li class="disable">Show All</li>
-            </ul>
-        </li>
-        <li>
-        	<a href="#all">File</a>   
-            <ul class="sublist">
-            <li>New Finder Window</li>
-            <li>New Folder</li>
-            <li class="disable">New Folder with Selection</li>
-            <li>New Smart Folder</li>
-            <li>New Burn Folder</li>
-            <li class="disable">Open</li>
-            <li class="disable">Open With
-            	<span class="arrow"></span>
-            </li>
-            <li class="disable">Print</li>
-            <li class="disable">Close Window</li>
-            <li class="divider"></li>
-            <li>Get Info</li>
-            <li class="divider"></li>
-            <li class="disable">Compress</li>
-            <li class="divider"></li>
-            <li class="disable">Duplicate</li>
-            <li class="disable">Make Alias</li>
-            <li class="disable">Quick Look</li>
-            <li class="disable">Show Original</li>
-            <li class="disable">Add to Sidebar</li>
-            <li class="divider"></li>
-            <li class="disable">Move to Trash</li>
-            <li class="disable">Eject</li>
-            <li>Burn "Desktop" to Disc...</li>
-            <li class="divider"></li>
-            <li>Find</li>
-            <li class="divider"></li>
-            <li class="disable">Label:</li>
-            </ul> 
-        </li>
-        <li>
-        	<a href="#all">Edit</a>
-        	<ul class="sublist">
-            <li onclick="menuClicked('Edit','editWindow')">Edit Window</li>
-            <li onclick="menuClicked('Edit','newWindow')">New Window</li>
-            <li class="divider"></li>
-            <li onclick="menuClicked('Edit','editItems')">Edit Items</li>
-            <li onclick="menuClicked('Edit','newItem')">New Item</li>
-            <li class="divider"></li>
-            <li class="disable">Cut</li>
-            <li class="disable">Copy</li>
-            <li class="disable">Paste</li>
-            <li>Select All</li>
-            <li class="divider"></li>
-            <li>Show Clipboard</li>
-            <li class="divider"></li>
-            <li>Special Characters...</li>
-            </ul>
-        </li>
-        <li>
-        	<a href="#all">View</a>
-        	<ul class="sublist">
-            <li class="disable">as Icons</li>
-            <li class="disable">as List</li>
-            <li class="disable">as Columns</li>
-            <li class="disable">as Cover Flow</li>
-            <li class="divider"></li>
-            <li>Clean Up</li>
-            <li>Clean Up By
-            	<span class="arrow"></span>
-                <ul class="sublist-menu">
-                <li>Name</li>
-                <li>Kind</li>
-                <li>Date Modified</li>
-                <li>Date Created</li>
-                <li>Size</li>
-                <li>Label</li>
-                </ul>
-            </li>
-            <li>Sort By
-            	<span class="arrow"></span>
-                <ul class="sublist-menu">
-                <li>None</li>
-                <li class="divider"></li>
-                <li>Snap to Grid</li>
-                <li class="divider"></li>
-                <li>Name</li>
-                <li>Kind</li>
-                <li>Date Last Opened</li>
-                <li>Date Added</li>
-                <li>Date Modified</li>
-                <li>Date Created</li>
-                <li>Size</li>
-                <li>Label</li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li class="disable">Hide Path Bar</li>
-            <li class="disable">Hide Status Bar</li>
-            <li class="disable">Hide Sidebar</li>
-            <li class="divider"></li>
-            <li class="disable">Toolbar</li>
-            <li class="disable">Customize Toolbar...</li>
-            <li class="divider"></li>
-            <li>Show View Options...</li>
-            </ul>    
-        </li>
-        <li>
-        	<a href="#all">Go</a>
-        	<ul id="menuGo" class="sublist">
-            <li onclick="menuWindow_openOne(60); menuClose('menuGo');">Serial monitor</li>
-            <li class="divider"></li>
-            <li>Recent Folders
-            	<span class="arrow"></span>
-                <ul class="sublist-menu">
-                <li>2012-01-10</li>
-                <li>Archieves</li>
-                <li>buildFiles</li>
-                <li>MyProjects</li>
-                <li>XCode_iPhone</li>
-                <li class="divider"></li>
-                <li>Clear Menu</li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li>Go to Folder...</li>
-            <li>Connect to Server...</li>
-            </ul>    
-        </li>
-        <li>
-        	<a href="#all">Window</a>
-         	<ul class="sublist">
-         	<div id="menuWindowInject"></div>
-            <li class="divider"></li>
-            <li onclick="menuClicked('Window','closeAll')">Close All</li>
-            <li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
-            </ul>   
-        </li>
-        <li><a href="#all">Help</a></li>
-        </ul>
-	</nav>
-    <nav id="menu-dx">
-    	<ul>
-        <li class="wireless">
-        	<a href="#all">Wireless</a>
-        </li>
-        <li class="time">
-        	<ul>
-            <li id="DateAbbr"> </li>
-            <li class="hour"> </li>
-    		<li class="point">:</li>
-    		<li class="mins"> </li>
-            </ul>
-        </li>
-        <li class="username">
-        	<a href="#all">Martijn Heeroma</a>
-        </li>
+
+
+	<div id="finder" class="window finder">
+		<nav class="control-window">
+		<a href="#finder" class="close" data-rel="close">close</a>
+		<a href="#" class="minimize">minimize</a>
+		<a href="#" class="deactivate">deactivate</a>
+		</nav>
+		<h1 class="titleInside">About Finder</h1>
+		<div class="container">
+			<div class="container-inside">
+			<img src="img/FinderIcon.png" alt="Finder"/>
+			<div class="about-this">
+			<h2>Finder</h2>
+			<p>The Macintosh Desktop Experience</p>
+			<p class="small">Finder version 10.7.1</p>
+			</div>
+			<div class="copyright">
+			<p>TM and © 1983-2011 Apple Inc</p>
+			<p>All Rights Reserved</p>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="about-this-mac" class="window mac">
+		<nav class="control-window">
+		<a href="#about-this-mac" class="close" data-rel="close">close</a>
+		<a href="#" class="deactivate">deactivate</a>
+		<a href="#" class="deactivate">deactivate</a>
+		</nav>
+		<h1 class="title-mac">About This Mac</h1>
+		<div class="container">
+			<div class="container-inside">
+			<img src="img/MacOSX.png" alt="Mac OS X"/>
+			<div class="about-this">
+			<p>Version 10.7.2</p>
+			<p><a class="button about" href="#">Software Update...</a></p>
+			<ul class="hardware">
+			<li><strong>Processor</strong> 2 Ghz Intel Core 2 Duo</li>
+			<li><strong>Memory</strong> 4 GB 1067 Mhz DDR3</li>
+			<li><strong>Startup Disk</strong> Macintosh HD</li>
+			</ul>
+			<p><a class="button about" href="#">More Info...</a></p>
+			<div class="copyright">
+			<p>TM and © 1983-2011 Apple Inc</p>
+			<p>All Rights Reserved</p>
+			</div>
+			</div>
+			</div>
+		</div>
+	</div> 
+	
+	<div id="warning" class="window warning">
+		<div class="tab"></div>
+		<div class="container">
+			<div class="container-alert">
+			<img src="img/Alert.png" alt="alert"/>
+			<div class="about-alert">
+			<h2>Alert</h2>
+			<p>This application cannot be used in this version</p>
+			<a href="#warning" class="button blink" data-rel="close">Close</a>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="trash" class="window warning">
+		<div class="tab"></div>
+		<div class="container">
+			<div class="container-alert">
+			<img src="img/FinderIcon.png" width="48px" height="48px" alt="alert"/>
+			<div class="about-alert">
+			<h2>Secure Empty Trash permanently erases the items in the Trash. Are you sure you want to permanently erase them?</h2>
+			<p>If you choose Secure Empty Trash, you can't recover the items unless you've backed them up using Time Machine or another backup program.</p>
+			<a href="#warning" class="button blink" data-rel="">Secure Empty Trash</a>
+			<a href="#trash" class="button simple" data-rel="close">Cancel</a>
+			</div>
+			</div>
+		</div>
+	</div>
+		
+	<div id="spec" class="window spec">
+		<nav class="control-window">
+		<a href="#" class="deactivate">deactivate</a>
+		<a href="#" class="deactivate">deactivate</a>
+		<a href="#" class="deactivate">deactivate</a>
+		</nav>
+		<h1 class="titleInside">Project Specifics</h1>
+		<div class="container">
+			<div class="container-inside">
+			<img src="img/folder.png" alt="Project Specifics" />
+			<div class="about-this">
+			<p class="vers">Version 1.1</p>
+			<p><strong>New Version Featured</strong></p>
+			<p>Replace some image elements with CSS3, Dock, hide and show window, fix and optimize the code</p>
+			<p><strong>Modern Browser Supported</strong></p>
+			<p>Firefox, Safari and Chrome</p>
+			<p><strong>HTML 5 and CSS3</strong></p>
+			<p>Intensive use of the CSS3 Keyframes Animations and :target pseudo-class and for GUI</p>
+			<p><strong>Javascript</strong></p>
+			<p>Clock, Fake Login and add special classes after login to remove animations and fix the desktop, hide and show window and and added classes for the dock</p>
+			<p><strong>Draggable Window</strong></p>
+			<p>Use a jQuery UI Draggable plugin</p>
+			<p><strong>Images</strong></p>
+			<p>Use images for logos, user-avatar, spinner loading, cursors, background images, icons</p>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<!-- DOCK -->
+	<div class="dock">
+		<ul>
+			<li id="finderr">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Finder</span></em>
+					<img src="img/FinderIcon.png" alt="Finder"/>
+				</a>
+			</li>
+			<li id="launchPad">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Launchpad</span></em>
+					<img src="img/launchPad.png" alt="Launchpad"/>
+				</a>
+			</li>
+			<li id="expose">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Mission Control</span></em>
+					<img src="img/expose.png" alt="Mission Control"/>
+				</a>
+			</li>
+			<li id="appStore">
+				<a href="#warning" data-rel="showOp">
+					<em><span>App Store</span></em>
+					<img src="img/appstore.png" alt="App Store"/>
+				</a>
+			</li>
+			<li id="safari">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Safari</span></em>
+					<img src="img/Safari.png" alt="Safari"/>
+				</a>
+			</li>
+			<li id="iChat">
+				<a href="#warning" data-rel="showOp">
+					<em><span>iChat</span></em>
+					<img src="img/ichat.png" alt="iChat"/>
+				</a>
+			</li>
+			<li id="facetime">
+				<a href="#warning" data-rel="showOp">
+					<em><span>FaceTime</span></em>
+					<img src="img/facetime.png" alt="Facetime"/>
+				</a>
+			</li>
+			<li id="addressBook">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Address Book</span></em>
+					<img src="img/address.png" alt="Address Book"/>
+				</a>
+			</li>
+			<li id="preview">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Preview</span></em>
+					<img src="img/preview.png" alt="Preview"/>
+				</a>
+			</li>
+			<li id="iTunes">
+				<a href="#warning" data-rel="showOp">
+					<em><span>iTunes</span></em>
+					<img src="img/iTunes.png" alt="iTunes"/>
+				</a>
+			</li>
+			<li id="preferences">
+				<a href="#warning" data-rel="showOp">
+					<em><span>System Preferences</span></em>
+					<img src="img/preferences.png" alt="System Preferences"/>
+				</a>
+			</li>
+			<li id="trash">
+				<a href="#trash" data-rel="showOpTrash">
+					<em><span>Trash</span></em>
+					<img src="img/trash.png" alt="Trash"/>
+				</a>
+			</li>
 		</ul>
-    </nav>
-</header>
+	</div>
 
-
-<div id="finder" class="window finder">
-	<nav class="control-window">
-    <a href="#finder" class="close" data-rel="close">close</a>
-    <a href="#" class="minimize">minimize</a>
-    <a href="#" class="deactivate">deactivate</a>
-    </nav>
-    <h1 class="titleInside">About Finder</h1>
-    <div class="container">
-    	<div class="container-inside">
-        <img src="img/FinderIcon.png" alt="Finder"/>
-        <div class="about-this">
-        <h2>Finder</h2>
-        <p>The Macintosh Desktop Experience</p>
-        <p class="small">Finder version 10.7.1</p>
-        </div>
-        <div class="copyright">
-        <p>TM and © 1983-2011 Apple Inc</p>
-        <p>All Rights Reserved</p>
-        </div>
-        </div>
-    </div>
-</div>
-
-<div id="about-this-mac" class="window mac">
-	<nav class="control-window">
-    <a href="#about-this-mac" class="close" data-rel="close">close</a>
-    <a href="#" class="deactivate">deactivate</a>
-    <a href="#" class="deactivate">deactivate</a>
-    </nav>
-    <h1 class="title-mac">About This Mac</h1>
-    <div class="container">
-    	<div class="container-inside">
-    	<img src="img/MacOSX.png" alt="Mac OS X"/>
-    	<div class="about-this">
-    	<p>Version 10.7.2</p>
-        <p><a class="button about" href="#">Software Update...</a></p>
-        <ul class="hardware">
-        <li><strong>Processor</strong> 2 Ghz Intel Core 2 Duo</li>
-        <li><strong>Memory</strong> 4 GB 1067 Mhz DDR3</li>
-        <li><strong>Startup Disk</strong> Macintosh HD</li>
-        </ul>
-        <p><a class="button about" href="#">More Info...</a></p>
-    	<div class="copyright">
-    	<p>TM and © 1983-2011 Apple Inc</p>
-        <p>All Rights Reserved</p>
-    	</div>
-    	</div>
-    	</div>
-    </div>
-</div> 
-
-<div id="warning" class="window warning">
-	<div class="tab"></div>
-    <div class="container">
-    	<div class="container-alert">
-        <img src="img/Alert.png" alt="alert"/>
-        <div class="about-alert">
-        <h2>Alert</h2>
-        <p>This application cannot be used in this version</p>
-        <a href="#warning" class="button blink" data-rel="close">Close</a>
-        </div>
-        </div>
-    </div>
-</div>
-
-<div id="trash" class="window warning">
-	<div class="tab"></div>
-    <div class="container">
-    	<div class="container-alert">
-        <img src="img/FinderIcon.png" width="48px" height="48px" alt="alert"/>
-        <div class="about-alert">
-        <h2>Secure Empty Trash permanently erases the items in the Trash. Are you sure you want to permanently erase them?</h2>
-        <p>If you choose Secure Empty Trash, you can't recover the items unless you've backed them up using Time Machine or another backup program.</p>
-        <a href="#warning" class="button blink" data-rel="">Secure Empty Trash</a>
-        <a href="#trash" class="button simple" data-rel="close">Cancel</a>
-        </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="spec" class="window spec">
-	<nav class="control-window">
-    <a href="#" class="deactivate">deactivate</a>
-    <a href="#" class="deactivate">deactivate</a>
-    <a href="#" class="deactivate">deactivate</a>
-    </nav>
-    <h1 class="titleInside">Project Specifics</h1>
-    <div class="container">
-    	<div class="container-inside">
-        <img src="img/folder.png" alt="Project Specifics" />
-        <div class="about-this">
-    	<p class="vers">Version 1.1</p>
-        <p><strong>New Version Featured</strong></p>
-        <p>Replace some image elements with CSS3, Dock, hide and show window, fix and optimize the code</p>
-		<p><strong>Modern Browser Supported</strong></p>
-    	<p>Firefox, Safari and Chrome</p>
-        <p><strong>HTML 5 and CSS3</strong></p>
-    	<p>Intensive use of the CSS3 Keyframes Animations and :target pseudo-class and for GUI</p>
-        <p><strong>Javascript</strong></p>
-        <p>Clock, Fake Login and add special classes after login to remove animations and fix the desktop, hide and show window and and added classes for the dock</p>
-        <p><strong>Draggable Window</strong></p>
-        <p>Use a jQuery UI Draggable plugin</p>
-        <p><strong>Images</strong></p>
-        <p>Use images for logos, user-avatar, spinner loading, cursors, background images, icons</p>
-        </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- DOCK -->
-<div class="dock">
-	<ul>
-    	<li id="finderr">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>Finder</span></em>
-                <img src="img/FinderIcon.png" alt="Finder"/>
-            </a>
-        </li>
-        <li id="launchPad">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>Launchpad</span></em>
-                <img src="img/launchPad.png" alt="Launchpad"/>
-            </a>
-        </li>
-        <li id="expose">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>Mission Control</span></em>
-                <img src="img/expose.png" alt="Mission Control"/>
-            </a>
-        </li>
-        <li id="appStore">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>App Store</span></em>
-                <img src="img/appstore.png" alt="App Store"/>
-            </a>
-        </li>
-        <li id="safari">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>Safari</span></em>
-                <img src="img/Safari.png" alt="Safari"/>
-            </a>
-        </li>
-        <li id="iChat">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>iChat</span></em>
-                <img src="img/ichat.png" alt="iChat"/>
-            </a>
-        </li>
-        <li id="facetime">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>FaceTime</span></em>
-                <img src="img/facetime.png" alt="Facetime"/>
-            </a>
-        </li>
-        <li id="addressBook">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>Address Book</span></em>
-                <img src="img/address.png" alt="Address Book"/>
-            </a>
-        </li>
-        <li id="preview">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>Preview</span></em>
-                <img src="img/preview.png" alt="Preview"/>
-            </a>
-        </li>
-        <li id="iTunes">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>iTunes</span></em>
-                <img src="img/iTunes.png" alt="iTunes"/>
-            </a>
-        </li>
-        <li id="preferences">
-        	<a href="#warning" data-rel="showOp">
-            	<em><span>System Preferences</span></em>
-                <img src="img/preferences.png" alt="System Preferences"/>
-            </a>
-        </li>
-        <li id="trash">
-        	<a href="#trash" data-rel="showOpTrash">
-            	<em><span>Trash</span></em>
-                <img src="img/trash.png" alt="Trash"/>
-            </a>
-        </li>
-    </ul>
-</div>
-
-</div>
+</div> <!-- PAGE end -->
 
 
 

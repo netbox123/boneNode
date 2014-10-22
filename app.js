@@ -167,6 +167,29 @@ io.sockets.on('connection', function(socket){
         runAction(data);
     });
     
+    //  -- SendDueSerial received from client --
+    socket.on('senddueserial', function(data){
+        console.log('senddueserial '+data);
+        b.serialWrite(serialPortDue, data + '\n');
+    });
+    
+    //  -- SaveWindow received from client --
+    socket.on('savewindow', function(data){
+        console.log('savewindow '+data.name);
+        for(j=0; j < pagesArray.length; j++){
+		    if(pagesArray[j].id == data.id){
+		        pagesArray[j].name = data.name;
+		        pagesArray[j].xpos = data.xpos;
+		        pagesArray[j].ypos = data.ypos;
+		        pagesArray[j].width = data.width;
+		        pagesArray[j].height = data.height;
+		        pagesArray[j].vis = data.vis;
+		        io.sockets.emit('windowUpdate', {msg: data});
+		    }
+        }
+        
+    });
+    
     //  -- Query received from client --
 	socket.on('send query', function(data){
         var pageItemA = [];
