@@ -36,15 +36,15 @@ function initWindows() {
     	var windowVisible = "";
     	if (pagesArray[j].vis){windowVisible='windows-vis';}
 //		windowHTML += '<div class="windowdrag" id="windowdrag' + pagesArray[j].id + '" style="left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px;">';
-		windowHTML += '<div id="window' + pagesArray[j].id + '" class="window ' + windowVisible + '"  style=" overflow:hidden; left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px; width:'+pagesArray[j].width+'px; height:'+pagesArray[j].height+'px;">';
+		windowHTML += '<div id="window' + pagesArray[j].id + '" class="window ' + windowVisible + '"  style=" left:'+pagesArray[j].xpos+'px; top:'+pagesArray[j].ypos+'px; width:'+pagesArray[j].width+'px; height:23px">';
 		
 		windowHTML += ' 	<nav class="control-window">';
 		windowHTML += '     <a class="close" onclick="menuWindow_closeOne(' + pagesArray[j].id + ')">close</a>';
-		windowHTML += '     <a href="#" class="minimize">minimize</a>';
+		windowHTML += '     <a class="minimize" onclick="windowMinimize(' + pagesArray[j].id + ');">minimize</a>';
 		windowHTML += '     <a class="maximize" onclick="openWindowInfo(' + pagesArray[j].id + ');">maximize</a>';
 		windowHTML += '     </nav>';
 		windowHTML += '     <div><h1 class="titleInside" id="titleInside' + pagesArray[j].id + '">' + pagesArray[j].name + '</h1></div>';
-		windowHTML += '     <div class="container">';
+		windowHTML += '     <div id="containerInside' + pagesArray[j].id + '" class="container" style="overflow:hidden; height:'+pagesArray[j].height+'px;">';
 		windowHTML += '     	<div class="container-inside">';
 		windowHTML += '         </div>';
 		windowHTML += '     </div>';
@@ -92,36 +92,36 @@ function initWindows() {
 				
 				
 				if (pageItemA.type == 1) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'>0</div></label></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'>0</div></label></div>");
 				
 				} else if (pageItemA.type == 2) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center;' class='about-this'><p>"+pageItemA.name+"</p></div></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center;' class='about-this'><p>"+pageItemA.name+"</p></div></div>");
 
 				} else if (pageItemA.type == 3) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><p><a style='text-align:center;' class='about-this button about' onclick='"+pageItemA.action+"'>"+pageItemA.name+"</a></p></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><p><a style='text-align:center;' class='about-this button about' onclick='"+pageItemA.action+"'>"+pageItemA.name+"</a></p></div>");
 
 				} else if (pageItemA.type == 4) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px; text-align:middle;'><ul style='width:"+pageItemA.width+"px;'><li style='text-align:center;'><strong>"+pageItemA.name+" </strong> "+pageItemA.action+"</li></ul></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px; text-align:middle;'><ul style='width:"+pageItemA.width+"px;'><li style='text-align:center;'><strong>"+pageItemA.name+" </strong> "+pageItemA.action+"</li></ul></div>");
 
 				} else if (pageItemA.type == 5) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center; font-size:10px; color:#000;'><p>"+pageItemA.action+"</p></div></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center; font-size:10px; color:#000;'><p>"+pageItemA.action+"</p></div></div>");
 
 				} else if (pageItemA.type == 6) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><textarea class='serialTextAreaClass' style=' background-color:black; color:#ccc; font-family:monospace; font-size:12.5px;' id='serialTextArea' rows='13' cols='95'>test</textarea></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><textarea class='serialTextAreaClass' style=' background-color:black; color:#ccc; font-family:monospace; font-size:12.5px;' id='serialTextArea' rows='13' cols='95'>test</textarea></div>");
 
 				} else if (pageItemA.type == 7) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input type='text' id='input"+pageItemA.id+"'></input></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input type='text' id='input"+pageItemA.id+"'></input></div>");
 
 				} else if (pageItemA.type == 8) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'><input type='text' id='input"+pageItemA.id+"'></input></div></label></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'><input type='text' id='input"+pageItemA.id+"'></input></div></label></div>");
 
 				} else if (pageItemA.type == 9) {
-				$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'></div>");
 
 
 				} else if (pageItemA.type == 17) {
 					//console.log("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
-					$('#window' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
+					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' /><div class='transpbut' id='wraptopid"+pageItemA.id+"' style=' left: -2px; top:-2px; width:32px; height:32px;'></div></div>");
 					$("#widgetid"+pageItemA.id).jqxCheckBox({ width: pageItemA.width, height: pageItemA.height });  
 					$("#wraptopid"+pageItemA.id).on('click', function (event) {
 						//console.log(event.target.getAttribute('id')); 
@@ -140,7 +140,7 @@ function initWindows() {
 					} 
 					
 				} else if (pageItemA.type == 99) {
-				$('#window' + pagesArray[j].id).append("<div class='bkg-wrap' id='wrapid"+pageItemA.id+"' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><img draggable='false' src='images/"+pageItemA.action+"' ></div>");
+				$('#containerInside' + pagesArray[j].id).append("<div class='bkg-wrap' id='wrapid"+pageItemA.id+"' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><img draggable='false' src='images/"+pageItemA.action+"' ></div>");
 				}	
 				
 				$("#wrapid"+pageItemA.id).draggable({ 

@@ -120,7 +120,7 @@ function tick(curDate) {
 // --------------------------------------------------------------------- //
 
 function menuClicked( menuID, MenuItem) {
-	console.log('menuID ' + menuID + ' MenuItem ' + MenuItem);
+	//console.log('menuID ' + menuID + ' MenuItem ' + MenuItem);
 	if (menuID == 'Edit' & MenuItem == 'editItems'){
 		menuEdit_editItems();	
 	} else 	if (menuID == 'Edit' & MenuItem == 'editWindow'){
@@ -136,7 +136,7 @@ function menuClicked( menuID, MenuItem) {
 
 function Button_SendSerial() {
 	SendDueSerial($("#input402").val());
-	console.log($("#input402").val());
+//	console.log($("#input402").val());
 }
 
 function menuEdit_editItems() {
@@ -161,7 +161,7 @@ function menuEdit_editWindow() {
 
 function menuWindow_closeAll() {
 	for(j=0; j < pagesArray.length; j++){
-		console.log('menuWindow_closeAll ' + "windowdrag" + pagesArray[j].id);
+		//console.log('menuWindow_closeAll windowdrag' + pagesArray[j].id);
 		pagesArray[j].vis = 0;
 		$("#windowdrag" + pagesArray[j].id).css({"visibility": "hidden"});
 		//$("#window" + pagesArray[j].id).css({"visibility": "hidden"});
@@ -170,11 +170,11 @@ function menuWindow_closeAll() {
 }
 
 function menuWindow_closeOne(windowID) {
-	console.log('menuWindow_closeOne ' + "windowID " + windowID);
+	//console.log('menuWindow_closeOne windowID ' + windowID);
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
 			pagesArray[j].vis = 0;
-			$("#windowdrag" + pagesArray[j].id).css({"visibility": "hidden"});
+			//$("#windowdrag" + pagesArray[j].id).css({"visibility": "hidden"});
 			//$("#window" + pagesArray[j].id).css({"visibility": "hidden"});
 			//$("#window" + pagesArray[j].id).hide( "clip", 200 );
 			$("#window" + pagesArray[j].id).fadeOut(500);
@@ -183,7 +183,7 @@ function menuWindow_closeOne(windowID) {
 }
 
 function menuWindow_openOne(windowID) {
-	console.log('menuWindow_openOne windowID ' + windowID);
+	//console.log('menuWindow_openOne windowID ' + windowID);
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
 			pagesArray[j].vis = 1;
@@ -191,6 +191,8 @@ function menuWindow_openOne(windowID) {
 			$("#window" + pagesArray[j].id).css({"visibility": "visible"});
 			$("#window" + pagesArray[j].id).css({"opacity": "1"});
 			$("#window" + pagesArray[j].id).css("z-index", zordermax++);
+			pagesArray[j].mini = 1;
+			$("#containerInside" + pagesArray[j].id).fadeIn(500);
 			$("#window" + pagesArray[j].id).fadeIn( 500 );
 			
 		}
@@ -199,10 +201,10 @@ function menuWindow_openOne(windowID) {
 
 function menuWindow_bringFront() {
 	for(j=0; j < pagesArray.length; j++){
-		console.log('menuWindow_bringFront ' + "window" + pagesArray[j].id);
+		//console.log('menuWindow_bringFront window' + pagesArray[j].id);
 		pagesArray[j].vis = 1;
 		$("#window" + pagesArray[j].id).css({"display": "show"});
-		$("#windowdrag" + pagesArray[j].id).css({"visibility": "visible"});
+		//$("#windowdrag" + pagesArray[j].id).css({"visibility": "visible"});
 		$("#window" + pagesArray[j].id).css({"visibility": "visible"});
 		$("#window" + pagesArray[j].id).css({"opacity": "1"});
 		$("#window" + pagesArray[j].id).fadeIn( 500 );
@@ -214,7 +216,7 @@ function menuWindow_bringFront() {
 function bringWindowToFront(windowID) {
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
-			$('#windowdrag' + pagesArray[j]).css("z-index", zordermax++);
+			$('#window' + pagesArray[j]).css("z-index", zordermax++);
 			console.log('bringWindowToFront ='+windowID);
 		}
 	}
@@ -231,11 +233,11 @@ function sleep(milliseconds) {
 
 function menuClose(menuID) {
 	$('#'+menuID).css("visibility", "hidden");
-	console.log('menuClose ' + menuID);
+	//console.log('menuClose ' + menuID);
 }
 
 function openWindowInfo(windowID) {
-	console.log('openWindowInfo ' + windowID);
+	//console.log('openWindowInfo ' + windowID);
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
 			$("#input420").val(pagesArray[j].name);
@@ -253,7 +255,7 @@ function openWindowInfo(windowID) {
 function updateWindowInfo(windowID) {
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID & pagesArray[j].id < 99){
-			console.log('updateWindowInfo ' + windowID);
+			//console.log('updateWindowInfo ' + windowID);
 			$("#input420").val(pagesArray[j].name);
 			$("#input421").val(pagesArray[j].xpos);
 			$("#input422").val(pagesArray[j].ypos);
@@ -267,7 +269,7 @@ function updateWindowInfo(windowID) {
 
 function saveWindowInfo() {
 	windowID = $("#input427").val();
-	console.log('saveWindowInfo ' + windowID);
+	//console.log('saveWindowInfo ' + windowID);
 	//var windowData = 0;
 	var windowData={'windowObject':[]};
 	for(j=0; j < pagesArray.length; j++){
@@ -280,6 +282,24 @@ function saveWindowInfo() {
 			windowData.height = $("#input424").val();
 			windowData.vis = $("#input425").val();
 			SaveWindow(windowData);
+		}
+	}
+}
+
+
+function windowMinimize(windowID) {
+	for(j=0; j < pagesArray.length; j++){
+		if(pagesArray[j].id == windowID){
+			console.log('windowMinimize_' + pagesArray[j].id);
+			if (pagesArray[j].mini){
+				pagesArray[j].mini = 0;
+				$("#containerInside" + pagesArray[j].id).fadeIn(500);
+			} else {
+				pagesArray[j].mini = 1;
+				$("#containerInside" + pagesArray[j].id).fadeOut(500);
+				//$("#window" + pagesArray[j].id).titleInside.fadeOut( 500 );
+			}
+
 		}
 	}
 }
