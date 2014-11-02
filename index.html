@@ -57,8 +57,10 @@
 	<div id='jqxWidget' style='height: 42px;'>
 		<div id='jqxMenu' style='visibility: hidden; margin-left: 0px;'>
 			<ul class='menuBarClass'  style='padding-top: 0px; margin-top: 0px; border-top: 0px;'>
-				<li style='padding-top: 2px;'>
-					<ul style='width: 250px;'>
+				<div id='widgetid240'>00</div><div id='mbarDot1'>:</div><div id='widgetid241'>00</div><div id='mbarDot2'>:</div><div id='widgetid242'>00</div>
+				<div id='mbarBattery'></div><div id='widgetid243'>00</div>
+				<li id="apple" style='width: 30px; padding: 0px; padding-left: 10px;'><a href="#all">Apple</a>
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
 						<li onclick="menuWindow_openOne(50);">About This Mac</li>
 						<li onclick="menuClicked('File','Updates')" >Software Updates...</li>
 						<li>App Store...</li>
@@ -75,10 +77,10 @@
 					</ul>
 				</li>
 				<li style='padding-top: 2px;'><strong>Finder</strong>
-					<ul style='width: 250px;'>
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 250px;'>
 						<li onclick="menuWindow_openOne(51);">About Finder</li>
 						<li type='separator'></li>
-						<li>Preferences...</li>
+						<li onclick="menuWindow_openOne(97);">Preferences...</li>
 						<li type='separator'></li>
 						<li>Secure Empty Trash...</li>
 						<li type='separator'></li>
@@ -94,7 +96,7 @@
 					</ul>
 				</li>
 				<li style='padding-top: 2px;'>File
-					<ul style='width: 250px;'>
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 250px;'>
 						<li>New Finder Window</li>
 						<li>New Folder</li>
 						<li class="disable">New Folder with Selection</li>
@@ -125,7 +127,7 @@
 					</ul>
 				</li>
 				<li style='padding-top: 2px;'>Edit
-					<ul style='width: 200px;'>
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
 						<li onclick="menuClicked('Edit','editWindow')">Edit Window</li>
 						<li onclick="menuClicked('Edit','newWindow')">New Window</li>
 						<li type='separator'></li>
@@ -143,20 +145,32 @@
 					</ul>
 				</li>
 				<li style='padding-top: 2px;'>Go
-					<ul style='width: 200px;'>
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
 						<li onclick="menuWindow_openOne(60);">Serial monitor</li>
 						<li type='separator'></li>
 					</ul>
 				</li>
 				<li style='padding-top: 2px;'>Window
-					<ul style='width: 180px;'>
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
 						<li onclick="menuClicked('Window','closeAll')">Close All</li>
 						<li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
+						<li type='separator'></li>
+						<li onclick="openWindowInfo('windoweventtarget')">Edit Window</li></li>
+						<li onclick="openItemInfo('itemeventtarget')">Edit Item</li></li>
 						<li type='separator'></li>
 						<li onclick="menuWindow_openOne(2);">Info</li>
 						<li onclick="menuWindow_openOne(1);">Floorplan</li>
 						<li onclick="menuWindow_openOne(6);">BMV-600</li>
 						<li onclick="menuWindow_openOne(7);">Temperaturen</li>
+					</ul>
+				</li>
+				<li style='padding-top: 2px;'>Debug
+					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
+						<li onclick="SendServerCommand('writefile-1');">Write File</li>
+						<li onclick="SendServerCommand('emptyserver-1');">Empty Server</li>
+						<li onclick="SendServerCommand('loadfromdb-1');">Load from db</li>
+						<li onclick="SendServerCommand('loadfromfile-1');">Load from File</li>
+						<li type='separator'></li>
 					</ul>
 				</li>
 			</ul>
@@ -279,7 +293,7 @@
 	
 	
 	<!-- DOCK -->
-	<div class="dock">
+	<div class="dock" id="dock">
 		<ul>
 			<li id="finderr">
 				<a href="#warning" data-rel="showOp">
@@ -342,8 +356,8 @@
 				</a>
 			</li>
 			<li id="preferences">
-				<a href="#warning" data-rel="showOp">
-					<em><span>System Preferences</span></em>
+				<a href="#" data-rel="showPreferences">
+					<em><span>Preferences</span></em>
 					<img src="img/preferences.png" alt="System Preferences"/>
 				</a>
 			</li>

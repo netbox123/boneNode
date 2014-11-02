@@ -1,39 +1,5 @@
 $(document).ready(function() {
 	
-//-----------------------------------------------------------------------------------
-//	0.	Modernizr test
-//-----------------------------------------------------------------------------------
-if (Modernizr.cssanimations) {
-	$('#fail').remove();
-}
-else {
-	$('#fail').addClass('visible');
-}
-
-//-----------------------------------------------------------------------------------
-//	1.	Clock
-//-----------------------------------------------------------------------------------
-
-var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
-var dayNames= ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
-
-var newDate = new Date();
-newDate.setDate(newDate.getDate());
-$('#DateAbbr').html(dayNames[newDate.getDay()].substr(0,3) + " ");
-
-setInterval( function() {
-	var minutes = new Date().getMinutes();
-	$(".min, .mins").html(( minutes < 10 ? "0" : "" ) + minutes);
-    },1000);
-	
-setInterval( function() {
-	var hours = new Date().getHours();
-	$(".hours, .hour").html(( hours < 10 ? "0" : "" ) + hours);
-    }, 1000);
-	
-//-----------------------------------------------------------------------------------
-//	2.	Fix Classes after Validate Login
-//-----------------------------------------------------------------------------------
 
 
 		$('input[type=password]').addClass('valid');
@@ -93,6 +59,15 @@ $(".dock li a[data-rel=showOp]").click(function(e) {
     e.preventDefault();
 	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
     $("#warning").delay(1630).queue(function() { $(this).show(); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showPreferences]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window97").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window97").delay(1630).queue(function() { $(this).show(); $("#window97").css({"visibility": "visible"}); $(this).dequeue(); });
+
 });
 
 $("#warning a[data-rel=close]").click(function(e) {

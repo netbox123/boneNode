@@ -1,30 +1,31 @@
-var RunningOnBBB = 0;
-var LogLevel = 0;
-
-var sys = require('sys');
-var b = require('bonescript');
-var mysql               = require('mysql');
-var exec = require('child_process').exec;
+var hasMySQL        = 1;                // Loading from: 0=jsonFile, 1=MySQL 
+var hasBonescript   = 1;                // Bonescript: 0=no, 1=available
+var runMode         = 0;                // Run mode: 0=normal, 1=demo mode
+//----------------------------------------------------------------------------//
+var RunningOnBBB    = 0;
+var LogLevel        = 1;
+var fs              = require('fs');
+var sys             = require('sys');
+var b               = require('bonescript');
+var mysql           = require('mysql');
+var exec            = require('child_process').exec;
+var lib_tool        = require('./tool.js');
+var lib_database    = require('./database.js');
+var serialPortData  = '';
+var serialPortDue   = '/dev/ttyO4';
+var outputFilePath  = '/var/lib/cloud9/bbb_app/data/';
+var tempdirectory   = '/sys/bus/w1/devices/';
+var optionsPort     = {baudrate: 9600, parser: b.serialParsers.readline("\n")};
 function puts(error, stdout, stderr) { sys.puts(stdout) }
-var lib_tool = require('./tool.js');
-var lib_database = require('./database.js');
-var b = require('bonescript');
-var serialPortDue = '/dev/ttyO4';
-var optionsPort = {baudrate: 9600, parser: b.serialParsers.readline("\n")};
-var serialPortData = '';
 
 
-
-
-var tempdirectory ='/sys/bus/w1/devices/';
-
-inputsArray = [];
-devicesArray = [];
-pageItemsArray = [];
-actionsArray = [];
-tempsensorArray = [];
-pagesArray = [];
-nicknames = [];
+inputsArray         = [];
+devicesArray        = [];
+pageItemsArray      = [];
+actionsArray        = [];
+tempsensorArray     = [];
+pagesArray          = [];
+nicknames           = [];
 
 bmv_v = '';
 bmv_i = '';
@@ -34,7 +35,7 @@ bmv_ttg = '';
 bmv_alarm = '';
 bmv_relay = '';
 
-due_step = '';
+due_step = '365597765';
 due_pins = '';
 
 t_BU = '';
@@ -54,16 +55,23 @@ var server = require('http').createServer(app),io = require('socket.io').listen(
 
 
 io.set('log level', 1 ); // reduce logging
-
-console.log('Loading database...');
 setPins();
-loadDatbase();
-setTimeout(function(){ InitApp(); },1000); // relax a bit, waiting for DB.
+
+if (hasMySQL){
+    console.log('Loading database...');
+    loadDatbase();
+} else {
+    console.log('Loading files...');
+    LoadFromFile();
+}
+
+setTimeout(function(){ InitApp(); },500); // relax a bit, waiting for DB.
 
 function InitApp() {
     b.serialOpen(serialPortDue, optionsPort, onSerial);
     console.log('serialPortDue opened...');
     setInterval(function() {UpdateDevicesArray();}, 1000);
+    setInterval(function() {onDemoMode();}, 1000);
     //setInterval(function() {logDatabase();}, 30*60*1000);
     server.listen(4000); // listen on port 4000
     app.get('/', function(req, res){res.sendFile(__dirname + '/index.html');});
@@ -131,7 +139,7 @@ io.sockets.on('connection', function(socket){
         if (temparray[0] == 'settime'){
             var datetime = new Date();
             var b = require('bonescript');
-            io.sockets.emit('new message', {msg: data, nick: timeText + socket.nickname + ':' });
+            io.sockets.emit('new message', {msg: data, nick: timeText + socket.nickname + ':', title: 'sendservercommand' });
             datetime.setTime(temparray[1]);
             console.log('settime to '+datetime);
             b.setDate(datetime.toString());
@@ -152,9 +160,23 @@ io.sockets.on('connection', function(socket){
             console.log('reloaddb - database reloaded');
             SyncDevicesArrayFromSerial();
             io.sockets.emit('new message', {msg: 'reloaddb - database reloaded', nick: timeText });
-        } else if(temparray[0] == 'savedb'){
-            console.log('savedb');
-        }	
+        } else if(temparray[0] == 'writefile'){
+            console.log('writefile');
+            io.sockets.emit('new message', {msg: 'writefile - files saved', title: 'sendservercommand' , nick: timeText });
+            writeToFiles();
+	    } else if(temparray[0] == 'emptyserver'){
+            console.log('emptyserver');
+            io.sockets.emit('new message', {msg: 'emptyserver', title: 'sendservercommand' , nick: timeText });
+            EmptyServer();
+        } else if(temparray[0] == 'loadfromdb'){
+            console.log('loadfromdb');
+            io.sockets.emit('new message', {msg: 'loadfromdb ', title: 'sendservercommand' , nick: timeText });
+            loadDatbase();
+        } else if(temparray[0] == 'loadfromfile'){
+            console.log('loadfromfile');
+            io.sockets.emit('new message', {msg: 'loadfromfile ', title: 'sendservercommand' , nick: timeText });
+            LoadFromFile();
+        }
 	});
     
      //  -- SendAction received from client --
@@ -185,6 +207,26 @@ io.sockets.on('connection', function(socket){
 		        pagesArray[j].height = data.height;
 		        pagesArray[j].vis = data.vis;
 		        io.sockets.emit('windowUpdate', {msg: data});
+		    }
+        }
+        
+    });
+    
+    //  -- Saveitem received from client --
+    socket.on('saveitem', function(data){
+        console.log('saveitem '+data.name);
+        for(j=0; j < pageItemsArray.length; j++){
+		    if(pageItemsArray[j].id == data.id){
+		        pageItemsArray[j].name = data.name;
+		        pageItemsArray[j].xpos = data.xpos;
+		        pageItemsArray[j].ypos = data.ypos;
+		        pageItemsArray[j].width = data.width;
+		        pageItemsArray[j].height = data.height;
+		        pageItemsArray[j].type = data.type;
+		        pageItemsArray[j].device_id = data.device_id;
+		        pageItemsArray[j].page_id = data.page_id;
+		        pageItemsArray[j].action = data.action;
+		        io.sockets.emit('itemUpdate', {msg: data});
 		    }
         }
         
@@ -239,41 +281,69 @@ io.sockets.on('connection', function(socket){
 
 //  ------------------------------------------------------------------------------------------------------------------------
 
+function onDemoMode() {
+	if (runMode){
+	    due_step = parseInt(due_step) + 1;
+        t_K1 = t_K1+(Math.random()/10)-.05;if(t_K1<70){t_K1=70};if(t_K1>82){t_K1=82};
+		t_K2 = t_K2+(Math.random()/10)-.05;if(t_K2<54){t_K2=54};if(t_K2>65){t_K2=65};
+		t_B1 = t_B1+(Math.random()/10)-.05;if(t_B1<63.3){t_B1=63.3};if(t_B1>65){t_B1=65};
+		t_B2 = t_B2+(Math.random()/10)-.05;if(t_B2<45){t_B2=45.6};if(t_B2>49.8){t_B2=49.8};
+		t_B3 = t_B3+(Math.random()/10)-.05;if(t_B3<12){t_B3=12};if(t_B3>17.3){t_B3=17.3};
+		t_G1 = t_G1+(Math.random()/10)-.05;if(t_G1<17.5){t_G1=17.5};if(t_G1>21.2){t_G1=21.2};
+		t_G2 = t_G2+(Math.random()/10)-.05;if(t_G2<18){t_G2=18};if(t_G2>23.4){t_G2=23.4};
+		t_WK = t_WK+(Math.random()/10)-.05;if(t_WK<19.3){t_WK=19.3};if(t_WK>25){t_WK=25};
+		t_BU = t_BU+(Math.random()/10)-.05;if(t_BU<8.4){t_BU=8.4};if(t_BU>15.1){t_BU=15.1};
+		
+	    bmv_v = bmv_v-(Math.random()*4)+1;if(bmv_v<23800){bmv_v=26200};if(bmv_v>27000){bmv_v=26200};
+		bmv_i = bmv_i+(Math.random()*15)-5;if(bmv_i>-4500){bmv_i=-4500};if(bmv_i<-4700){bmv_i=-4600};
+		bmv_ce = bmv_ce-(Math.random()*5);if(bmv_ce>-72300){bmv_ce=-93400};if(bmv_ce<-76000){bmv_ce=-74000};
+		bmv_soc = bmv_soc-(Math.random()/5);if(bmv_soc<720){bmv_soc=800};if(bmv_soc>815){bmv_soc=812};
+		bmv_ttg = bmv_ttg+(Math.random()*10)-5;if(bmv_ttg<2234){bmv_ttg=2234};if(bmv_ttg>2478){bmv_ttg=2478};
+		bmv_alarm = 'OFF';
+		bmv_relay = 'OFF';
+		serialPortData ='{"simulated-due":{"step":'+due_step+',"t_BU":'+t_BU.toFixed(2)+',"t_WK":'+t_WK.toFixed(2)+',"t_K1":'+t_K1.toFixed(2)+',"t_K2":'+t_K2.toFixed(2)+',"t_B1":'+t_B1.toFixed(2)+',"t_B2":'+t_B2.toFixed(2)+',"t_B3":'+t_B3.toFixed(2)+',"t_G1":'+t_G1.toFixed(2)+',"t_G2":'+t_G2.toFixed(2)+',"bmv_V":'+bmv_v.toFixed(0)+',"bmv_I":'+bmv_i.toFixed(0)+',"bmv_CE":'+bmv_ce.toFixed(0)+',"bmv_SOC":'+bmv_soc.toFixed(0)+',"bmv_TTG":'+bmv_ttg.toFixed(0)+',"bmv_Alarm":"'+bmv_alarm+'","bmv_Relay":"'+bmv_relay+'","pins":"0001101000010001011010000000000100"}}\n';
+
+		
+	}
+}
+
 function onSerial(x) {
-    if (x.err) {
-        console.log('***ERROR*** ' + JSON.stringify(x));
-    }
-    if (x.event == 'open') {
-       //console.log('***OPENED***');
-    }
-    if (x.event == 'data') {
-        //console.log(String(x.data));
-        try {
-            serialPortData = String(x.data);
-            data_json = JSON.parse(String(x.data));
-            due_step = data_json.due.step;
-            due_pins = data_json.due.pins;
-            bmv_v = data_json.due.bmv_V;
-            bmv_i = data_json.due.bmv_I;
-            bmv_ce = data_json.due.bmv_CE;
-            bmv_soc = data_json.due.bmv_SOC;
-            bmv_ttg = data_json.due.bmv_TTG;
-            bmv_alarm = data_json.due.bmv_Alarm;
-            bmv_relay = data_json.due.bmv_Relay;
-            t_K1 = data_json.due.t_K1;
-            t_K2 = data_json.due.t_K2;
-            t_B1 = data_json.due.t_B1;
-            t_B2 = data_json.due.t_B2;
-            t_B3 = data_json.due.t_B3;
-            t_G1 = data_json.due.t_G1;
-            t_G2 = data_json.due.t_G2;
-            t_WK = data_json.due.t_WK;
-            t_BU = data_json.due.t_BU;
-            SyncDevicesArrayFromSerial();
-        } catch (e) {
-            console.log('Serial parse error ' + e);
-        }
-    }
+	if (runMode == 0){
+		if (x.err) {
+			console.log('***ERROR*** ' + JSON.stringify(x));
+		}
+		if (x.event == 'open') {
+		   //console.log('***OPENED***');
+		}
+		if (x.event == 'data') {
+			//console.log(String(x.data));
+			try {
+				serialPortData = String(x.data);
+				data_json = JSON.parse(String(x.data));
+				due_step = data_json.due.step;
+				due_pins = data_json.due.pins;
+				bmv_v = data_json.due.bmv_V;
+				bmv_i = data_json.due.bmv_I;
+				bmv_ce = data_json.due.bmv_CE;
+				bmv_soc = data_json.due.bmv_SOC;
+				bmv_ttg = data_json.due.bmv_TTG;
+				bmv_alarm = data_json.due.bmv_Alarm;
+				bmv_relay = data_json.due.bmv_Relay;
+				t_K1 = data_json.due.t_K1;
+				t_K2 = data_json.due.t_K2;
+				t_B1 = data_json.due.t_B1;
+				t_B2 = data_json.due.t_B2;
+				t_B3 = data_json.due.t_B3;
+				t_G1 = data_json.due.t_G1;
+				t_G2 = data_json.due.t_G2;
+				t_WK = data_json.due.t_WK;
+				t_BU = data_json.due.t_BU;
+				SyncDevicesArrayFromSerial();
+			} catch (e) {
+				console.log('Serial parse error ' + e);
+			}
+		}
+	}
 }
 
 function checkInputs(){
@@ -318,7 +388,7 @@ function loadDatbase() {
     lib_database.loadPageItems('SELECT * FROM page_items_ini order by type DESC', function(result) {pageItemsArray = lib_database._pageItemsArray;console.log('PageItems: '+pageItemsArray.length);});
     lib_database.loadActions('SELECT * FROM action_ini', function(result) {actionsArray = lib_database._actionsArray;console.log('Actions: '+actionsArray.length);});  
     lib_database.loadInputs('SELECT * FROM device_ini WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;console.log('Inputs: '+inputsArray.length);});
-    lib_database.connectionEnd();
+    //lib_database.connectionEnd();
 }
 
 function UpdateDevicesArray() {
@@ -330,6 +400,11 @@ function UpdateDevicesArray() {
         if (devicesArray[i].id == 1003){devicesArray[i].val = [(datetime.getHours()).padLeft(), (datetime.getMinutes()).padLeft(), datetime.getSeconds().padLeft()].join(':');}
         if (devicesArray[i].id == 1004){devicesArray[i].val = [datetime.getDate().padLeft(), (datetime.getMonth()+1).padLeft(), datetime.getFullYear()].join('-');}
         if (devicesArray[i].id == 1005){devicesArray[i].val = Date.now();}
+        
+        if (devicesArray[i].id == 1010){devicesArray[i].val = datetime.getSeconds().padLeft()}
+        if (devicesArray[i].id == 1011){devicesArray[i].val = datetime.getMinutes().padLeft()}
+        if (devicesArray[i].id == 1012){devicesArray[i].val = datetime.getHours()}
+        
         if (devicesArray[i].id == 3001){devicesArray[i].val = Number(bmv_v/1000).toFixed(2)+' V';}
         if (devicesArray[i].id == 3002){devicesArray[i].val = Number(bmv_i/1000).toFixed(2)+' A';}
         if (devicesArray[i].id == 3003){devicesArray[i].val = Number(bmv_ce/1000).toFixed(2)+' Ah';}
@@ -337,6 +412,7 @@ function UpdateDevicesArray() {
         if (devicesArray[i].id == 3005){devicesArray[i].val = Number(bmv_ttg).toFixed(0)+' m.';}
         if (devicesArray[i].id == 3006){devicesArray[i].val = bmv_alarm;}
         if (devicesArray[i].id == 3007){devicesArray[i].val = bmv_relay;}
+        if (devicesArray[i].id == 3009){devicesArray[i].val = Number(bmv_soc/10).toFixed(0)+'%';}
         
         if (devicesArray[i].id == 4002){devicesArray[i].val = Number(t_K1).toFixed(1)+'&deg;C';}
         if (devicesArray[i].id == 4003){devicesArray[i].val = Number(t_K2).toFixed(1)+'&deg;C';}
@@ -523,4 +599,62 @@ function logDatabase() {
 //	});
 	
 }
-  			
+  
+function writeToFiles(){
+    var outputFilename = outputFilePath + 'device.json';
+    fs.writeFile(outputFilename, JSON.stringify(devicesArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Devices saved to " + outputFilename);
+        }
+    });
+    var outputFilename = outputFilePath + 'page_item.json';
+    fs.writeFile(outputFilename, JSON.stringify(pageItemsArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("PageItems saved to " + outputFilename);
+        }
+    });
+    var outputFilename = outputFilePath + 'page.json';
+    fs.writeFile(outputFilename, JSON.stringify(pagesArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Pages saved to " + outputFilename);
+        }
+    });
+    var outputFilename = outputFilePath + 'action.json';
+    fs.writeFile(outputFilename, JSON.stringify(actionsArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Actions saved to " + outputFilename);
+        }
+    });
+}  			
+
+function EmptyServer(){
+    devicesArray.length = 0;
+    pageItemsArray.length = 0;
+    actionsArray.length = 0;
+    tempsensorArray.length = 0;
+    inputsArray.length = 0;
+    pagesArray.length = 0;
+}
+
+function LoadFromFile(){
+    var outputFilename = outputFilePath + 'page_item.json';
+    pageItemsArray = require(outputFilename);
+    console.log('pageItemsArray '+pageItemsArray.length);
+    outputFilename = outputFilePath + 'page.json';
+    pagesArray = require(outputFilename);
+    console.log('pagesArray '+pagesArray.length);
+    outputFilename = outputFilePath + 'device.json';
+    devicesArray = require(outputFilename);
+    console.log('devicesArray '+devicesArray.length);
+    outputFilename = outputFilePath + 'action.json';
+    actionsArray = require(outputFilename);
+    console.log('actionsArray '+actionsArray.length);
+}
