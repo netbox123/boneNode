@@ -7,7 +7,7 @@ $(document).ready(function() {
 		$('.submit').removeClass('submit').addClass('charge');
 		$('#pageLogin').addClass('initLog').delay(1900).queue(function() { $(this).removeClass('initLog').addClass('initLogExit'); $(this).dequeue(); });;
 		$('#page, #head').delay(2500).queue(function() { $(this).addClass('vis'); $(this).dequeue(); });
-		$('.window').delay(3000).queue(function() { $(this).addClass('windows-vis'); $(this).dequeue(); });
+		$('.window').delay(4000).queue(function() { $(this).addClass('windows-vis'); $(this).dequeue(); });
 		
 
 //-----------------------------------------------------------------------------------

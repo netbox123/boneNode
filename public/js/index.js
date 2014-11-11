@@ -13,6 +13,7 @@ var windowdragstarty = 0;
 var windoweventtarget = 1;
 var itemeventtarget = 1;
 var zordermax = 10;
+var bootlog = "";
 var aid = [];
 var Vval = 0;
 var Ival = 0;
@@ -31,7 +32,7 @@ window.onload = function() {
 
 function initWindows() {
     for(j=0; j < pagesArray.length; j++){
-    	console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name);
+    	//console.log('page ' + pagesArray[j].id + ' ' + pagesArray[j].name);
     	windoweventtarget = pagesArray[j].id;
     	var windowHTML = "";
     	var windowVisible = "";
@@ -93,7 +94,7 @@ function initWindows() {
 				} else if (pageItemA.type == 5) {
 					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div style='text-align:center; font-size:10px; color:#000;'><p>"+pageItemA.action+"</p></div></div>");
 				} else if (pageItemA.type == 6) {
-					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:100%; height: 100%;height: -webkit-calc(100% - 34px);height: -moz-calc(100% - 34px);height: calc(100% - 34px);'><textarea style='padding:10px' class='serialTextAreaClass' id='serialTextArea' >_</textarea></div>");
+					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:100%; height: 100%;height: -webkit-calc(100% - 34px);height: -moz-calc(100% - 34px);height: calc(100% - 34px);'><textarea style='padding:10px' class='serialTextAreaClass' id='TextArea"+pageItemA.id+"' >_</textarea></div>");
 				} else if (pageItemA.type == 7) {
 					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input type='text' id='input"+pageItemA.id+"'></input></div>");
 				} else if (pageItemA.type == 8) {
@@ -101,16 +102,25 @@ function initWindows() {
 				} else if (pageItemA.type == 9) {
 					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><div id='widgetid"+pageItemA.id+"' style='text-align: right; font-family: digital-7_monoitalic; font-size: 13pt; font-weight: bold; color: #040edf;'>0</div</div>");
 				} else if (pageItemA.type == 10) {
-					//$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><input id='widgetid"+pageItemA.id+"' height='30' width='55' type='checkbox' class='ios-switch tinyswitch' checked /><div><div></div></div>");
-					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div class='tasks-list-mark' style='font-size: 12pt;color: #555;'><input id='widgetid"+pageItemA.id+"' height='30' width='55' type='checkbox' class='ios-switch green tinyswitch' checked /></div></label></div>")
+					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'<label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark'><input style='border:1px red;' id='inputid"+pageItemA.id+"' height='30' width='55' type='checkbox' class='ios-switch green tinyswitch' checked /><div><div></div></div></div></label></div>")
+					$("#inputid"+pageItemA.id).on('click', function (event) {var eventid = event.target.getAttribute('id').substr(7);ButtonClicked(2+'-'+eventid);}); 
+					
 					
 				} else if (pageItemA.type == 11) {
 					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark' style='font-size: 12pt;color: #555;'><p><a class='about-this button about' style='text-align:center;  width:85px;'  >"+pageItemA.action+"</a></p></div></label></div>");
 	
 				} else if (pageItemA.type == 12) {
 					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; bottom:0px; width:100%; height:"+pageItemA.height+"px;'><div class='inputButtonAreaClass'><div style='left:0px; position: absolute; padding-top:1px; padding-left:10px;'><input value='28=1' type='text' id='input"+pageItemA.id+"'></input></div><div style=' padding-top:3px; right:0px; width:140px; position: absolute;'><p><a style='text-align:center;' class='about-this button about' onclick='"+pageItemA.action+"'>"+pageItemA.name+"</a></p></div></div></div>");
-						
+
 				} else if (pageItemA.type == 13) {
+					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'<label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemA.name+"</span><div id='widgetid"+pageItemA.id+"' class='tasks-list-mark'><input style='border:1px red;' id='inputid"+pageItemA.id+"' height='30' width='55' type='checkbox' class='ios-switch tinyswitch' checked /><div><div></div></div></div></label></div>")
+					$("#inputid"+pageItemA.id).on('click', function (event) {var eventid = event.target.getAttribute('id').substr(7);ButtonClicked(2+'-'+eventid);}); 
+
+	
+				} else if (pageItemA.type == 14) {
+					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'></div>");
+
+				} else if (pageItemA.type == 15) {
 					$('#containerInside' + pagesArray[j].id).append("<div class='hmi-wrap' id='wrapid"+pageItemA.id+"' style='position:absolute; left:"+pageItemA.xpos+"px; top:"+pageItemA.ypos+"px; width:"+pageItemA.width+"px; height:"+pageItemA.height+"px;'></div>");
 
 					
@@ -122,7 +132,7 @@ function initWindows() {
 						//console.log(event.target.getAttribute('id')); 
 						var eventid = event.target.getAttribute('id').substr(9);
 						ButtonClicked(2+'-'+eventid);
-						console.log('ButtonClicked ='+$(this).attr("id"));
+						//console.log('ButtonClicked ='+$(this).attr("id"));
 					});  
 					for(k=0; k < devicesArray.length; k++){	
 						if( devicesArray[k].id == pageItemA.device_id) {
@@ -172,6 +182,9 @@ function initWindows() {
 	$("#jqxMenu").jqxMenu({ width: '100%', height: '22px', theme: 'custom'});
     $("#jqxMenu").css('visibility', 'visible');
 	$("#jqxMenu").jqxMenu('disable', 'menuEitCut', true);
+	// Init log window
+	var box = $("#TextArea410");
+    box.val(bootlog);
 }
 
 function ControlPageLoad() {
@@ -232,7 +245,7 @@ function ControlPageLoad() {
 			$("#wraptopid"+pageItemA.id).on('click', function (event) {
 			    var eventid = event.target.getAttribute('id').substr(9);
                 ButtonClicked(2+'-'+eventid);
-                console.log('eventid='+eventid);
+                //console.log('eventid='+eventid);
 					});  
 			for(k=0; k < devicesArray.length; k++){	
 		 		if(pageItemA.device_id == devicesArray[k].id){
@@ -323,7 +336,7 @@ jQuery(function($){
     };
     
     function SendFirst(){
-        var randomnumber=Math.floor(Math.random()*1001)
+        var randomnumber=100+Math.floor(Math.random()*901)
         socket.emit('new user', 'WebClient' + randomnumber , function(data){
 			if(data){
 				//$('#nickWrap').hide();
@@ -408,29 +421,47 @@ jQuery(function($){
 		$users.html(html);
 	});
 	
+	//  -- Receiving config from server --
+	socket.on('config', function(data){
+		configArray = [];
+		for(i=0; i < data.length; i++){
+			configArray.push(data[i]); 
+		}
+		console.log('');
+		console.log('-----------------------------');
+		console.log('config: ' + configArray.length );
+		//bootlog += 'Loading data...' + '\r';
+		bootlog = 'config: ' + configArray.length + '\r' + bootlog;
+	});
+	
 	//  -- Receiving device list from server --
 	socket.on('devices', function(data){
 		devicesArray = [];
 		for(i=0; i < data.length; i++){
 			devicesArray.push(data[i]); 
 		}
+		console.log('devices: ' + devicesArray.length );
+		bootlog = 'devices: ' + devicesArray.length + "\r" + bootlog;
 	});
     
-    //  -- Receiving device list from server --
+    //  -- Receiving input list from server --
 	socket.on('inputs', function(data){
 		inputsArray = [];
 		for(i=0; i < data.length; i++){
 			inputsArray.push(data[i]); 
 		}
+		console.log('inputs: '+inputsArray.length );
+		bootlog = 'inputs: ' + inputsArray.length + "\r" + bootlog;
 	});
     
-    //  -- Receiving device list from server --
+    //  -- Receiving action list from server --
     socket.on('actions', function(data){
 		actionsArray = [];
 		for(i=0; i < data.length; i++){
 			actionsArray.push(data[i]); 
 		}
-        //console.log('actionsreceived');
+        console.log('actions: '+actionsArray.length );
+        bootlog = 'actions: ' + actionsArray.length + "\r" + bootlog;
 	});
 
 	//  -- Receiving page list from server --	
@@ -439,18 +470,27 @@ jQuery(function($){
 		for(i=0; i < data.length; i++){
 			pagesArray.push(data[i]);
 		}
+		console.log('pages: '+pagesArray.length );
+		bootlog = 'pages: ' + pagesArray.length + "\r" + bootlog;
 	});
 	
 	//  -- Receiving pageitem list from server --	
 	socket.on('pageitems', function(data){
 		pageItemsArray = [];
-        console.log('pageItemsArray: '+data.length);
 		for(i=0; i < data.length; i++){
 			pageItemsArray.push(data[i]);
-            //console.log('receiving '+data[i].id);
+            
 		}
+		console.log('pageitems: '+pageItemsArray.length );
+		bootlog = 'pageitems: ' + pageItemsArray.length + '\r' + bootlog;
 		// Init windows
         //ControlPageLoad();
+        console.log('-----------------------------');
+        console.log('Version: '+configArray[0].version);
+        console.log('-----------------------------');
+        bootlog = '-----------------------------' + '\r' + bootlog;
+        bootlog = 'Version: '+configArray[0].version + '\r' + bootlog;
+        bootlog = '-----------------------------' + '\r' + bootlog;
         initWindows();
 	});
 	
@@ -468,21 +508,22 @@ jQuery(function($){
         //console.log('data'+data.msg);
         $.av.pop({
             title: data.title,
-            message: data.timeText +'<br>'+data.msg+' '
+            message: data.address +'<br>'+data.msg+' '
         });
-        var box = $("#logtextarea");
-        box.val(data.nick + data.msg + "\n" + box.val());
+        var box = $("#TextArea410");
+        box.val(data.nick + " " + data.title + " " + data.msg + "\n" + box.val());
+        console.log(data.nick + " " + data.title + " " + data.msg);
 	});
 	
 	//  -- Receiving windowUpdate from server --
 	socket.on('windowUpdate', function(data){
-        console.log('windowUpdate data '+data.msg.name);
+        //console.log('windowUpdate data '+data.msg.name);
         var windowItemA = [];
-        console.log('data.id '+ data.msg.name);
+        //console.log('data.id '+ data.msg.name);
         for(j=0; j < pagesArray.length; j++){
             windowItemA = pagesArray[j];
               if(windowItemA.id == data.msg.id){
-              	  console.log('data.id '+ data.msg.id + '>>' + parseInt(data.msg.xpos) + '>>' + parseInt(data.msg.ypos) );
+              	  //console.log('data.id '+ data.msg.id + '>>' + parseInt(data.msg.xpos) + '>>' + parseInt(data.msg.ypos) );
                   pagesArray[j].xpos = parseInt(data.msg.xpos);
                   pagesArray[j].ypos = parseInt(data.msg.ypos);
                   pagesArray[j].name = data.msg.name;
@@ -509,13 +550,13 @@ jQuery(function($){
 
 //  -- Receiving itemUpdate from server --
 	socket.on('itemUpdate', function(data){
-        console.log('itemUpdate data '+data.msg.name);
+        //console.log('itemUpdate data '+data.msg.name);
         var itemItemA = [];
-        console.log('data.id '+ data.msg.name);
+        //console.log('data.id '+ data.msg.name);
         for(j=0; j < pageItemsArray.length; j++){
             itemItemA = pageItemsArray[j];
               if(itemItemA.id == data.msg.id){
-              	  console.log('data.id '+ data.msg.id + '>>' + parseInt(data.msg.xpos) + '>>' + parseInt(data.msg.ypos) );
+              	  //console.log('data.id '+ data.msg.id + '>>' + parseInt(data.msg.xpos) + '>>' + parseInt(data.msg.ypos) );
                    pageItemsArray[j].xpos = parseInt(data.msg.xpos);
                    pageItemsArray[j].ypos = parseInt(data.msg.ypos);
                    pageItemsArray[j].name = data.msg.name;
@@ -554,12 +595,13 @@ jQuery(function($){
             				OneValueA  = ValuesA[k].split('#');
             				if (OneValueA[0] == pageItemsArray[xcount].device_id){
             					//$("#widgetid1002").html(OneValueA[1]);
-            					
+            					//console.log(pageItemsArray[xcount].device_id);
             					if (pageItemsArray[xcount].type == 0) {
 									$('#widgetid' + pageItemsArray[xcount].id).html(OneValueA[1]);
 								
 								} else if (pageItemsArray[xcount].type == 1 | pageItemsArray[xcount].type == 9) {
 									$('#widgetid' + pageItemsArray[xcount].id).html(OneValueA[1]);
+									
 				
 								} else if (pageItemsArray[xcount].type == 30) {
 									 widgetidJG[pageItemsArray[xcount].id].refresh(parseInt(OneValueA[1]));
@@ -580,7 +622,7 @@ jQuery(function($){
 	//  -- Receiving sendserialtext from server --
 	socket.on('sendserialtext', function(data){
 		//console.log('data'+data.msg);
-		$('#serialTextArea').val(data.msg+$('#serialTextArea').val()); 
+		$('#TextArea400').val(data.msg+$('#TextArea400').val()); 
 	});
 
 	
@@ -594,11 +636,15 @@ jQuery(function($){
 		//for(j=0; j < 0; j++){
 			pageItemA = pageItemsArray[j];
 			if (pageItemA.device_id == ActionA[0]) {
-			    if (pageItemA.type == 11){
-						$("#widgetid"+pageItemA.id).jqxSlider({ value:ActionA[2] });
+			    if (pageItemA.type == 10 | pageItemA.type == 13){
+					if(ActionA[2] == 0){
+						$("#inputid"+pageItemA.id).prop("checked", false);
+					}else{
+						$("#inputid"+pageItemA.id).prop("checked", true);
+					}
 				} else if (pageItemA.type == 12){
 						$("#widgetid"+pageItemA.id).jqxGauge({ value:ActionA[2] });
-				} else if (pageItemA.type == 13){
+				} else if (pageItemA.type == 55){
 						$("#widgetid"+pageItemA.id).jqxLinearGauge({ value:ActionA[2] });
 				} else if (pageItemA.type == 14){
 					if(ActionA[2] == 0){
@@ -646,7 +692,7 @@ jQuery(function($){
 	//alert('e'+data.id);
         var pageItemA = [];
         var pageItemNr = 0;
-        console.log('data.id '+data.id);
+        //console.log('data.id '+data.id);
         for(j=0; j < pageItemsArray.length; j++){
             pageItemA = pageItemsArray[j];
               if(pageItemA.id == data.id){
@@ -677,9 +723,9 @@ jQuery(function($){
 	 });
     
     //  -- sendQuery --
-    window.sendQuery = function(queryString, recid, rectype, recX, recY) { 
+    window.sendQuery = function(queryString, recid, rectype, recX, recY, name) { 
     	//alert('sendQuery'+queryString);
-         socket.emit('send query', {msg: queryString, id: recid, type: rectype, xpos: recX, ypos: recY});  
+         socket.emit('send query', {msg: queryString, id: recid, type: rectype, xpos: recX, ypos: recY, name: name});  
 	}
     
     
@@ -704,7 +750,7 @@ jQuery(function($){
            $("#pageItemPanel").css({top: (pageItemsArray[pageItemnr].ypos), left: (pageItemsArray[pageItemnr].xpos+pageItemsArray[pageItemnr].width)});
            //$("#pageItemPanel").show();
       }else{
-     console.log(actionString);
+     //console.log(actionString);
         if (actionStr[0] == 1) {
             socket.emit('send action', actionString);
         } else if (actionStr[0] == 2) {

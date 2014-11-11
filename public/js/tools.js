@@ -26,18 +26,18 @@ function item_drag_stop(event) {
                 var Arrayid = j;
             }
         }
-		console.log(itemeventtarget.substr(6)+'-'+pageItemsArray[Arrayid]+'-'+Arrayid);
-		query_str += "UPDATE  `nodesql`.`page_items_ini` SET  ";
+		//console.log(itemeventtarget.substr(6)+'-'+pageItemsArray[Arrayid]+'-'+Arrayid);
+		query_str += "UPDATE  `nodesql`.`page_items` SET  ";
 		query_str += "`xpos` =  '"+(pageItemsArray[Arrayid].xpos+event.clientX-dragstartx)+"', `ypos` =  '"+(pageItemsArray[Arrayid].ypos+event.clientY-dragstarty)+"' ";
-		query_str += " WHERE  `page_items_ini`.`id` ="+pageItemsArray[Arrayid].id;
-		sendQuery(query_str, pageItemsArray[Arrayid].id, 'page_items_ini', pageItemsArray[Arrayid].xpos+event.clientX-dragstartx, pageItemsArray[Arrayid].ypos+event.clientY-dragstarty);     
-		console.log(query_str);
+		query_str += " WHERE  `page_items`.`id` ="+pageItemsArray[Arrayid].id;
+		sendQuery(query_str, pageItemsArray[Arrayid].id, 'page_items', pageItemsArray[Arrayid].xpos+event.clientX-dragstartx, pageItemsArray[Arrayid].ypos+event.clientY-dragstarty, pageItemsArray[Arrayid].name);     
+		//console.log(query_str);
 		
 	}
 }
 
 function window_drag_start(event) {
-	console.log('window_drag_start '+event.target.getAttribute('id'));
+	//console.log('window_drag_start '+event.target.getAttribute('id'));
 	windowdragstartx = event.clientX;
 	windowdragstarty = event.clientY;
 	windoweventtarget = event.target.getAttribute('id');
@@ -47,7 +47,7 @@ function window_drag_stop(event,ui) {
 	var xPos = String(ui.position.left);
     var yPos = String(ui.position.top);
 	windowID = windoweventtarget.substr(6);
-  	console.log('window_drag_stop ui ' + String(ui.position.left));
+  	//console.log('window_drag_stop ui ' + String(ui.position.left));
 	//console.log('window_drag_stop ' + event.target.getAttribute('id'));
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID & pagesArray[j].id < 99){
@@ -66,7 +66,7 @@ function window_drag_stop(event,ui) {
 
 function window_resize_start(event,ui) {
 	windoweventtarget = event.target.getAttribute('id').substr(15);
-	console.log('window_resize_start ' + windoweventtarget);
+	//console.log('window_resize_start ' + windoweventtarget);
 }
 
 function window_resizing(event,ui) {
@@ -87,7 +87,7 @@ function window_resize_stop(event,ui) {
 	var windowWidth = ui.size.width;
 	var windowHeight = ui.size.height;
 	windoweventtarget = event.target.getAttribute('id').substr(15);
-	console.log('window_resize_stop ' + windoweventtarget);
+	//console.log('window_resize_stop ' + windoweventtarget);
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windoweventtarget){
 			pagesArray[j].width = windowWidth;
@@ -238,7 +238,7 @@ function bringWindowToFront(windowID) {
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
 			$('#window' + pagesArray[j]).css("z-index", zordermax++);
-			console.log('bringWindowToFront ='+windowID);
+			//console.log('bringWindowToFront ='+windowID);
 		}
 	}
 }
@@ -293,6 +293,7 @@ function saveWindowInfo() {
 	windowID = $("#input427").val();
 	//console.log('saveWindowInfo ' + windowID);
 	//var windowData = 0;
+	var query_str = "";
 	var windowData={'windowObject':[]};
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
@@ -304,6 +305,14 @@ function saveWindowInfo() {
 			windowData.height = $("#input424").val();
 			windowData.vis = $("#input425").val();
 			SaveWindow(windowData);
+			query_str += "UPDATE  `nodesql`.`page` SET  ";
+			query_str += "`xpos` =  '"+($("#input421").val())+"', `ypos` =  '"+($("#input422").val())+"', ";
+			query_str += "`width` =  '"+($("#input423").val())+"', `height` =  '"+($("#input424").val())+"', ";
+			query_str += "`name` =  '"+($("#input420").val())+"',  ";
+			query_str += "`vis` =  '"+($("#input425").val())+"' ";
+			query_str += " WHERE  `page`.`id` ="+pagesArray[j].id;
+			sendQuery(query_str, pagesArray[j].id, 'page', $("#input421").val(), $("#input422").val(), $("#input420").val());     
+			//console.log(query_str);
 		}
 	}
 }
@@ -311,7 +320,7 @@ function saveWindowInfo() {
 function windowMinimize(windowID) {
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
-			console.log('windowMinimize_' + pagesArray[j].id);
+			//console.log('windowMinimize_' + pagesArray[j].id);
 			if (pagesArray[j].mini){
 				pagesArray[j].mini = 0;
 				$("#containerInside" + pagesArray[j].id).fadeIn(500);
@@ -326,7 +335,7 @@ function windowMinimize(windowID) {
 function windowMaximize(windowID) {
 	for(j=0; j < pagesArray.length; j++){
 		if(pagesArray[j].id == windowID){
-			console.log('windowMaximize_' + pagesArray[j].id);
+			//console.log('windowMaximize_' + pagesArray[j].id);
 			if (pagesArray[j].maxi){
 				pagesArray[j].maxi = 0;
 				$("#window" + pagesArray[j].id).css({top: parseInt(pagesArray[j].ypos), left: parseInt(pagesArray[j].xpos),width: parseInt(pagesArray[j].width)});
@@ -395,22 +404,23 @@ function saveItemInfo() {
 			itemData.page_id = $("#input449").val();
 			itemData.action = $("#input450").val();
 			SaveItem(itemData);
-			console.log(pageItemsArray[j].id+'-'+pageItemsArray[j].name+'-'+j);
-			query_str += "UPDATE  `nodesql`.`page_items_ini` SET  ";
+			//console.log(pageItemsArray[j].id+'-'+pageItemsArray[j].name+'-'+j);
+			query_str += "UPDATE  `nodesql`.`page_items` SET  ";
 			query_str += "`xpos` =  '"+($("#input441").val())+"', `ypos` =  '"+($("#input442").val())+"', ";
 			query_str += "`width` =  '"+($("#input443").val())+"', `height` =  '"+($("#input444").val())+"', ";
 			query_str += "`name` =  '"+($("#input440").val())+"', `type` =  '"+($("#input445").val())+"', ";
 			query_str += "`device_id` =  '"+($("#input448").val())+"', `page_id` =  '"+($("#input449").val())+"', ";
 			query_str += "`action` =  '"+($("#input450").val())+"' ";
-			query_str += " WHERE  `page_items_ini`.`id` ="+pageItemsArray[j].id;
-			sendQuery(query_str, pageItemsArray[j].id, 'page_items_ini', $("#input441").val(), $("#input442").val());     
-			console.log(query_str);
+			query_str += " WHERE  `page_items`.`id` ="+pageItemsArray[j].id;
+			sendQuery(query_str, pageItemsArray[j].id, 'page_items', $("#input441").val(), $("#input442").val(), $("#input440").val());     
+			//console.log(query_str);
 		}
 	}
 }
 
 function showDock(){
-	if ($('#widgetid480').is(':checked')){
+	//console.log($('#inputid480').is(':checked'));
+	if ($('#inputid480').is(':checked')){
 		$("#dock").fadeIn(500);
 	} else {
 		$("#dock").fadeOut(500);
@@ -424,7 +434,7 @@ function setBBBtime(){
 }
 
 function itemClicked(itemID){
-	console.log('itemClicked ' + itemID);
+	//console.log('itemClicked ' + itemID);
 	if(itemID==480){
 		showDock();
 	}

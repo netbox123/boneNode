@@ -18,14 +18,15 @@ var tempdirectory   = '/sys/bus/w1/devices/';
 var optionsPort     = {baudrate: 9600, parser: b.serialParsers.readline("\n")};
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
-
+configArray         = [];
 inputsArray         = [];
 devicesArray        = [];
 pageItemsArray      = [];
 actionsArray        = [];
 tempsensorArray     = [];
 pagesArray          = [];
-nicknames           = [];
+node_names          = [];
+node_addresses      = [];
 
 bmv_v = '';
 bmv_i = '';
@@ -84,22 +85,24 @@ function InitApp() {
 io.sockets.on('connection', function(socket){
 	socket.on('new user', function(data, callback){
         var timeText = lib_tool.getDateTime();
-		if (nicknames.indexOf(data) != -1){
+		if (node_names.indexOf(data) != -1){
 			callback(false);
 		} else{
 			callback(true);
 			socket.nickname = data;
-            var address = socket.handshake.address;
-            console.log(data+' connected from '+address.address + ':' + address.port);
-    		io.sockets.emit('new message', {title: 'Client ' + address.address + ' connected',nick: socket.nickname,timeText: timeText});
-			nicknames.push(socket.nickname);
+            socket.address =  socket.handshake.address;
+            console.log(data+' connected from '+socket.address + ':' + socket.address.port);
+    		io.sockets.emit('new message', {msg: '', nick: timeText + socket.address + " " + socket.nickname, title: 'Client connected', address: socket.address});
+			node_names.push(socket.nickname);
+			node_addresses.push(socket.handshake.address);
 			sendAllArrays();
 		}
 	});
     
 	//  -- sendAllArrays to client --
 	function sendAllArrays(){
-		socket.emit('usernames', nicknames);
+	    socket.emit('config', configArray);
+		socket.emit('usernames', node_names);
 		socket.emit('devices', devicesArray);
         socket.emit('inputs', inputsArray);
         socket.emit('actions', actionsArray);
@@ -139,11 +142,11 @@ io.sockets.on('connection', function(socket){
         if (temparray[0] == 'settime'){
             var datetime = new Date();
             var b = require('bonescript');
-            io.sockets.emit('new message', {msg: data, nick: timeText + socket.nickname + ':', title: 'sendservercommand' });
+            io.sockets.emit('new message', {msg: 'time set', nick: timeText + socket.address + " " + socket.nickname, title: 'Servercommand:settime' , address: socket.address });
             datetime.setTime(temparray[1]);
             console.log('settime to '+datetime);
             b.setDate(datetime.toString());
-            io.sockets.emit('new message', {msg: datetime.toString(), nick: timeText });
+            //io.sockets.emit('new message', {msg: datetime.toString(), nick: timeText });
         } else if(temparray[0] == 'starttemp'){
             exec("echo BB-W1:00A0 > /sys/devices/bone_capemgr.9/slots", puts);
               io.sockets.emit('new message', {
@@ -159,22 +162,22 @@ io.sockets.on('connection', function(socket){
         	//loadDatbase();
             console.log('reloaddb - database reloaded');
             SyncDevicesArrayFromSerial();
-            io.sockets.emit('new message', {msg: 'reloaddb - database reloaded', nick: timeText });
+            io.sockets.emit('new message', {msg: 'reloaddb - database reloaded', nick: timeText + socket.address + " " + socket.nickname, address: socket.address });
         } else if(temparray[0] == 'writefile'){
             console.log('writefile');
-            io.sockets.emit('new message', {msg: 'writefile - files saved', title: 'sendservercommand' , nick: timeText });
+            io.sockets.emit('new message', {msg: 'files saved', title: 'Servercommand:writefile' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
             writeToFiles();
 	    } else if(temparray[0] == 'emptyserver'){
             console.log('emptyserver');
-            io.sockets.emit('new message', {msg: 'emptyserver', title: 'sendservercommand' , nick: timeText });
+            io.sockets.emit('new message', {msg: 'emptyserver', title: 'Servercommand' , nick: timeText + socket.address + " " + socket.nickname , address: socket.address});
             EmptyServer();
         } else if(temparray[0] == 'loadfromdb'){
             console.log('loadfromdb');
-            io.sockets.emit('new message', {msg: 'loadfromdb ', title: 'sendservercommand' , nick: timeText });
+            io.sockets.emit('new message', {msg: 'loadfromdb ', title: 'Servercommand' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address });
             loadDatbase();
         } else if(temparray[0] == 'loadfromfile'){
             console.log('loadfromfile');
-            io.sockets.emit('new message', {msg: 'loadfromfile ', title: 'sendservercommand' , nick: timeText });
+            io.sockets.emit('new message', {msg: 'loadfromfile ', title: 'Servercommand' , nick: timeText + socket.address + " " + socket.nickname });
             LoadFromFile();
         }
 	});
@@ -198,6 +201,7 @@ io.sockets.on('connection', function(socket){
     //  -- SaveWindow received from client --
     socket.on('savewindow', function(data){
         console.log('savewindow '+data.name);
+        var timeText = lib_tool.getDateTime();
         for(j=0; j < pagesArray.length; j++){
 		    if(pagesArray[j].id == data.id){
 		        pagesArray[j].name = data.name;
@@ -207,6 +211,7 @@ io.sockets.on('connection', function(socket){
 		        pagesArray[j].height = data.height;
 		        pagesArray[j].vis = data.vis;
 		        io.sockets.emit('windowUpdate', {msg: data});
+		        //io.sockets.emit('new message', {msg: 'Save page '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
 		    }
         }
         
@@ -215,6 +220,7 @@ io.sockets.on('connection', function(socket){
     //  -- Saveitem received from client --
     socket.on('saveitem', function(data){
         console.log('saveitem '+data.name);
+        var timeText = lib_tool.getDateTime();
         for(j=0; j < pageItemsArray.length; j++){
 		    if(pageItemsArray[j].id == data.id){
 		        pageItemsArray[j].name = data.name;
@@ -227,6 +233,7 @@ io.sockets.on('connection', function(socket){
 		        pageItemsArray[j].page_id = data.page_id;
 		        pageItemsArray[j].action = data.action;
 		        io.sockets.emit('itemUpdate', {msg: data});
+            	//io.sockets.emit('new message', {msg: 'Save item '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
 		    }
         }
         
@@ -249,7 +256,7 @@ io.sockets.on('connection', function(socket){
         });
         connection.end();
         //console.log('data.id='+data.id);
-        if (data.rectype='page_items_ini'){
+        if (data.rectype='page_items'){
           for(j=0; j < pageItemsArray.length; j++){
                 pageItemA = pageItemsArray[j];
                   if(pageItemA.id == data.id){
@@ -259,9 +266,10 @@ io.sockets.on('connection', function(socket){
             }
         
             var timeText = lib_tool.getDateTime();
-        	io.sockets.emit('new message', {msg: data.id+' moved',nick: timeText + 'Web ' + data.xpos+'-'+data.ypos +' >'});
+        	io.sockets.emit('new message', {msg: data.type+' '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
             io.sockets.emit('pageitem change', {id: data.id,xpos: data.xpos,ypos: data.ypos});
-        }
+            
+        }   
 	});
 	
 	//  -- Action received from client --
@@ -273,8 +281,8 @@ io.sockets.on('connection', function(socket){
 	//  -- Client disconnected --
 	socket.on('disconnect', function(data){
 		if(!socket.nickname) return;
-		nicknames.splice(nicknames.indexOf(socket.nickname), 1);
-		//updateNicknames();
+		node_names.splice(node_names.indexOf(socket.nickname), 1);
+		//updatenode_names();
 	});
 
 });
@@ -383,12 +391,13 @@ function setDeviceVal(deviceid, val) {
 }
 
 function loadDatbase() {
-    lib_database.loadDevices('SELECT * FROM device_ini', function(result) {devicesArray = lib_database._devicesArray;console.log('Devices: '+devicesArray.length);});
-    lib_database.loadPages('SELECT * FROM page_ini', function(result) {pagesArray = lib_database._pagesArray;console.log('Pages: '+pagesArray.length);});   
-    lib_database.loadPageItems('SELECT * FROM page_items_ini order by type DESC', function(result) {pageItemsArray = lib_database._pageItemsArray;console.log('PageItems: '+pageItemsArray.length);});
-    lib_database.loadActions('SELECT * FROM action_ini', function(result) {actionsArray = lib_database._actionsArray;console.log('Actions: '+actionsArray.length);});  
-    lib_database.loadInputs('SELECT * FROM device_ini WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;console.log('Inputs: '+inputsArray.length);});
-    //lib_database.connectionEnd();
+    lib_database.loadConfig('SELECT * FROM config', function(result) {configArray = lib_database._configArray;console.log('Config: '+configArray.length);});
+    lib_database.loadDevices('SELECT * FROM device', function(result) {devicesArray = lib_database._devicesArray;console.log('Devices: '+devicesArray.length);});
+    lib_database.loadPages('SELECT * FROM page', function(result) {pagesArray = lib_database._pagesArray;console.log('Pages: '+pagesArray.length);});   
+    lib_database.loadPageItems('SELECT * FROM page_items order by type DESC', function(result) {pageItemsArray = lib_database._pageItemsArray;console.log('PageItems: '+pageItemsArray.length);});
+    lib_database.loadActions('SELECT * FROM action', function(result) {actionsArray = lib_database._actionsArray;console.log('Actions: '+actionsArray.length);});  
+    lib_database.loadInputs('SELECT * FROM device WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;console.log('Inputs: '+inputsArray.length);});
+    lib_database.connectionEnd();
 }
 
 function UpdateDevicesArray() {
@@ -445,16 +454,17 @@ function SyncDevicesArrayFromSerial() {
             var pos = devicesArray[i].due - 20;
             var res = due_pins.substring(pos, pos+1);
             if (res == '1'){
-                //turnOn(devicesArray[i].due); 
-                devicesArray[i].val = 100;
-				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+                if (devicesArray[i].val == 0){
+                    devicesArray[i].val = 100;
+				    io.sockets.emit('device change', devicesArray[i].id + '-on-100');
+                }
             } else {
-                //turnOff(devicesArray[i].due); 
-                devicesArray[i].val = 0;
-				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
+                if (devicesArray[i].val == 100){
+                    devicesArray[i].val = 0;
+				    io.sockets.emit('device change', devicesArray[i].id + '-off-0');
+                }
             }
-            devicesArray[i].due
-            //console.log(pos + '-' +devicesArray[i].due + '-' + res);
+           
         }
      }
 }
@@ -601,6 +611,14 @@ function logDatabase() {
 }
   
 function writeToFiles(){
+    var outputFilename = outputFilePath + 'config.json';
+    fs.writeFile(outputFilename, JSON.stringify(configArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Config saved to " + outputFilename);
+        }
+    });
     var outputFilename = outputFilePath + 'device.json';
     fs.writeFile(outputFilename, JSON.stringify(devicesArray, null, 4), function(err) {
         if(err) {
