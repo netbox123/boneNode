@@ -1,9 +1,10 @@
 # [BoneNode](http://georgeosddev.github.com/markdown-edit)
 
 a webremote for BeagleboneBlack / RadxaRock etc.
-* Receives switches, and sensors data serial 1/sec. from Arduino Due or BBB.
+* Receives switches, and sensor data serial 1/sec. from Arduino Due or BBB.
 * Window and item data from mySQL or JSON.
 * NodeJS rocks, this is 100% phpFree.
+* IPad ready.
 
 In the end this will be coolest remote ever.<br>
 
@@ -57,6 +58,7 @@ Have fun!
 **0.1.3**
 - Saving window properties > Menu Window:Edit   
 - Saving pegeitem properties > Menu Item:Edit  
+- fullscreen on IPad, user-scaling/scrolling off
 
 **0.1.2**
 - Moving a pageitem is pushed to other clients.
