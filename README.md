@@ -19,7 +19,6 @@ var runMode         = 0;                // Run mode: 0=normal, 1=demo mode
 //----------------------------------------------------------------------------//
 var serialPortDue   = '/dev/ttyO4';
 var outputFilePath  = '/var/lib/cloud9/bbb_app/data/';
-var tempdirectory   = '/sys/bus/w1/devices/';
 ```
 start app.js
 
