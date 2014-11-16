@@ -33,7 +33,7 @@ login with youre browser 192.168.7.2:4000
 Have fun!
 
 ### Version history
-**0.1.5**
+**0.1.6**
 - Window items can be added and removed from client
 
 **0.1.5**
