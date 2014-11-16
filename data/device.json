@@ -6,12 +6,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_16",
-        "val": 0,
+        "pin": "",
+        "val": 100,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 37
+        "due": 37,
+        "re": "B7"
     },
     {
         "id": 36,
@@ -20,12 +21,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_17",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 36
+        "due": 36,
+        "re": "B6"
     },
     {
         "id": 24,
@@ -34,12 +36,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_12",
-        "val": 100,
+        "pin": "",
+        "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 24
+        "due": 24,
+        "re": "A6"
     },
     {
         "id": 30,
@@ -48,12 +51,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_9",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 30
+        "due": 30,
+        "re": "A3"
     },
     {
         "id": 25,
@@ -62,12 +66,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_8",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 25
+        "due": 25,
+        "re": "A2"
     },
     {
         "id": 23,
@@ -76,12 +81,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_7",
-        "val": 0,
+        "pin": "",
+        "val": 100,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 23
+        "due": 23,
+        "re": "A1"
     },
     {
         "id": 31,
@@ -90,12 +96,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P9_12",
-        "val": 0,
+        "pin": "",
+        "val": 100,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 31
+        "due": 31,
+        "re": "B1"
     },
     {
         "id": 26,
@@ -104,26 +111,28 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_11",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 26
+        "due": 26,
+        "re": "A5"
     },
     {
         "id": 28,
-        "name": "Achterdeur",
+        "name": "Buffer",
         "sort": 0,
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_14",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 28
+        "due": 28,
+        "re": "A8"
     },
     {
         "id": 33,
@@ -132,12 +141,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P9_11",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 33
+        "due": 33,
+        "re": "B2"
     },
     {
         "id": 35,
@@ -146,12 +156,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_18",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 35
+        "due": 35,
+        "re": "B5"
     },
     {
         "id": 27,
@@ -160,12 +171,13 @@
         "type": 1,
         "opm": "output",
         "mem": 0,
-        "pin": "P8_10",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 27
+        "due": 27,
+        "re": "A4"
     },
     {
         "id": 135,
@@ -179,7 +191,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4001,
@@ -189,11 +202,12 @@
         "opm": "28-00000495815b",
         "mem": 0,
         "pin": "",
-        "val": "22.9&deg;C",
+        "val": "23.1&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1003,
@@ -203,11 +217,12 @@
         "opm": "time",
         "mem": 0,
         "pin": "",
-        "val": "00:19:48",
+        "val": "17:49:27",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1004,
@@ -217,11 +232,12 @@
         "opm": "date",
         "mem": 0,
         "pin": "",
-        "val": "10-11-2014",
+        "val": "15-11-2014",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1005,
@@ -231,11 +247,12 @@
         "opm": "seconds",
         "mem": 0,
         "pin": "",
-        "val": 1415578788486,
+        "val": 1416073767608,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1006,
@@ -249,7 +266,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1007,
@@ -263,7 +281,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1000,
@@ -277,7 +296,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1001,
@@ -291,7 +311,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1008,
@@ -305,63 +326,68 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 2001,
-        "name": "key 1",
+        "name": "input 1",
         "sort": 0,
         "type": 3,
         "opm": "input",
         "mem": 0,
-        "pin": "P9_17",
+        "pin": "",
         "val": 0,
         "action": 1,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 44,
+        "re": ""
     },
     {
         "id": 2002,
-        "name": "Kachel pomp",
+        "name": "input 2",
         "sort": 0,
         "type": 3,
         "opm": "input",
         "mem": 0,
-        "pin": "P9_14",
+        "pin": "",
         "val": 0,
         "action": 10,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 45,
+        "re": ""
     },
     {
         "id": 2003,
-        "name": "PIR toilet",
+        "name": "input 3",
         "sort": 0,
         "type": 3,
         "opm": "input",
         "mem": 0,
-        "pin": "P9_15",
+        "pin": "",
         "val": 0,
         "action": 3,
         "inv": 1,
         "toff": 0,
-        "due": 0
+        "due": 46,
+        "re": ""
     },
     {
         "id": 2004,
-        "name": "PIR achterdeur",
+        "name": "input 4",
         "sort": 0,
         "type": 3,
         "opm": "input",
         "mem": 0,
-        "pin": "P9_16",
+        "pin": "",
         "val": 0,
         "action": 7,
         "inv": 1,
         "toff": 0,
-        "due": 0
+        "due": 47,
+        "re": ""
     },
     {
         "id": 3001,
@@ -371,11 +397,12 @@
         "opm": "BMV-600 serial input",
         "mem": 0,
         "pin": "",
-        "val": "24.10 V",
+        "val": "24.51 V",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3002,
@@ -385,11 +412,12 @@
         "opm": "BMV-600 serial input",
         "mem": 0,
         "pin": "",
-        "val": "-3.50 A",
+        "val": "-3.87 A",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3003,
@@ -399,11 +427,12 @@
         "opm": "BMV-600 serial input",
         "mem": 0,
         "pin": "",
-        "val": "-98.80 Ah",
+        "val": "-63.12 Ah",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3004,
@@ -413,11 +442,12 @@
         "opm": "BMV-600 serial input",
         "mem": 0,
         "pin": "",
-        "val": "61.4 %",
+        "val": "76.4 %",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3005,
@@ -427,11 +457,12 @@
         "opm": "BMV-600 serial input",
         "mem": 0,
         "pin": "",
-        "val": "506 m.",
+        "val": "973 m.",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3006,
@@ -445,7 +476,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3007,
@@ -459,7 +491,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3008,
@@ -473,7 +506,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4002,
@@ -483,11 +517,12 @@
         "opm": "28-00000494fa07",
         "mem": 0,
         "pin": "",
-        "val": "80.2&deg;C",
+        "val": "78.6&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4003,
@@ -497,11 +532,12 @@
         "opm": "28-00000495a8d0",
         "mem": 0,
         "pin": "",
-        "val": "73.9&deg;C",
+        "val": "72.9&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4004,
@@ -511,11 +547,12 @@
         "opm": "28-00000495df77",
         "mem": 0,
         "pin": "",
-        "val": "33.7&deg;C",
+        "val": "36.6&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4005,
@@ -525,11 +562,12 @@
         "opm": "28-0000049586c3",
         "mem": 0,
         "pin": "",
-        "val": "23.7&deg;C",
+        "val": "22.4&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4006,
@@ -539,11 +577,12 @@
         "opm": "28-000004954834",
         "mem": 0,
         "pin": "",
-        "val": "22.4&deg;C",
+        "val": "20.3&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4008,
@@ -553,11 +592,12 @@
         "opm": "28-00000494bd4b",
         "mem": 0,
         "pin": "",
-        "val": "9.5&deg;C",
+        "val": "10.8&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 4009,
@@ -567,25 +607,27 @@
         "opm": "28-00000494bd4b",
         "mem": 0,
         "pin": "",
-        "val": "13.6&deg;C",
+        "val": "13.1&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
-        "id": 4010,
-        "name": "NachtL2",
+        "id": 2005,
+        "name": "input 5",
         "sort": 0,
         "type": 3,
         "opm": "input",
         "mem": 0,
-        "pin": "P9_23",
+        "pin": "",
         "val": 0,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 48,
+        "re": ""
     },
     {
         "id": 4007,
@@ -595,11 +637,12 @@
         "opm": "28-00000494bd4b",
         "mem": 0,
         "pin": "",
-        "val": "13.1&deg;C",
+        "val": "12.5&deg;C",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 39,
@@ -613,7 +656,8 @@
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 39
+        "due": 39,
+        "re": "B8"
     },
     {
         "id": 1002,
@@ -623,11 +667,12 @@
         "opm": "step(sec)",
         "mem": 0,
         "pin": "",
-        "val": 1161773,
+        "val": 31416,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1010,
@@ -637,11 +682,12 @@
         "opm": "",
         "mem": 0,
         "pin": "",
-        "val": "48",
+        "val": "27",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1011,
@@ -651,11 +697,12 @@
         "opm": "",
         "mem": 0,
         "pin": "",
-        "val": "19",
+        "val": "49",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 1012,
@@ -665,11 +712,12 @@
         "opm": "",
         "mem": 0,
         "pin": "",
-        "val": 0,
+        "val": 17,
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
     },
     {
         "id": 3009,
@@ -679,10 +727,71 @@
         "opm": "BMV-600 serial input",
         "mem": 0,
         "pin": "",
-        "val": "61%",
+        "val": "76%",
         "action": 0,
         "inv": 0,
         "toff": 0,
-        "due": 0
+        "due": 0,
+        "re": ""
+    },
+    {
+        "id": 2006,
+        "name": "input 6",
+        "sort": 0,
+        "type": 3,
+        "opm": "input",
+        "mem": 0,
+        "pin": "",
+        "val": 0,
+        "action": 0,
+        "inv": 0,
+        "toff": 0,
+        "due": 49,
+        "re": ""
+    },
+    {
+        "id": 32,
+        "name": "Aqua pomp",
+        "sort": 0,
+        "type": 1,
+        "opm": "output",
+        "mem": 0,
+        "pin": "",
+        "val": 0,
+        "action": 0,
+        "inv": 0,
+        "toff": 0,
+        "due": 32,
+        "re": "B3"
+    },
+    {
+        "id": 34,
+        "name": "Achterdeur",
+        "sort": 0,
+        "type": 1,
+        "opm": "output",
+        "mem": 0,
+        "pin": "",
+        "val": 0,
+        "action": 0,
+        "inv": 0,
+        "toff": 0,
+        "due": 34,
+        "re": "B4"
+    },
+    {
+        "id": 29,
+        "name": "Omvormer 2",
+        "sort": 0,
+        "type": 1,
+        "opm": "output",
+        "mem": 0,
+        "pin": "",
+        "val": 0,
+        "action": 0,
+        "inv": 0,
+        "toff": 0,
+        "due": 29,
+        "re": "A7"
     }
 ]

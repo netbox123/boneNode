@@ -128,12 +128,6 @@
 				</li>
 				<li style='padding-top: 2px;'>Edit
 					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
-						<li onclick="menuClicked('Edit','editWindow')">Edit Window</li>
-						<li onclick="menuClicked('Edit','newWindow')">New Window</li>
-						<li type='separator'></li>
-						<li onclick="menuClicked('Edit','editItems')">Edit Items</li>
-						<li onclick="menuClicked('Edit','newItem')">New Item</li>
-						<li type='separator'></li>
 						<li id="menuEitCut">Cut</li>
 						<li class="disable">Copy</li>
 						<li class="disable">Paste</li>
@@ -157,7 +151,9 @@
 						<li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
 						<li type='separator'></li>
 						<li onclick="openWindowInfo('windoweventtarget')">Edit Window</li></li>
+						<li onclick="newItemMenu('itemeventtarget')">New Item</li></li>
 						<li onclick="openItemInfo('itemeventtarget')">Edit Item</li></li>
+						<li onclick="menuClicked('Edit','editItems')">Move Items</li>
 						<li type='separator'></li>
 						<li onclick="menuWindow_openOne(2);">Info</li>
 						<li onclick="menuWindow_openOne(1);">Floorplan</li>

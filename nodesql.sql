@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Gegenereerd op: 11 nov 2014 om 10:57
+-- Gegenereerd op: 16 nov 2014 om 22:40
 -- Serverversie: 5.5.38-0+wheezy1
 -- PHP-versie: 5.4.4-14+deb7u14
 
@@ -83,64 +83,68 @@ CREATE TABLE IF NOT EXISTS `device` (
   `action` int(11) NOT NULL,
   `inv` int(11) NOT NULL,
   `toff` int(11) NOT NULL,
-  `due` int(11) NOT NULL
+  `due` int(11) NOT NULL,
+  `re` varchar(6) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `device`
 --
 
-INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, `action`, `inv`, `toff`, `due`) VALUES
-(37, 'Woonkamer', 77, 1, 'output', 0, 'P8_16', 0, 0, 0, 0, 37),
-(36, 'Eettafel', 2, 1, 'output', 0, 'P8_17', 0, 0, 0, 0, 36),
-(24, 'Nachtlampje', 0, 1, 'output', 0, 'P8_12', 0, 0, 0, 0, 24),
-(30, 'Slaapkamer', 0, 1, 'output', 0, 'P8_9', 0, 0, 0, 0, 30),
-(25, 'Hal entree', 0, 1, 'output', 0, 'P8_8', 0, 0, 0, 0, 25),
-(23, 'Spot schilderij', 0, 1, 'output', 0, 'P8_7', 0, 0, 0, 0, 23),
-(31, 'Spotjes tv', 0, 1, 'output', 0, 'P9_12', 0, 0, 0, 0, 31),
-(26, 'Douche', 0, 1, 'output', 0, 'P8_11', 0, 0, 0, 0, 26),
-(28, 'Achterdeur', 0, 1, 'output', 0, 'P8_14', 0, 0, 0, 0, 28),
-(33, 'Toilet', 0, 1, 'output', 0, 'P9_11', 0, 0, 0, 0, 33),
-(35, 'Keuken', 0, 1, 'output', 0, 'P8_18', 0, 0, 0, 0, 35),
-(27, 'Trap', 0, 1, 'output', 0, 'P8_10', 0, 0, 0, 0, 27),
-(135, 'Buffer', 0, 1, 'output', 0, 'P8_19', 0, 0, 0, 0, 0),
-(4001, 'Woonkamer', 0, 4, '28-00000495815b', 0, '', 0, 0, 0, 0, 0),
-(1003, 'BoneTime', 0, 2, 'time', 0, '', 0, 0, 0, 0, 0),
-(1004, 'BoneDate', 0, 2, 'date', 0, '', 0, 0, 0, 0, 0),
-(1005, 'BoneClock', 0, 2, 'seconds', 0, '', 0, 0, 0, 0, 0),
-(1006, 'Set clock', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0),
-(1007, 'Temp script', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0),
-(1000, 'Edit items', 0, 2, 'Switch', 0, '', 0, 0, 0, 0, 0),
-(1001, 'Edit bkgnd', 0, 2, 'Switch', 0, '', 0, 0, 0, 0, 0),
-(1008, 'Reload serverDB', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0),
-(2001, 'input 1', 0, 3, 'input', 0, 'P9_17', 0, 1, 0, 0, 44),
-(2002, 'input 2', 0, 3, 'input', 0, 'P9_14', 0, 10, 0, 0, 45),
-(2003, 'input 3', 0, 3, 'input', 0, 'P9_15', 0, 3, 1, 0, 46),
-(2004, 'input 4', 0, 3, 'input', 0, 'P9_16', 0, 7, 1, 0, 47),
-(3001, 'BMV-V', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3002, 'BMV-I', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3003, 'BMV-CE', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3004, 'BMV-SOC', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3005, 'BMV-TTG', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3006, 'BMV-Alarm', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3007, 'BMV-Relay', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(3008, 'BMV-W', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(4002, 'Kachel boven', 0, 4, '28-00000494fa07', 0, '', 0, 0, 0, 0, 0),
-(4003, 'Kachel onder', 0, 4, '28-00000495a8d0', 0, '', 0, 0, 0, 0, 0),
-(4004, 'Buffer boven', 0, 4, '28-00000495df77', 0, '', 0, 0, 0, 0, 0),
-(4005, 'Buffer midden', 0, 4, '28-0000049586c3', 0, '', 0, 0, 0, 0, 0),
-(4006, 'Buffer onder', 0, 4, '28-000004954834', 0, '', 0, 0, 0, 0, 0),
-(4008, 'gen onder', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0),
-(4009, 'buiten', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0),
-(2005, 'input 5', 0, 3, 'input', 0, 'P9_23', 0, 0, 0, 0, 48),
-(4007, 'gen boven', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0),
-(39, 'Omvormer1', 2, 1, '', 0, '', 0, 0, 0, 0, 39),
-(1002, 'DueStep', 0, 2, 'step(sec)', 0, '', 0, 0, 0, 0, 0),
-(1010, 'BoneSec', 0, 2, '', 0, '', 0, 0, 0, 0, 0),
-(1011, 'BoneMin', 0, 2, '', 0, '', 0, 0, 0, 0, 0),
-(1012, 'BoneHour', 0, 2, '', 0, '', 0, 0, 0, 0, 0),
-(3009, 'BMV-SOC-mbar', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0),
-(2006, 'input 6', 0, 3, 'input', 0, 'P9_23', 0, 0, 0, 0, 49);
+INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, `action`, `inv`, `toff`, `due`, `re`) VALUES
+(37, 'Woonkamer', 77, 1, 'output', 0, '', 0, 0, 0, 0, 37, 'B7'),
+(36, 'Eettafel', 2, 1, 'output', 0, '', 0, 0, 0, 0, 36, 'B6'),
+(24, 'Nachtlampje', 0, 1, 'output', 0, '', 0, 0, 0, 0, 24, 'A6'),
+(30, 'Slaapkamer', 0, 1, 'output', 0, '', 0, 0, 0, 0, 30, 'A3'),
+(25, 'Hal entree', 0, 1, 'output', 0, '', 0, 0, 0, 0, 25, 'A2'),
+(23, 'Spot schilderij', 0, 1, 'output', 0, '', 0, 0, 0, 0, 23, 'A1'),
+(31, 'Spotjes tv', 0, 1, 'output', 0, '', 0, 0, 0, 0, 31, 'B1'),
+(26, 'Douche', 0, 1, 'output', 0, '', 0, 0, 0, 0, 26, 'A5'),
+(28, 'Buffer', 0, 1, 'output', 0, '', 0, 0, 0, 0, 28, 'A8'),
+(33, 'Toilet', 0, 1, 'output', 0, '', 0, 0, 0, 0, 33, 'B2'),
+(35, 'Keuken', 0, 1, 'output', 0, '', 0, 0, 0, 0, 35, 'B5'),
+(27, 'Trap', 0, 1, 'output', 0, '', 0, 0, 0, 0, 27, 'A4'),
+(135, 'Buffer', 0, 1, 'output', 0, 'P8_19', 0, 0, 0, 0, 0, ''),
+(4001, 'Woonkamer', 0, 4, '28-00000495815b', 0, '', 0, 0, 0, 0, 0, ''),
+(1003, 'BoneTime', 0, 2, 'time', 0, '', 0, 0, 0, 0, 0, ''),
+(1004, 'BoneDate', 0, 2, 'date', 0, '', 0, 0, 0, 0, 0, ''),
+(1005, 'BoneClock', 0, 2, 'seconds', 0, '', 0, 0, 0, 0, 0, ''),
+(1006, 'Set clock', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0, ''),
+(1007, 'Temp script', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0, ''),
+(1000, 'Edit items', 0, 2, 'Switch', 0, '', 0, 0, 0, 0, 0, ''),
+(1001, 'Edit bkgnd', 0, 2, 'Switch', 0, '', 0, 0, 0, 0, 0, ''),
+(1008, 'Reload serverDB', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0, ''),
+(2001, 'input 1', 0, 3, 'input', 0, '', 0, 1, 0, 0, 44, ''),
+(2002, 'input 2', 0, 3, 'input', 0, '', 0, 10, 0, 0, 45, ''),
+(2003, 'input 3', 0, 3, 'input', 0, '', 0, 3, 1, 0, 46, ''),
+(2004, 'input 4', 0, 3, 'input', 0, '', 0, 7, 1, 0, 47, ''),
+(3001, 'BMV-V', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3002, 'BMV-I', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3003, 'BMV-CE', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3004, 'BMV-SOC', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3005, 'BMV-TTG', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3006, 'BMV-Alarm', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3007, 'BMV-Relay', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(3008, 'BMV-W', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(4002, 'Kachel boven', 0, 4, '28-00000494fa07', 0, '', 0, 0, 0, 0, 0, ''),
+(4003, 'Kachel onder', 0, 4, '28-00000495a8d0', 0, '', 0, 0, 0, 0, 0, ''),
+(4004, 'Buffer boven', 0, 4, '28-00000495df77', 0, '', 0, 0, 0, 0, 0, ''),
+(4005, 'Buffer midden', 0, 4, '28-0000049586c3', 0, '', 0, 0, 0, 0, 0, ''),
+(4006, 'Buffer onder', 0, 4, '28-000004954834', 0, '', 0, 0, 0, 0, 0, ''),
+(4008, 'gen onder', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0, ''),
+(4009, 'buiten', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0, ''),
+(2005, 'input 5', 0, 3, 'input', 0, '', 0, 0, 0, 0, 48, ''),
+(4007, 'gen boven', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0, ''),
+(39, 'Omvormer1', 2, 1, '', 0, '', 0, 0, 0, 0, 39, 'B8'),
+(1002, 'DueStep', 0, 2, 'step(sec)', 0, '', 0, 0, 0, 0, 0, ''),
+(1010, 'BoneSec', 0, 2, '', 0, '', 0, 0, 0, 0, 0, ''),
+(1011, 'BoneMin', 0, 2, '', 0, '', 0, 0, 0, 0, 0, ''),
+(1012, 'BoneHour', 0, 2, '', 0, '', 0, 0, 0, 0, 0, ''),
+(3009, 'BMV-SOC-mbar', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
+(2006, 'input 6', 0, 3, 'input', 0, '', 0, 0, 0, 0, 49, ''),
+(32, 'Aqua pomp', 0, 1, 'output', 0, '', 0, 0, 0, 0, 32, 'B3'),
+(34, 'Achterdeur', 0, 1, 'output', 0, '', 0, 0, 0, 0, 34, 'B4'),
+(29, 'Omvormer 2', 0, 1, 'output', 0, '', 0, 0, 0, 0, 29, 'A7');
 
 -- --------------------------------------------------------
 
@@ -152,12 +156,44 @@ CREATE TABLE IF NOT EXISTS `event` (
 `id` int(11) NOT NULL,
   `action_id` int(11) NOT NULL,
   `device_id` int(11) NOT NULL,
-  `port` int(11) NOT NULL,
-  `action` int(11) NOT NULL,
+  `action` varchar(20) NOT NULL,
   `value` int(11) NOT NULL,
   `sort` int(11) NOT NULL,
   `device_name` varchar(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `event`
+--
+
+INSERT INTO `event` (`id`, `action_id`, `device_id`, `action`, `value`, `sort`, `device_name`) VALUES
+(1, 1, 28, 'toff-30', 0, 0, ''),
+(2, 1, 30, 'off', 0, 0, ''),
+(3, 2, 30, 'on', 0, 0, ''),
+(4, 2, 28, 'on', 0, 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `item_types`
+--
+
+CREATE TABLE IF NOT EXISTS `item_types` (
+`id` int(11) NOT NULL,
+  `naam` varchar(30) NOT NULL,
+  `width` int(11) NOT NULL,
+  `height` int(11) NOT NULL,
+  `img` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `item_types`
+--
+
+INSERT INTO `item_types` (`id`, `naam`, `width`, `height`, `img`) VALUES
+(1, 'label + value', 250, 25, ''),
+(2, 'static text small', 250, 25, ''),
+(3, 'button', 250, 25, '');
 
 -- --------------------------------------------------------
 
@@ -258,7 +294,8 @@ INSERT INTO `page` (`id`, `name`, `xpos`, `ypos`, `width`, `height`, `vis`, `inm
 (98, 'Item edit', 171, 61, 266, 320, 0, 0, 0, 0),
 (97, 'Preferences', 171, 61, 266, 320, 0, 0, 0, 0),
 (0, 'system', 1, 1, 1, 1, 0, 0, 0, 0),
-(96, 'Log', 60, 104, 656, 303, 1, 0, 0, 0);
+(96, 'Log', 60, 104, 656, 303, 1, 0, 0, 0),
+(95, 'Item new', 171, 61, 266, 320, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -294,7 +331,7 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (34, 'input 3', 1, 'overview', 2003, 13, 325, 375, 250, 30, 'toggle'),
 (15, 'Douche', 1, 'overview', 26, 17, 33, 281, 28, 28, 'toggle'),
 (16, 'Floorplan', 1, 'overview', 0, 99, 3, 2, 676, 572, 'floorplan85.png'),
-(28, 'Omvormer 2 2000W', 1, 'overview', 39, 10, 325, 200, 250, 30, 'toggle'),
+(28, 'Omvormer 2 2000W', 1, 'overview', 38, 10, 325, 200, 250, 30, 'toggle'),
 (410, 'log text', 96, 'log', 0, 6, -1, -3, 786, 200, ''),
 (195, 'Load from file', 2, 'Info', 0, 11, 0, 125, 250, 25, 'Load'),
 (196, 'Load from db', 2, 'Info', 0, 11, 0, 100, 250, 25, 'Load'),
@@ -314,12 +351,12 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (41, 'Toilet', 1, 'clocktime', 33, 17, 27, 20, 28, 28, 'toggle'),
 (42, 'Slaapkamer', 1, 'clocktime', 30, 17, 185, 351, 28, 28, 'toggle'),
 (43, 'Nachtlampje', 1, 'clocktime', 24, 17, 150, 441, 28, 28, 'toggle'),
-(44, 'Achterdeur', 1, 'clocktime', 28, 17, 402, 20, 28, 28, 'toggle'),
-(45, 'Achterdeur', 1, 'clocktime', 28, 17, 406, 84, 28, 28, 'toggle'),
+(44, 'Achterdeur', 1, 'clocktime', 34, 17, 402, 20, 28, 28, 'toggle'),
+(45, 'Achterdeur', 1, 'clocktime', 34, 17, 406, 84, 28, 28, 'toggle'),
 (46, 'Trap', 1, 'clocktime', 27, 17, 100, 292, 28, 28, 'toggle'),
 (47, 'Buffer', 1, 'clocktime', 28, 17, 512, 20, 28, 28, 'toggle'),
 (48, 'Buffer', 1, 'clocktime', 28, 17, 467, 20, 28, 28, 'toggle'),
-(30, 'Aquaphonics pomp', 1, 'overview', 39, 10, 325, 250, 250, 30, 'toggle'),
+(30, 'Aquaphonics pomp', 1, 'overview', 32, 10, 325, 250, 250, 30, 'toggle'),
 (29, 'Omvormer 3 300W', 1, 'overview', 39, 10, 325, 225, 250, 30, 'toggle'),
 (403, 'Send serial', 60, 'serial monitor', 0, 12, -1, 260, 121, 40, 'menuClicked("Button","SendSerial")'),
 (480, 'showDock', 97, 'Preferences', 0, 10, -1, 21, 250, 50, ''),
@@ -375,7 +412,21 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (448, 'device_id', 98, 'Item edit', 0, 8, 0, 196, 250, 25, ''),
 (449, 'page_id', 98, 'Item edit', 0, 8, 0, 221, 250, 25, ''),
 (450, 'action', 98, 'Item edit', 0, 8, 0, 246, 250, 25, ''),
-(14, 'Kachel pomp', 1, 'overview', 39, 13, 325, 300, 250, 30, 'toggle');
+(14, 'Kachel pomp', 1, 'overview', 39, 13, 325, 300, 250, 30, 'toggle'),
+(550, 'action', 95, 'Item new', 0, 8, 0, 246, 250, 25, ''),
+(549, 'page_id', 95, 'Item new', 0, 8, 0, 221, 250, 25, ''),
+(542, 'Ypos', 95, 'Item new', 0, 8, 0, 96, 250, 25, ''),
+(545, 'Type', 95, 'Item new', 0, 8, 0, 171, 250, 25, ''),
+(546, 'Save', 95, 'Item new', 0, 3, 154, 287, 80, 20, 'newItemInfo()'),
+(547, 'ID', 95, 'Item new', 0, 8, 0, 46, 250, 25, ''),
+(548, 'device_id', 95, 'Item new', 0, 8, 0, 196, 250, 25, ''),
+(541, 'Xpos', 95, 'Item new', 0, 8, 0, 71, 250, 25, ''),
+(544, 'Height', 95, 'Item new', 0, 8, 0, 146, 250, 25, ''),
+(543, 'Width', 95, 'Item new', 0, 8, 0, 121, 250, 25, ''),
+(540, 'Name', 95, 'Item new', 0, 8, 0, 21, 250, 25, ''),
+(451, 'Delete', 98, 'Item edit', 0, 3, 5, 287, 80, 20, 'deleteItemInfo()'),
+(552, 'BMV-pict', 6, '', 0, 99, 80, 15, 131, 129, 'bmv-600.png'),
+(551, 'BMV-pict', 6, '', 0, 99, 59, 115, 131, 129, 'bmv-600.png');
 
 -- --------------------------------------------------------
 
@@ -483,6 +534,12 @@ ALTER TABLE `event`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexen voor tabel `item_types`
+--
+ALTER TABLE `item_types`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexen voor tabel `log`
 --
 ALTER TABLE `log`
@@ -519,7 +576,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT voor een tabel `event`
 --
 ALTER TABLE `event`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT voor een tabel `item_types`
+--
+ALTER TABLE `item_types`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT voor een tabel `log`
 --

@@ -27,6 +27,8 @@ tempsensorArray     = [];
 pagesArray          = [];
 node_names          = [];
 node_addresses      = [];
+var eventsArray     = [];
+var itemTypesArray  = [];
 
 bmv_v = '';
 bmv_i = '';
@@ -107,6 +109,8 @@ io.sockets.on('connection', function(socket){
         socket.emit('inputs', inputsArray);
         socket.emit('actions', actionsArray);
 		socket.emit('pages', pagesArray);
+		socket.emit('events', eventsArray);
+		socket.emit('item_types', itemTypesArray);
 		socket.emit('pageitems', pageItemsArray);
 	}
 	
@@ -211,10 +215,34 @@ io.sockets.on('connection', function(socket){
 		        pagesArray[j].height = data.height;
 		        pagesArray[j].vis = data.vis;
 		        io.sockets.emit('windowUpdate', {msg: data});
-		        //io.sockets.emit('new message', {msg: 'Save page '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
+		        io.sockets.emit('new message', {msg: 'Save page '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
 		    }
         }
         
+    });
+    
+    //  -- Newitem received from client --
+    socket.on('newitem', function(data){
+        console.log('newitem '+data.name);
+        var timeText = lib_tool.getDateTime();
+        pageItemsArray.push(data);
+		io.sockets.emit('itemNew', {msg: data});
+        io.sockets.emit('new message', {msg: 'New item '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
+    });
+    
+    //  -- Deleteitem received from client --
+    socket.on('deleteitem', function(data){
+        console.log('deleteitem '+data);
+        var timeText = lib_tool.getDateTime();
+        var index;
+        for(j=0; j < pageItemsArray.length; j++){
+		    if(pageItemsArray[j].id == data){
+		        index=j;
+		    }
+        }
+        pageItemsArray.splice(index, 1);
+		io.sockets.emit('itemDelete', {msg: data});
+        io.sockets.emit('new message', {msg: 'Delete item '+data+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
     });
     
     //  -- Saveitem received from client --
@@ -236,7 +264,6 @@ io.sockets.on('connection', function(socket){
             	//io.sockets.emit('new message', {msg: 'Save item '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
 		    }
         }
-        
     });
     
     //  -- Query received from client --
@@ -397,6 +424,8 @@ function loadDatbase() {
     lib_database.loadPageItems('SELECT * FROM page_items order by type DESC', function(result) {pageItemsArray = lib_database._pageItemsArray;console.log('PageItems: '+pageItemsArray.length);});
     lib_database.loadActions('SELECT * FROM action', function(result) {actionsArray = lib_database._actionsArray;console.log('Actions: '+actionsArray.length);});  
     lib_database.loadInputs('SELECT * FROM device WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;console.log('Inputs: '+inputsArray.length);});
+    lib_database.loadEvents('SELECT * FROM event', function(result) {eventsArray = lib_database._eventsArray;console.log('Events: '+eventsArray.length);});
+    lib_database.loadItemTypes('SELECT * FROM item_types', function(result) {itemTypesArray = lib_database._itemTypesArray;console.log('ItemTypes: '+itemTypesArray.length);});
     lib_database.connectionEnd();
 }
 
@@ -651,6 +680,22 @@ function writeToFiles(){
             console.log("Actions saved to " + outputFilename);
         }
     });
+    var outputFilename = outputFilePath + 'event.json';
+    fs.writeFile(outputFilename, JSON.stringify(eventsArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Events saved to " + outputFilename);
+        }
+    });
+    var outputFilename = outputFilePath + 'item_type.json';
+    fs.writeFile(outputFilename, JSON.stringify(itemTypesArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("Item_type saved to " + outputFilename);
+        }
+    });
 }  			
 
 function EmptyServer(){
@@ -660,9 +705,14 @@ function EmptyServer(){
     tempsensorArray.length = 0;
     inputsArray.length = 0;
     pagesArray.length = 0;
+    eventsArray.length = 0;
+    itemTypesArray.length = 0;
 }
 
 function LoadFromFile(){
+    var outputFilename = outputFilePath + 'config.json';
+    configArray = require(outputFilename);
+    console.log('configArray '+configArray.length);
     var outputFilename = outputFilePath + 'page_item.json';
     pageItemsArray = require(outputFilename);
     console.log('pageItemsArray '+pageItemsArray.length);
@@ -675,4 +725,10 @@ function LoadFromFile(){
     outputFilename = outputFilePath + 'action.json';
     actionsArray = require(outputFilename);
     console.log('actionsArray '+actionsArray.length);
+    outputFilename = outputFilePath + 'event.json';
+    eventsArray = require(outputFilename);
+    console.log('eventsArray '+eventsArray.length);
+    outputFilename = outputFilePath + 'item_type.json';
+    itemTypesArray = require(outputFilename);
+    console.log('itemTypesArray '+itemTypesArray.length);
 }

@@ -368,9 +368,20 @@ function openItemInfo(ItemID) {
 	menuWindow_openOne(98);
 }
 
+function newItemMenu(ItemID) {
+	console.log('newWindowInfo ' + ItemID);
+	menuWindow_openOne(95);
+}
+
 function updateItemInfo(ItemID) {
+	var maxid=0;
+	for(k=0; k < pageItemsArray.length; k++){
+		if(pageItemsArray[k].id>maxid){
+			maxid=pageItemsArray[k].id
+		}
+	}
 	for(j=0; j < pageItemsArray.length; j++){
-		if(pageItemsArray[j].id == ItemID & (pageItemsArray[j].id<440 | pageItemsArray[j].id>460)){
+		if(pageItemsArray[j].id == ItemID & (pageItemsArray[j].id<440 | pageItemsArray[j].id>549)){
 			$("#input440").val(pageItemsArray[j].name);
 			$("#input441").val(pageItemsArray[j].xpos);
 			$("#input442").val(pageItemsArray[j].ypos);
@@ -381,8 +392,76 @@ function updateItemInfo(ItemID) {
 			$("#input448").val(pageItemsArray[j].device_id);
 			$("#input449").val(pageItemsArray[j].page_id);
 			$("#input450").val(pageItemsArray[j].action);
+			
+			$("#input540").val(pageItemsArray[j].name);
+			$("#input541").val(pageItemsArray[j].xpos);
+			$("#input542").val(pageItemsArray[j].ypos);
+			$("#input543").val(pageItemsArray[j].width);
+			$("#input544").val(pageItemsArray[j].height);
+			$("#input545").val(pageItemsArray[j].type);
+			$("#input547").val(parseInt(maxid)+1);
+			$("#input548").val(pageItemsArray[j].device_id);
+			$("#input549").val(pageItemsArray[j].page_id);
+			$("#input550").val(pageItemsArray[j].action);
 		}
 	}
+}
+
+function deleteItemInfo() {
+	console.log('deleteItemInfo ' );
+	var query_str = "";
+	var itemID = 0;
+	itemID = parseInt($("#input447").val());
+	DeleteItem(itemID);
+	$("#input447").val("");
+	$("#input440").val("");
+	$("#input441").val("");
+	$("#input442").val("");
+	$("#input443").val("");
+	$("#input444").val("");
+	$("#input445").val("");
+	$("#input448").val("");
+	$("#input449").val("");
+	$("#input450").val("");
+	
+	query_str += "INSERT INTO `nodesql`.`page_items` ";
+	query_str +="(`id`, `name`, `page_id`, `device_id`, `type`, `xpos`, `ypos`, `width`, `height`, `action`) ";
+	query_str +="VALUES (";
+	query_str +="'"+$("#input547").val()+"','"+$("#input540").val()+"','"+$("#input549").val()+"',";
+	query_str +="'"+$("#input548").val()+"','"+$("#input545").val()+"','"+$("#input541").val()+"',";
+	query_str +="'"+$("#input542").val()+"','"+$("#input543").val()+"','"+$("#input544").val()+"',"
+	query_str +="'"+$("#input550").val()+"')";
+	//sendQuery(query_str, pageItemsArray[j].id, 'page_items', $("#input541").val(), $("#input542").val(), $("#input540").val());     
+	//console.log(query_str);
+}
+
+function newItemInfo() {
+	windowID = $("#input547").val();
+	console.log('newItemInfo ' );
+	//var windowData = 0;
+	var query_str = "";
+	var itemData={'itemObject':[]};
+	itemData.id = $("#input547").val();
+	itemData.name = $("#input540").val();
+	itemData.xpos = $("#input541").val();
+	itemData.ypos = $("#input542").val();
+	itemData.width = $("#input543").val();
+	itemData.height = $("#input544").val();
+	itemData.type = $("#input545").val();
+	itemData.device_id = $("#input548").val();
+	itemData.page_id = $("#input549").val();
+	itemData.action = $("#input550").val();
+	NewItem(itemData);
+	query_str += "INSERT INTO `nodesql`.`page_items` ";
+	query_str +="(`id`, `name`, `page_id`, `device_id`, `type`, `xpos`, `ypos`, `width`, `height`, `action`) ";
+	query_str +="VALUES (";
+	query_str +="'"+$("#input547").val()+"','"+$("#input540").val()+"','"+$("#input549").val()+"',";
+	query_str +="'"+$("#input548").val()+"','"+$("#input545").val()+"','"+$("#input541").val()+"',";
+	query_str +="'"+$("#input542").val()+"','"+$("#input543").val()+"','"+$("#input544").val()+"',"
+	query_str +="'"+$("#input550").val()+"')";
+	sendQuery(query_str, pageItemsArray[j].id, 'page_items', $("#input541").val(), $("#input542").val(), $("#input540").val());     
+	$("#input547").val(parseInt($("#input547").val())+1);
+	console.log(query_str);
 }
 
 function saveItemInfo() {
