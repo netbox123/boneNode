@@ -34,6 +34,9 @@ Have fun!
 
 ### Version history
 **0.1.5**
+- Window items can be added and removed from client
+
+**0.1.5**
 - Window Log added.
 - a Gauge for temperature readings.
 - Switch added to the pageitems.
