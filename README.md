@@ -11,7 +11,16 @@ In the end this will be coolest remote ever.<br>
 
 ## INSTALLATION
 
-Set the hasMySQL, hasBonescript and runMode variables in app.js<br>
+Set these vars in app.js
+```bash
+var hasMySQL        = 1;                // Loading from: 0=jsonFile, 1=MySQL 
+var hasBonescript   = 1;                // Bonescript: 0=no, 1=available
+var runMode         = 0;                // Run mode: 0=normal, 1=demo mode
+//----------------------------------------------------------------------------//
+var serialPortDue   = '/dev/ttyO4';
+var outputFilePath  = '/var/lib/cloud9/bbb_app/data/';
+var tempdirectory   = '/sys/bus/w1/devices/';
+```
 start app.js
 
 ## Features
