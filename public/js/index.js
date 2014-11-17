@@ -3,6 +3,7 @@ var	pageItemsArray = [];
 var actionsArray = [];
 var	devicesArray = [];
 var inputsArray = [];
+var configArray = [];
 var eventsArray = [];
 var itemTypesArray = [];
 var iseditmode = 0;
@@ -34,7 +35,6 @@ window.onload = function() {
 
 function initWindows() {
     for(pageNr=0; pageNr < pagesArray.length; pageNr++){
-    	//console.log('page ' + pagesArray[j].id + ' ' + pagesArray[j].name);
 		addPage(pageNr);
 		for(pItemNr=0; pItemNr < pageItemsArray.length; pItemNr++){
 			if (pageItemsArray[pItemNr].page_id == pagesArray[pageNr].id) {
@@ -50,6 +50,15 @@ function initWindows() {
 	// Init log window
 	var box = $("#TextArea410");
     box.val(bootlog);
+    // Init Preference window
+    $("#input481").val(configArray[0].version);
+    if(configArray[0].hasDock == 0){
+		$("#inputid480").prop("checked", false);
+		$("#dock").fadeOut(500);
+	}else{
+		$("#inputid480").prop("checked", true);
+		$("#dock").fadeIn(500);
+	}
 }
 
 function addPage(pageNr){
@@ -116,11 +125,11 @@ function addPageItem(pItemNr, pageNr){
 	} else if (pageItemsArray[pItemNr].type == 7) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><input type='text' id='input"+pageItemsArray[pItemNr].id+"'></input></div>");
 	} else if (pageItemsArray[pItemNr].type == 8) {
-		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555;'><input type='text' id='input"+pageItemsArray[pItemNr].id+"'></input></div></label></div>");
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark' style='font-size: 13pt;color: #555; bottom:-5px;'><input style='text-align: right;' size=12' type='text' id='input"+pageItemsArray[pItemNr].id+"'></input></div></label></div>");
 	} else if (pageItemsArray[pItemNr].type == 9) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><div id='widgetid"+pageItemsArray[pItemNr].id+"' style='text-align: right; font-family: digital-7_monoitalic; font-size: 13pt; font-weight: bold; color: #040edf;'>0</div</div>");
 	} else if (pageItemsArray[pItemNr].type == 10) {
-		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'<label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark'><input style='border:1px red;' id='inputid"+pageItemsArray[pItemNr].id+"' height='30' width='55' type='checkbox' class='ios-switch green tinyswitch' checked /><div><div></div></div></div></label></div>")
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'<label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div style='bottom:4px;' id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark'><input style='border:1px red;' id='inputid"+pageItemsArray[pItemNr].id+"' height='30' width='55' type='checkbox' class='ios-switch green tinyswitch' checked /><div><div></div></div></div></label></div>")
 		$("#inputid"+pageItemsArray[pItemNr].id).on('click', function (event) {var eventid = event.target.getAttribute('id').substr(7);ButtonClicked(2+'-'+eventid);}); 
 		for(k=0; k < devicesArray.length; k++){	
 			if(devicesArray[k].id == pageItemsArray[pItemNr].device_id) {
@@ -133,13 +142,13 @@ function addPageItem(pItemNr, pageNr){
 		}					
 		
 	} else if (pageItemsArray[pItemNr].type == 11) {
-		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark' style='font-size: 12pt;color: #555;'><p><a class='about-this button about' style='text-align:center;  width:85px;'  >"+pageItemsArray[pItemNr].action+"</a></p></div></label></div>");
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark' style='font-size: 12pt;color: #555; bottom:2px;'><p><a class='about-this button about' style='text-align:center;  width:85px;'  >"+pageItemsArray[pItemNr].action+"</a></p></div></label></div>");
 	
 	} else if (pageItemsArray[pItemNr].type == 12) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; bottom:0px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'><div class='inputButtonAreaClass'><div style='left:0px; position: absolute; padding-top:1px; padding-left:10px;'><input value='28=1' type='text' id='input"+pageItemsArray[pItemNr].id+"'></input></div><div style=' padding-top:3px; right:0px; width:140px; position: absolute;'><p><a style='text-align:center;' class='about-this button about' onclick='"+pageItemsArray[pItemNr].action+"'>"+pageItemsArray[pItemNr].name+"</a></p></div></div></div>");
 	
 	} else if (pageItemsArray[pItemNr].type == 13) {
-		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'<label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark'><input style='border:1px red;' id='inputid"+pageItemsArray[pItemNr].id+"' height='30' width='55' type='checkbox' class='ios-switch tinyswitch' checked /><div><div></div></div></div></label></div>")
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'<label class='tasks-list-item'><span class='tasks-list-desc'>"+pageItemsArray[pItemNr].name+"</span><div style='bottom:4px;' id='widgetid"+pageItemsArray[pItemNr].id+"' class='tasks-list-mark'><input style='border:1px red;' id='inputid"+pageItemsArray[pItemNr].id+"' height='30' width='55' type='checkbox' class='ios-switch tinyswitch' checked /><div><div></div></div></div></label></div>")
 		$("#inputid"+pageItemsArray[pItemNr].id).on('click', function (event) {var eventid = event.target.getAttribute('id').substr(7);ButtonClicked(2+'-'+eventid);}); 
 		for(k=0; k < devicesArray.length; k++){	
 			if(devicesArray[k].id == pageItemsArray[pItemNr].device_id) {
@@ -285,6 +294,15 @@ jQuery(function($){
 				
 			} else{
 				
+			}
+    	})	
+    };
+    
+    //  -- Save Preferences to server --
+    window.SavePreferences = function (ItemData){
+        socket.emit('savepreferences', ItemData , function(data){
+        	if(data){
+			} else{
 			}
     	})	
     };
@@ -523,15 +541,17 @@ jQuery(function($){
         removePageItem(parseInt(data.msg));
 	});
 	
+	//  -- Receiving preferencesSave from server --
+	socket.on('preferencesSave', function(data){
+		//console.log('preferencesSave '+data.msg.version);
+		configArray[0].version = data.msg.version;
+		$("#input481").val(data.msg.version);
+	});
+	
 	//  -- Receiving itemUpdate from server --
 	socket.on('itemUpdate', function(data){
-        //console.log('itemUpdate data '+data.msg.name);
-        var itemItemA = [];
-        //console.log('data.id '+ data.msg.name);
         for(j=0; j < pageItemsArray.length; j++){
-            itemItemA = pageItemsArray[j];
-              if(itemItemA.id == data.msg.id){
-              	  //console.log('data.id '+ data.msg.id + '>>' + parseInt(data.msg.xpos) + '>>' + parseInt(data.msg.ypos) );
+              if(pageItemsArray[j].id == data.msg.id){
                    pageItemsArray[j].xpos = parseInt(data.msg.xpos);
                    pageItemsArray[j].ypos = parseInt(data.msg.ypos);
                    pageItemsArray[j].name = data.msg.name;

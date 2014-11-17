@@ -381,7 +381,7 @@ function updateItemInfo(ItemID) {
 		}
 	}
 	for(j=0; j < pageItemsArray.length; j++){
-		if(pageItemsArray[j].id == ItemID & (pageItemsArray[j].id<440 | pageItemsArray[j].id>549)){
+		if(pageItemsArray[j].id == ItemID & (pageItemsArray[j].page_id != 98)  & (pageItemsArray[j].page_id != 95)){
 			$("#input440").val(pageItemsArray[j].name);
 			$("#input441").val(pageItemsArray[j].xpos);
 			$("#input442").val(pageItemsArray[j].ypos);
@@ -424,15 +424,10 @@ function deleteItemInfo() {
 	$("#input449").val("");
 	$("#input450").val("");
 	
-	query_str += "INSERT INTO `nodesql`.`page_items` ";
-	query_str +="(`id`, `name`, `page_id`, `device_id`, `type`, `xpos`, `ypos`, `width`, `height`, `action`) ";
-	query_str +="VALUES (";
-	query_str +="'"+$("#input547").val()+"','"+$("#input540").val()+"','"+$("#input549").val()+"',";
-	query_str +="'"+$("#input548").val()+"','"+$("#input545").val()+"','"+$("#input541").val()+"',";
-	query_str +="'"+$("#input542").val()+"','"+$("#input543").val()+"','"+$("#input544").val()+"',"
-	query_str +="'"+$("#input550").val()+"')";
-	//sendQuery(query_str, pageItemsArray[j].id, 'page_items', $("#input541").val(), $("#input542").val(), $("#input540").val());     
-	//console.log(query_str);
+	query_str += "DELETE FROM `nodesql`.`page_items` ";
+	query_str += " WHERE  `page_items`.`id` ="+itemID;
+	sendQuery(query_str, itemID, 'page_items', $("#input541").val(), $("#input542").val(), $("#input540").val());     
+	console.log(query_str);
 }
 
 function newItemInfo() {
@@ -497,8 +492,26 @@ function saveItemInfo() {
 	}
 }
 
+
+function savePreferences() {
+	var query_str = "";
+	var prefData={'prefObject':[]};
+	prefData.version = $("#input481").val();
+	if ($('#inputid480').is(':checked')){
+		prefData.hasDock = 1;
+	} else {
+		prefData.hasDock = 0;
+	}
+	SavePreferences(prefData);
+	query_str += "UPDATE  `nodesql`.`config` SET  ";
+	query_str += "`version` =  '"+prefData.version+"', ";
+	query_str += "`hasDock` =  '"+prefData.hasDock+"' ";
+	query_str += " WHERE  `config`.`id` = '1'";
+	sendQuery(query_str, pageItemsArray[j].id, 'preferences', $("#input441").val(), $("#input442").val(), $("#input440").val());     
+	//console.log(query_str);
+}
+
 function showDock(){
-	//console.log($('#inputid480').is(':checked'));
 	if ($('#inputid480').is(':checked')){
 		$("#dock").fadeIn(500);
 	} else {

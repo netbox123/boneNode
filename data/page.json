@@ -142,5 +142,17 @@
         "inmenu": 0,
         "mini": 0,
         "maxi": 0
+    },
+    {
+        "id": 95,
+        "name": "Item new",
+        "xpos": 171,
+        "ypos": 61,
+        "width": 266,
+        "height": 320,
+        "vis": 0,
+        "inmenu": 0,
+        "mini": 0,
+        "maxi": 0
     }
 ]

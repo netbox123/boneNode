@@ -2,19 +2,18 @@ var hasMySQL        = 1;                // Loading from: 0=jsonFile, 1=MySQL
 var hasBonescript   = 1;                // Bonescript: 0=no, 1=available
 var runMode         = 0;                // Run mode: 0=normal, 1=demo mode
 //----------------------------------------------------------------------------//
+var serialPortDue   = '/dev/ttyO4';
+var outputFilePath  = '/var/lib/cloud9/bbb_app/data/';
+var tempdirectory   = '/sys/bus/w1/devices/';
 var RunningOnBBB    = 0;
 var LogLevel        = 1;
 var fs              = require('fs');
 var sys             = require('sys');
 var b               = require('bonescript');
 var mysql           = require('mysql');
-var exec            = require('child_process').exec;
 var lib_tool        = require('./tool.js');
 var lib_database    = require('./database.js');
 var serialPortData  = '';
-var serialPortDue   = '/dev/ttyO4';
-var outputFilePath  = '/var/lib/cloud9/bbb_app/data/';
-var tempdirectory   = '/sys/bus/w1/devices/';
 var optionsPort     = {baudrate: 9600, parser: b.serialParsers.readline("\n")};
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
@@ -152,7 +151,6 @@ io.sockets.on('connection', function(socket){
             b.setDate(datetime.toString());
             //io.sockets.emit('new message', {msg: datetime.toString(), nick: timeText });
         } else if(temparray[0] == 'starttemp'){
-            exec("echo BB-W1:00A0 > /sys/devices/bone_capemgr.9/slots", puts);
               io.sockets.emit('new message', {
                     title: 'Start temp script ',
                     nick: 'echo BB-W1:00A0 > /sys/devices/bone_capemgr.9/slots',
@@ -200,6 +198,16 @@ io.sockets.on('connection', function(socket){
     socket.on('senddueserial', function(data){
         console.log('senddueserial '+data);
         b.serialWrite(serialPortDue, data + '\n');
+    });
+    
+    //  -- SavePreferences received from client --
+    socket.on('savepreferences', function(data){
+        console.log('savepreferences'+data.version);
+        var timeText = lib_tool.getDateTime();
+        configArray[0].version = data.version;
+        configArray[0].hasDock = data.hasDock;
+        io.sockets.emit('preferencesSave', {msg: data});
+		io.sockets.emit('new message', {msg: 'version '+data.version, title: 'Save preferences' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
     });
     
     //  -- SaveWindow received from client --
@@ -293,7 +301,7 @@ io.sockets.on('connection', function(socket){
             }
         
             var timeText = lib_tool.getDateTime();
-        	io.sockets.emit('new message', {msg: data.type+' '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
+        	//io.sockets.emit('new message', {msg: data.type+' '+data.id+'-'+data.name, title: 'Query:' , nick: timeText + socket.address + " " + socket.nickname, address: socket.address});
             io.sockets.emit('pageitem change', {id: data.id,xpos: data.xpos,ypos: data.ypos});
             
         }   
