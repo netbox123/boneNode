@@ -43,6 +43,7 @@ Have fun!
 
 ### Version history
 **0.1.6**
+- the Dock on/off can be saved in preferences window
 - Window items can be added and removed from client
 
 **0.1.5**
