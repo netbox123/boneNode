@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Gegenereerd op: 16 nov 2014 om 22:40
+-- Gegenereerd op: 23 nov 2014 om 19:02
 -- Serverversie: 5.5.38-0+wheezy1
 -- PHP-versie: 5.4.4-14+deb7u14
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `config` (
 --
 
 INSERT INTO `config` (`id`, `version`, `hasDock`, `bkgnd_pict`) VALUES
-(1, '0.1.4 ', 0, 'background.png');
+(1, '0.1.7', 1, 'background.png');
 
 -- --------------------------------------------------------
 
@@ -289,13 +289,15 @@ INSERT INTO `page` (`id`, `name`, `xpos`, `ypos`, `width`, `height`, `vis`, `inm
 (7, 'Temperaturen', 555, 50, 250, 280, 1, 1, 0, 0),
 (50, 'About this', 359, 118, 310, 382, 0, 0, 0, 0),
 (51, 'About finder', 405, 154, 310, 382, 0, 0, 0, 0),
-(60, 'Serial monitor', 3, 329, 780, 258, 1, 0, 0, 0),
+(60, 'Serial monitor', 3, 329, 780, 258, 0, 0, 0, 0),
 (99, 'Window edit', 271, 61, 266, 290, 0, 0, 0, 0),
-(98, 'Item edit', 171, 61, 266, 320, 0, 0, 0, 0),
-(97, 'Preferences', 171, 61, 266, 320, 0, 0, 0, 0),
+(98, 'Item edit', 438, 89, 255, 321, 0, 0, 0, 0),
+(97, 'Preferences', 168, 61, 260, 322, 0, 0, 0, 0),
 (0, 'system', 1, 1, 1, 1, 0, 0, 0, 0),
-(96, 'Log', 60, 104, 656, 303, 1, 0, 0, 0),
-(95, 'Item new', 171, 61, 266, 320, 0, 0, 0, 0);
+(96, 'Log', 60, 104, 656, 303, 0, 0, 0, 0),
+(95, 'Item new', 171, 61, 266, 320, 0, 0, 0, 0),
+(93, 'Graph temperatures', 13, 202, 710, 342, 1, 0, 0, 0),
+(94, 'Graph current ', 13, 202, 710, 342, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -315,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `page_items` (
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
   `action` varchar(100) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4012 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4013 DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `page_items`
@@ -359,7 +361,7 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (30, 'Aquaphonics pomp', 1, 'overview', 32, 10, 325, 250, 250, 30, 'toggle'),
 (29, 'Omvormer 3 300W', 1, 'overview', 39, 10, 325, 225, 250, 30, 'toggle'),
 (403, 'Send serial', 60, 'serial monitor', 0, 12, -1, 260, 121, 40, 'menuClicked("Button","SendSerial")'),
-(480, 'showDock', 97, 'Preferences', 0, 10, -1, 21, 250, 50, ''),
+(480, 'ShowDock', 97, 'Preferences', 0, 10, 12, 38, 240, 24, ''),
 (309, 'apple logo', 50, '', 0, 99, 48, 25, 214, 114, 'MacOSX.png'),
 (227, 'BMV-pict', 6, '', 0, 99, 59, 15, 131, 129, 'bmv-600.png'),
 (200, 'Due step', 2, 'info', 1002, 1, 0, 0, 245, 25, ''),
@@ -374,11 +376,11 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (209, 'Generator onder', 7, '', 4009, 1, 0, 241, 250, 25, ''),
 (220, 'Spanning', 6, '', 3001, 1, 0, 150, 250, 25, ''),
 (221, 'Stroom', 6, '', 3002, 1, 0, 175, 250, 25, ''),
-(222, 'CE', 6, '', 3003, 1, 0, 200, 250, 25, ''),
-(223, 'SOC', 6, '', 3004, 1, 0, 225, 250, 25, ''),
-(224, 'TTG', 6, '', 3005, 1, 0, 250, 250, 25, ''),
-(225, 'Alarm', 6, '', 3006, 1, 0, 275, 250, 25, ''),
-(226, 'Relay', 6, '', 3007, 1, 0, 300, 250, 25, ''),
+(222, 'CE', 6, '', 3003, 1, 0, 225, 250, 25, ''),
+(223, 'SOC', 6, '', 3004, 1, 0, 250, 250, 25, ''),
+(224, 'TTG', 6, '', 3005, 1, 0, 275, 250, 25, ''),
+(225, 'Alarm', 6, '', 3006, 1, 0, 300, 250, 25, ''),
+(226, 'Relay', 6, '', 3007, 1, 0, 325, 250, 25, ''),
 (228, 'BMV-lcd', 6, '', 3002, 9, 90, 68, 67, 25, ''),
 (301, 'Version 10.7.2', 50, 'about', 0, 2, 0, 166, 310, 14, ''),
 (302, 'Software Update...', 50, 'about', 0, 3, 94, 190, 121, 20, ''),
@@ -393,40 +395,44 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (241, 'mbarMin', 0, 'mbar', 1011, 0, 0, 0, 0, 0, ''),
 (242, 'mbarHour', 0, 'mbar', 1012, 0, 0, 0, 0, 0, ''),
 (199, 'Set time', 2, 'info', 0, 11, 0, 25, 250, 25, 'Set'),
-(420, 'Name', 99, 'window edit', 0, 8, 0, 21, 250, 25, ''),
-(421, 'Xpos', 99, 'window edit', 0, 8, 0, 71, 250, 25, ''),
-(422, 'Ypos', 99, 'window edit', 0, 8, 0, 96, 250, 25, ''),
-(423, 'Width', 99, 'window edit', 0, 8, 0, 121, 250, 25, ''),
-(424, 'Height', 99, 'window edit', 0, 8, 0, 146, 250, 25, ''),
-(425, 'Visible', 99, 'window edit', 0, 8, 0, 171, 250, 25, ''),
+(420, 'Name', 99, 'window edit', 0, 8, 0, 21, 250, 22, ''),
+(421, 'Xpos', 99, 'window edit', 0, 8, 0, 71, 250, 22, ''),
+(422, 'Ypos', 99, 'window edit', 0, 8, 0, 96, 250, 22, ''),
+(423, 'Width', 99, 'window edit', 0, 8, 0, 121, 250, 22, ''),
+(424, 'Height', 99, 'window edit', 0, 8, 0, 146, 250, 22, ''),
+(425, 'Visible', 99, 'window edit', 0, 8, 0, 171, 250, 22, ''),
 (426, 'Save', 99, 'window edit', 0, 3, 125, 250, 80, 20, 'saveWindowInfo()'),
-(427, 'ID', 99, 'window edit', 0, 8, 0, 46, 250, 25, ''),
-(440, 'Name', 98, 'Item edit', 0, 8, 0, 21, 250, 25, ''),
-(441, 'Xpos', 98, 'Item edit', 0, 8, 0, 71, 250, 25, ''),
-(442, 'Ypos', 98, 'Item edit', 0, 8, 0, 96, 250, 25, ''),
-(443, 'Width', 98, 'Item edit', 0, 8, 0, 121, 250, 25, ''),
-(444, 'Height', 98, 'Item edit', 0, 8, 0, 146, 250, 25, ''),
-(445, 'Type', 98, 'Item edit', 0, 8, 0, 171, 250, 25, ''),
+(427, 'ID', 99, 'window edit', 0, 8, 0, 46, 250, 22, ''),
+(440, 'Name', 98, 'Item edit', 0, 8, 0, 21, 250, 22, ''),
+(441, 'Xpos', 98, 'Item edit', 0, 8, 0, 71, 250, 22, ''),
+(442, 'Ypos', 98, 'Item edit', 0, 8, 0, 96, 250, 22, ''),
+(443, 'Width', 98, 'Item edit', 0, 8, 0, 121, 250, 22, ''),
+(444, 'Height', 98, 'Item edit', 0, 8, 0, 146, 250, 22, ''),
+(445, 'Type', 98, 'Item edit', 0, 8, 0, 171, 250, 22, ''),
 (446, 'Save', 98, 'Item edit', 0, 3, 154, 287, 80, 20, 'saveItemInfo()'),
-(447, 'ID', 98, 'Item edit', 0, 8, 0, 46, 250, 25, ''),
-(448, 'device_id', 98, 'Item edit', 0, 8, 0, 196, 250, 25, ''),
-(449, 'page_id', 98, 'Item edit', 0, 8, 0, 221, 250, 25, ''),
-(450, 'action', 98, 'Item edit', 0, 8, 0, 246, 250, 25, ''),
+(447, 'ID', 98, 'Item edit', 0, 8, 0, 46, 250, 22, ''),
+(448, 'device_id', 98, 'Item edit', 0, 8, 0, 196, 250, 22, ''),
+(449, 'page_id', 98, 'Item edit', 0, 8, 0, 221, 250, 22, ''),
+(450, 'action', 98, 'Item edit', 0, 8, 0, 246, 250, 22, ''),
 (14, 'Kachel pomp', 1, 'overview', 39, 13, 325, 300, 250, 30, 'toggle'),
-(550, 'action', 95, 'Item new', 0, 8, 0, 246, 250, 25, ''),
-(549, 'page_id', 95, 'Item new', 0, 8, 0, 221, 250, 25, ''),
-(542, 'Ypos', 95, 'Item new', 0, 8, 0, 96, 250, 25, ''),
-(545, 'Type', 95, 'Item new', 0, 8, 0, 171, 250, 25, ''),
+(550, 'action', 95, 'Item new', 0, 8, 0, 246, 250, 22, ''),
+(549, 'page_id', 95, 'Item new', 0, 8, 0, 221, 250, 22, ''),
+(542, 'Ypos', 95, 'Item new', 0, 8, 0, 96, 250, 22, ''),
+(545, 'Type', 95, 'Item new', 0, 8, 0, 171, 250, 22, ''),
 (546, 'Save', 95, 'Item new', 0, 3, 154, 287, 80, 20, 'newItemInfo()'),
-(547, 'ID', 95, 'Item new', 0, 8, 0, 46, 250, 25, ''),
-(548, 'device_id', 95, 'Item new', 0, 8, 0, 196, 250, 25, ''),
-(541, 'Xpos', 95, 'Item new', 0, 8, 0, 71, 250, 25, ''),
-(544, 'Height', 95, 'Item new', 0, 8, 0, 146, 250, 25, ''),
-(543, 'Width', 95, 'Item new', 0, 8, 0, 121, 250, 25, ''),
-(540, 'Name', 95, 'Item new', 0, 8, 0, 21, 250, 25, ''),
+(547, 'ID', 95, 'Item new', 0, 8, 0, 46, 250, 22, ''),
+(548, 'device_id', 95, 'Item new', 0, 8, 0, 196, 250, 22, ''),
+(541, 'Xpos', 95, 'Item new', 0, 8, 0, 71, 250, 22, ''),
+(544, 'Height', 95, 'Item new', 0, 8, 0, 146, 250, 22, ''),
+(543, 'Width', 95, 'Item new', 0, 8, 0, 121, 250, 22, ''),
+(540, 'Name', 95, 'Item new', 0, 8, 0, 21, 250, 22, ''),
 (451, 'Delete', 98, 'Item edit', 0, 3, 5, 287, 80, 20, 'deleteItemInfo()'),
-(552, 'BMV-pict', 6, '', 0, 99, 80, 15, 131, 129, 'bmv-600.png'),
-(551, 'BMV-pict', 6, '', 0, 99, 59, 115, 131, 129, 'bmv-600.png');
+(551, 'testing', 97, '', 0, 10, 12, 103, 240, 24, ''),
+(481, 'Version', 97, 'Preferences', 0, 8, 5, 8, 250, 22, ''),
+(482, 'Save', 97, 'Preferences', 0, 3, 157, 287, 80, 20, 'savePreferences()'),
+(554, 'Graph current', 94, '', 3002, 14, 0, 0, 710, 350, ''),
+(553, 'Vermogen', 6, '', 3008, 1, 0, 200, 250, 25, ''),
+(555, 'Graph temperature', 93, '', 3002, 15, 0, 0, 710, 350, '');
 
 -- --------------------------------------------------------
 
@@ -596,7 +602,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=101;
 -- AUTO_INCREMENT voor een tabel `page_items`
 --
 ALTER TABLE `page_items`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4012;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4013;
 --
 -- AUTO_INCREMENT voor een tabel `port`
 --

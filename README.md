@@ -42,6 +42,9 @@ login with youre browser 192.168.7.2:4000
 Have fun!
 
 ### Version history
+**0.1.7**
+- Live charts for power and temperatures
+
 **0.1.6**
 - the Dock on/off can be saved in preferences window
 - Window items can be added and removed from client

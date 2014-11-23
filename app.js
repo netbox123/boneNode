@@ -452,12 +452,13 @@ function UpdateDevicesArray() {
         if (devicesArray[i].id == 1012){devicesArray[i].val = datetime.getHours()}
         
         if (devicesArray[i].id == 3001){devicesArray[i].val = Number(bmv_v/1000).toFixed(2)+' V';}
-        if (devicesArray[i].id == 3002){devicesArray[i].val = Number(bmv_i/1000).toFixed(2)+' A';}
+        if (devicesArray[i].id == 3002){devicesArray[i].val = Number(bmv_i/1000).toFixed(2);}
         if (devicesArray[i].id == 3003){devicesArray[i].val = Number(bmv_ce/1000).toFixed(2)+' Ah';}
         if (devicesArray[i].id == 3004){devicesArray[i].val = Number(bmv_soc/10).toFixed(1)+' %';}
         if (devicesArray[i].id == 3005){devicesArray[i].val = Number(bmv_ttg).toFixed(0)+' m.';}
         if (devicesArray[i].id == 3006){devicesArray[i].val = bmv_alarm;}
         if (devicesArray[i].id == 3007){devicesArray[i].val = bmv_relay;}
+        if (devicesArray[i].id == 3008){devicesArray[i].val = Number(bmv_v*bmv_i/1000000).toFixed(2)+' W';}
         if (devicesArray[i].id == 3009){devicesArray[i].val = Number(bmv_soc/10).toFixed(0)+'%';}
         
         if (devicesArray[i].id == 4002){devicesArray[i].val = Number(t_K1).toFixed(1)+'&deg;C';}

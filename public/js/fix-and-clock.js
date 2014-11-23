@@ -1,20 +1,19 @@
 $(document).ready(function() {
 	
 
-
-		$('input[type=password]').addClass('valid');
-		$('.tooltip-pass').hide();
-		$('.submit').removeClass('submit').addClass('charge');
-		$('#pageLogin').addClass('initLog').delay(1900).queue(function() { $(this).removeClass('initLog').addClass('initLogExit'); $(this).dequeue(); });;
-		$('#page, #head').delay(2500).queue(function() { $(this).addClass('vis'); $(this).dequeue(); });
-		$('.window').delay(4000).queue(function() { $(this).addClass('windows-vis'); $(this).dequeue(); });
-		
+		//$('input[type=password]').addClass('valid');
+		//$('.tooltip-pass').hide();
+		//$('.submit').removeClass('submit').addClass('charge');
+		//$('#pageLogin').addClass('initLog').delay(3900).queue(function() { $(this).removeClass('initLog').addClass('initLogExit'); $(this).dequeue(); });;
+		$('#page, #head').delay(5500).queue(function() { $(this).addClass('vis'); $(this).dequeue(); });
+	//	$('.window').delay(3000).queue(function() { $(this).addClass('windows-vis'); $(this).dequeue(); });
+		event.preventDefault();		
 
 //-----------------------------------------------------------------------------------
 //	3.	Draggable Windows
 //-----------------------------------------------------------------------------------
 
-$('.content').remove();
+//$('.content').remove();
 
 var a = 3;
 //$('.content,.specific,.project,.share').draggable({ handle: '.title-inside', start: function(event, ui) { $(this).css("z-index", a++); }});

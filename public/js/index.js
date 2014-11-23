@@ -2,6 +2,7 @@ var	pagesArray = [];
 var	pageItemsArray = [];
 var actionsArray = [];
 var	devicesArray = [];
+var	devicesValArray = [];
 var inputsArray = [];
 var configArray = [];
 var eventsArray = [];
@@ -18,10 +19,26 @@ var itemeventtarget = 1;
 var zordermax = 10;
 var bootlog = "";
 var aid = [];
-var Vval = 0;
-var Ival = 0;
 var due_step = 0;
 var curDate, curSec, curMin, curHour, secRot, minRot, hourRot;
+
+bmv_v = '';
+bmv_i = '';
+bmv_ce = '';
+bmv_soc = '';
+bmv_ttg = '';
+bmv_alarm = '';
+bmv_relay = '';
+
+t_BU = '';
+t_WK = '';
+t_K1 = '';
+t_K2 = '';
+t_B1 = '';
+t_B2 = '';
+t_B3 = '';
+t_G1 = '';
+t_G2 = '';
 
 var widgetidJG = [];
 
@@ -161,9 +178,313 @@ function addPageItem(pItemNr, pageNr){
 		}
 	
 	} else if (pageItemsArray[pItemNr].type == 14) {
-		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'></div>");
-	
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><div id='GraphContainer"+pageItemsArray[pItemNr].id+"' style=' width:"+pageItemsArray[pItemNr].width+"px; height:"+(pageItemsArray[pItemNr].height)+"px; margin: 0 auto;'></div></div>");
+
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        $('#GraphContainer'+pageItemsArray[pItemNr].id).highcharts({
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function () {
+                            var x = (new Date()).getTime(), // current time
+                                y = parseFloat(devicesValArray[3002]);
+                            series.addPoint([x, y], true, true);
+                        }, 1000);
+                    }
+                }
+            },
+            title: {
+                text: 'Current(A)'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 200
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Live data',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }]
+        });
+        
+
 	} else if (pageItemsArray[pItemNr].type == 15) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><div id='GraphContainer"+pageItemsArray[pItemNr].id+"' style=' width:"+pageItemsArray[pItemNr].width+"px; height:"+(pageItemsArray[pItemNr].height)+"px; margin: 0 auto;'></div></div>");
+
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        $('#GraphContainer'+pageItemsArray[pItemNr].id).highcharts({
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series4001 = this.series[0];
+                        var series4002 = this.series[1];
+                        var series4003 = this.series[2];
+                        var series4004 = this.series[3];
+                        var series4005 = this.series[4];
+                        var series4006 = this.series[5];
+                        var series4007 = this.series[6];
+                        var series4008 = this.series[7];
+                        var series4009 = this.series[8];
+                        setInterval(function () {
+                            var x = (new Date()).getTime();
+       
+                            series4001.addPoint([x, parseFloat(devicesValArray[4001])], false, true);
+                           	series4002.addPoint([x, parseFloat(devicesValArray[4002])], false, true);
+                           	series4003.addPoint([x, parseFloat(devicesValArray[4003])], false, true);
+                           	series4004.addPoint([x, parseFloat(devicesValArray[4004])], false, true);
+                           	series4005.addPoint([x, parseFloat(devicesValArray[4005])], false, true);
+                           	series4006.addPoint([x, parseFloat(devicesValArray[4006])], false, true);
+                           	series4007.addPoint([x, parseFloat(devicesValArray[4007])], false, true);
+                           	series4008.addPoint([x, parseFloat(devicesValArray[4008])], false, true);
+                            series4009.addPoint([x, parseFloat(devicesValArray[4009])], true, true);
+                            
+                          	
+                            
+                        }, 1000);
+                    }
+                }
+            },
+            title: {
+            text: 'Temperatures',
+            x: -20 //center
+        	},
+        	subtitle: {
+            text: 'Subtitle',
+            x: -20
+        	},
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 200
+            },
+            yAxis: {
+                title: {
+                    text: 'Temperature (°C)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+            valueSuffix: '°C'
+        	},
+        	legend: {
+            	layout: 'vertical',
+            	align: 'right',
+            	verticalAlign: 'middle',
+            	borderWidth: 0
+        	},
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Binnen',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Kachel boven',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Kachel onder',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Buffer boven',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Buffer midden',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Buffer onder',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Generator boven',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Buiten',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Generator onder',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }]
+        });
+        
+
+	
+	
+	} else if (pageItemsArray[pItemNr].type == 16) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'></div>");
 	
 		
@@ -564,54 +885,41 @@ jQuery(function($){
               }
         }
 		$("#wrapid" + data.msg.id).css({top: parseInt(data.msg.ypos), left: parseInt(data.msg.xpos)});
+		
+		
 	});
 
-	
-//  -- Receiving allvalues from server --
+	//  -- Receiving allvalues from server --
 	socket.on('sendallvalues', function(data){
-        var ValuesA = [];
+		var ValuesA = [];
         var OneValueA = [];
 		//console.log('data'+data.msg);
 		ValuesA  = data.msg.split('*');
         var datetime = new Date();
-        
+        for(j=0; j < ValuesA.length-1; j++){
+            OneValueA  = ValuesA[j].split('#');
+            devicesValArray[OneValueA[0]] = OneValueA[1];
+        }
         
         for(j=0; j < pagesArray.length; j++){
     		//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name);
-        	if (pagesArray[j].vis | pagesArray[j].id == 0){
-        		
-        		
-        		for(xcount=0; xcount < pageItemsArray.length; xcount++){
-					
+        	if (pagesArray[j].vis | pagesArray[j].id == 0){        		
+        		for(xcount=0; xcount < pageItemsArray.length; xcount++){					
         			if (pageItemsArray[xcount].page_id == pagesArray[j].id){
-        				//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name+ ' ' + pageItemsArray[xcount].name);
-        				//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name+ ' >>' + pageItemsArray[xcount].name);
-        				for(k=0; k < ValuesA.length-1; k++){
-            				OneValueA  = ValuesA[k].split('#');
-            				if (OneValueA[0] == pageItemsArray[xcount].device_id){
-            					//$("#widgetid1002").html(OneValueA[1]);
-            					//console.log(pageItemsArray[xcount].device_id);
-            					if (pageItemsArray[xcount].type == 0) {
-									$('#widgetid' + pageItemsArray[xcount].id).html(OneValueA[1]);
-								
-								} else if (pageItemsArray[xcount].type == 1 | pageItemsArray[xcount].type == 9) {
-									$('#widgetid' + pageItemsArray[xcount].id).html(OneValueA[1]);
-									
-				
-								} else if (pageItemsArray[xcount].type == 30) {
-									 widgetidJG[pageItemsArray[xcount].id].refresh(parseInt(OneValueA[1]));
-									 //console.log('#widgetid' + pageItemsArray[xcount].id + ' ' + parseInt(OneValueA[1]));
-									 
-								}
-            					
-            				
-            				}
-        				}
+						if (pageItemsArray[xcount].type == 0) {
+							$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);	
+						} else if (pageItemsArray[xcount].type == 1 | pageItemsArray[xcount].type == 9) {
+							$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);
+						} else if (pageItemsArray[xcount].type == 14) {
+							$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);
+							bmv_i = devicesValArray[pageItemsArray[xcount].device_id];
+						} else if (pageItemsArray[xcount].type == 30) {
+							 widgetidJG[pageItemsArray[xcount].id].refresh(parseInt(devicesValArray[pageItemsArray[xcount].device_id])); 
+						}
         			}
         		}
         	}
         }
-        
 	});
 	
 	//  -- Receiving sendserialtext from server --
