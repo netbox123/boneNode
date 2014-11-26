@@ -22,8 +22,8 @@
     <script type="text/javascript" src="jqwidgets/jqxpanel.js"></script>
     <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
     
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="js/highcharts.js"></script>
+    <script type="text/javascript" src="js/exporting.js"></script>
 
     
     <script src="js/alert_view.min.js"></script>
@@ -164,16 +164,7 @@
 						<li onclick="menuWindow_openOne(6);">BMV-600</li>
 						<li onclick="menuWindow_openOne(7);">Temperaturen</li>
 						<li onclick="menuWindow_openOne(94);">Chart current (A)</li>
-						<li onclick="menuWindow_openOne(93);">Chart temperatures (C)</li>
-					</ul>
-				</li>
-				<li style='padding-top: 2px;'>Debug
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
-						<li onclick="SendServerCommand('writefile-1');">Write File</li>
-						<li onclick="SendServerCommand('emptyserver-1');">Empty Server</li>
-						<li onclick="SendServerCommand('loadfromdb-1');">Load from db</li>
-						<li onclick="SendServerCommand('loadfromfile-1');">Load from File</li>
-						<li type='separator'></li>
+						<li onclick="menuWindow_openOne(93);">Chart temperatures (°C)</li>
 					</ul>
 				</li>
 			</ul>

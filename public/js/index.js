@@ -621,7 +621,7 @@ jQuery(function($){
     
     //  -- Save Preferences to server --
     window.SavePreferences = function (ItemData){
-        socket.emit('savepreferences', ItemData , function(data){
+        socket.emit('savepreferences: ', ItemData , function(data){
         	if(data){
 			} else{
 			}

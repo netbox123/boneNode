@@ -201,8 +201,8 @@
         "page_name": "overview",
         "device_id": 36,
         "type": 17,
-        "xpos": 142,
-        "ypos": 20,
+        "xpos": "5",
+        "ypos": "8",
         "width": 28,
         "height": 28,
         "action": "toggle"

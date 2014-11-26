@@ -158,11 +158,11 @@
     {
         "id": 93,
         "name": "Graph temperatures",
-        "xpos": 13,
-        "ypos": 202,
-        "width": 710,
-        "height": 342,
-        "vis": 1,
+        "xpos": "191",
+        "ypos": "161",
+        "width": "710",
+        "height": "342",
+        "vis": "1",
         "inmenu": 0,
         "mini": 0,
         "maxi": 0
@@ -170,11 +170,11 @@
     {
         "id": 94,
         "name": "Graph current ",
-        "xpos": 13,
-        "ypos": 202,
-        "width": 710,
-        "height": 342,
-        "vis": 1,
+        "xpos": "8",
+        "ypos": "209",
+        "width": "710",
+        "height": "342",
+        "vis": "1",
         "inmenu": 0,
         "mini": 0,
         "maxi": 0
