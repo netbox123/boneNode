@@ -5,9 +5,9 @@ $(document).ready(function() {
 		//$('.tooltip-pass').hide();
 		//$('.submit').removeClass('submit').addClass('charge');
 		//$('#pageLogin').addClass('initLog').delay(3900).queue(function() { $(this).removeClass('initLog').addClass('initLogExit'); $(this).dequeue(); });;
-		$('#page, #head').delay(5500).queue(function() { $(this).addClass('vis'); $(this).dequeue(); });
+		//$('#page, #head').delay(5500).queue(function() { $(this).addClass('vis'); $(this).dequeue(); });
 	//	$('.window').delay(3000).queue(function() { $(this).addClass('windows-vis'); $(this).dequeue(); });
-		event.preventDefault();		
+	//	event.preventDefault();
 
 //-----------------------------------------------------------------------------------
 //	3.	Draggable Windows
@@ -65,8 +65,63 @@ $(".dock li a[data-rel=showPreferences]").click(function(e) {
 	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
     $("#window97").css({"opacity": "1"});
     //$("#window97").css({"visibility": "visible"});
-    $("#window97").delay(1630).queue(function() { $(this).show(); $("#window97").css({"visibility": "visible"}); $(this).dequeue(); });
+    $("#window97").delay(1630).queue(function() { menuWindow_openOne(97); $(this).dequeue(); });
+});
 
+$(".dock li a[data-rel=showFloorplan]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window1").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window1").delay(1630).queue(function() { menuWindow_openOne(1); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showbmv600]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window6").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window6").delay(1630).queue(function() { menuWindow_openOne(6); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showGraphTemp]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window93").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window93").delay(1630).queue(function() { menuWindow_openOne(93); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showGraphPower]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window94").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window94").delay(1630).queue(function() {menuWindow_openOne(94); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showTemperatures]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window7").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window7").delay(1630).queue(function() { menuWindow_openOne(7); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showSafari]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window92").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window92").delay(1630).queue(function() { menuWindow_openOne(92); $(this).dequeue(); });
+});
+
+$(".dock li a[data-rel=showClock]").click(function(e) {
+    e.preventDefault();
+	$(this).addClass('bounce').delay(1600).queue(function() { $(this).removeClass('bounce'); $(this).append(item); item.fadeIn(500); $(this).dequeue(); });
+    $("#window91").css({"opacity": "1"});
+    //$("#window97").css({"visibility": "visible"});
+    $("#window91").delay(1630).queue(function() { menuWindow_openOne(91); $(this).dequeue(); });
 });
 
 $("#warning a[data-rel=close]").click(function(e) {

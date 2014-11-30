@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="en-US" class="no-js">
+<html lang="en-US" >
 <head>
 	<title>BoneApp</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="viewport" content="width=1024, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="apple-touch-icon" href="images/apple-touch-icon-72x72-.png" />
 	<meta name="description" content="BoneApp an BBB NodeJS experiment." />
 	
@@ -43,6 +43,7 @@
             font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
         }
     </style>
+
 </head>
 
 <body>
@@ -50,8 +51,8 @@
 <!-- BOOT -->
 <div id="pageLoading">
 	<div class="loading">
-		<div class="apple-logo"></div>
-        <div class="spinner"></div>
+		<div class="apple-logo" id="apple-logo"></div>
+        <div class="spinner" id="spinner"></div>
 	</div>
 </div>
 
@@ -314,39 +315,64 @@
 				</a>
 			</li>
 			<li id="safari">
-				<a href="#warning" data-rel="showOp">
+				<a href="#warning" data-rel="showSafari">
 					<em><span>Safari</span></em>
 					<img src="img/Safari.png" alt="Safari"/>
+				</a>
+			</li>
+
+			<li id="floorplan">
+				<a href="#warning" data-rel="showFloorplan">
+					<em><span>Floorplan</span></em>
+					<img src="img/Floorplan_icon.png" alt="Floorplan"/>
 				</a>
 			</li>
 			<li id="iChat">
 				<a href="#warning" data-rel="showOp">
 					<em><span>iChat</span></em>
-					<img src="img/ichat.png" alt="iChat"/>
+					<img src="img/voltage_icon.png" alt="iChat"/>
 				</a>
 			</li>
-			<li id="facetime">
+			<li id="iChat">
 				<a href="#warning" data-rel="showOp">
-					<em><span>FaceTime</span></em>
-					<img src="img/facetime.png" alt="Facetime"/>
+					<em><span>iChat</span></em>
+					<img src="img/temp_icon.png" alt="iChat"/>
+				</a>
+			</li>
+			<li id="clock">
+				<a href="#warning" data-rel="showClock">
+					<em><span>Clock</span></em>
+					<img src="img/clock-icon.png" alt="Clock"/>
+				</a>
+			</li>
+			<li id="temperatures">
+				<a href="#warning" data-rel="showTemperatures">
+					<em><span>Temperatures</span></em>
+					<img src="img/temp_icon.png" alt="Temperatures"/>
+				</a>
+			</li>
+			<li id="graphPower">
+				<a href="#warning" data-rel="showGraphPower">
+					<em><span>Graph (power)</span></em>
+					<img src="img/graph-icon.png" alt="Graph (power)"/>
+				</a>
+			</li>
+			<li id="graphTemp">
+				<a href="#warning" data-rel="showGraphTemp">
+					<em><span>Graph (temp)</span></em>
+					<img src="img/graph-icon.png" alt="Graph (temp)"/>
+				</a>
+			</li>
+			<li id="bmv600">
+				<a href="#warning" data-rel="showbmv600">
+					<em><span>BMV-600</span></em>
+					<img src="img/bmv-600_icon.png" alt="bmv-600"/>
 				</a>
 			</li>
 			<li id="addressBook">
 				<a href="#warning" data-rel="showOp">
 					<em><span>Address Book</span></em>
 					<img src="img/address.png" alt="Address Book"/>
-				</a>
-			</li>
-			<li id="preview">
-				<a href="#warning" data-rel="showOp">
-					<em><span>Preview</span></em>
-					<img src="img/preview.png" alt="Preview"/>
-				</a>
-			</li>
-			<li id="iTunes">
-				<a href="#warning" data-rel="showOp">
-					<em><span>iTunes</span></em>
-					<img src="img/iTunes.png" alt="iTunes"/>
 				</a>
 			</li>
 			<li id="preferences">

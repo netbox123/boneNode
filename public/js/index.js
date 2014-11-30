@@ -20,6 +20,8 @@ var zordermax = 10;
 var bootlog = "";
 var aid = [];
 var due_step = 0;
+var widgetidJG = [];
+var SafariMenuHtml = '';
 var curDate, curSec, curMin, curHour, secRot, minRot, hourRot;
 
 bmv_v = '';
@@ -40,14 +42,41 @@ t_B3 = '';
 t_G1 = '';
 t_G2 = '';
 
-var widgetidJG = [];
+SafariMenuHtml  =' <input type="checkbox" id="css3menu-switcher" class="c3m-switch-input">';
+SafariMenuHtml +=' <ul id="css3menu1" class="topmenu">';
+SafariMenuHtml +=' 	<li class="switch"><label onclick="" for="css3menu-switcher"></label></li>';
+SafariMenuHtml +='	<li class="topmenu"><a href="#" style="height:10px;line-height:10px;"><span>PDF</span></a>';
+SafariMenuHtml +=' 	<ul>';
+SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/BMV-600.pdf\');" class="menuli subfirst"><a href="#">Victron BMV-600 Manual</a></li>';
+SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/Mastervolt_ACMaster.pdf\');" class="menuli"><a href="#">Mastervolt AC Master</a></li>';
+SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/BBB_SRM.pdf\');" class="menuli"><a href="#">Beaglebone SRM</a></li>';
+SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/Due-pinout.pdf\');" class="menuli sublast"><a href="#">Arduino Due pinout</a></li>';
+SafariMenuHtml +=' 	</ul></li>';
+SafariMenuHtml +=' 	<li class="topmenu"><a href="#" style="height:12px;line-height:12px;"><span>BBB</span></a>';
+SafariMenuHtml +=' 	<ul>';
+SafariMenuHtml +=' 		<li class="subfirst"><a href="#"><img src="Untitled_files/css3menu1/favour1.png" alt=""/>Item 1 0</a></li>';
+SafariMenuHtml +=' 		<li><a href="#"><img src="Untitled_files/css3menu1/help.png" alt=""/>Item 1 1</a></li>';
+SafariMenuHtml +=' 		<li class="sublast"><a href="#"><img src="Untitled_files/css3menu1/find.png" alt=""/>Item 1 2</a></li>';
+SafariMenuHtml +=' 	</ul></li>';
+SafariMenuHtml +=' 	<li class="topmenu"><a href="#" style="height:12px;line-height:12px;"><span>Beaglebone black</span></a>';
+SafariMenuHtml +=' 	<ul>';
+SafariMenuHtml +=' 		<li class="subfirst"><a href="#">Beaglebone black 1</a></li>';
+SafariMenuHtml +=' 		<li class="sublast"><a href="#">Beaglebone black 0</a></li>';
+SafariMenuHtml +=' 	</ul></li>';
+SafariMenuHtml +=' </ul>';
 
 window.onload = function() {
-    window.resizeTo(1024, 768);
+	initApp();
+    //window.resizeTo(1024, 768);
 	var sec     = document.getElementById('sec');
 	var min     = document.getElementById('min');
 	var hour    = document.getElementById('hour');
 	var tmpRotValue  = "";
+}
+
+function initApp(){
+	$('#pageLoading').delay(500).queue(function() { $(this).css({background:'#fff', visibility:'visible', opacity:'1'}); $(this).dequeue(); });
+	$('#spinner, #apple-logo').delay(1000).queue(function() { $(this).css({visibility:'visible', opacity:'1'}); $(this).dequeue(); });
 }
 
 function initWindows() {
@@ -76,6 +105,7 @@ function initWindows() {
 		$("#inputid480").prop("checked", true);
 		$("#dock").fadeIn(500);
 	}
+	$('#page, #head').delay(2500).queue(function() { $(this).addClass('vis'); $(this).dequeue(); });
 }
 
 function addPage(pageNr){
@@ -244,7 +274,7 @@ function addPageItem(pItemNr, pageNr){
 
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
-                            x: time + i * 1000,
+                            x: time + i * 2000,
                             y: Math.random()
                         });
                     }
@@ -273,13 +303,13 @@ function addPageItem(pItemNr, pageNr){
 
                         // set up the updating of the chart each second
                         var series4001 = this.series[0];
-                        var series4002 = this.series[1];
-                        var series4003 = this.series[2];
-                        var series4004 = this.series[3];
-                        var series4005 = this.series[4];
-                        var series4006 = this.series[5];
-                        var series4007 = this.series[6];
-                        var series4008 = this.series[7];
+                        var series4002 = this.series[2];
+                        var series4003 = this.series[3];
+                        var series4004 = this.series[4];
+                        var series4005 = this.series[5];
+                        var series4006 = this.series[6];
+                        var series4007 = this.series[7];
+                        var series4008 = this.series[1];
                         var series4009 = this.series[8];
                         setInterval(function () {
                             var x = (new Date()).getTime();
@@ -336,6 +366,22 @@ function addPageItem(pItemNr, pageNr){
             },
             series: [{
                 name: 'Binnen',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            },{
+                name: 'Buiten',
                 data: (function () {
                     // generate an array of random data
                     var data = [],
@@ -447,22 +493,6 @@ function addPageItem(pItemNr, pageNr){
                     return data;
                 }())
             },{
-                name: 'Buiten',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            },{
                 name: 'Generator onder',
                 data: (function () {
                     // generate an array of random data
@@ -507,6 +537,23 @@ function addPageItem(pItemNr, pageNr){
 				}
 			}
 		} 
+		
+		
+	} else if (pageItemsArray[pItemNr].type == 18) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height: 100%;height: -webkit-calc(100% - 34px);height: -moz-calc(100% - 34px);height: calc(100% - 34px);'><iframe src='/pdf/BMV-600.pdf' style='padding:0px; width:100%; height:100%;' id='Iframe"+pageItemsArray[pItemNr].id+"' ></iframe></div>");
+		
+	} else if (pageItemsArray[pItemNr].type == 19) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px; background:#AAAAAA;'></div>");
+
+	} else if (pageItemsArray[pItemNr].type == 20) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px; z-index:1;'><input value='/pdf/BMV-600.pdf' type='text' size='40' id='input"+pageItemsArray[pItemNr].id+"'></input></div>");
+
+	} else if (pageItemsArray[pItemNr].type == 21) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;  z-index:1;'>"+SafariMenuHtml+"</div>");
+		//console.log(SafariMenuHtml);
+	} else if (pageItemsArray[pItemNr].type == 22) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'></div>");
+
 	} else if (pageItemsArray[pItemNr].type == 30) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' draggable='true' ondragstart='drag_start(event)' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'><div id='widgetid"+pageItemsArray[pItemNr].id+"' style='width:100px; height:80px'></div></div>");
 		widgetidJG[pageItemsArray[pItemNr].id] = new JustGage({

@@ -3,7 +3,7 @@ var hasBonescript   = 1;                // Bonescript: 0=no, 1=available
 var runMode         = 0;                // Run mode: 0=normal, 1=demo mode
 //----------------------------------------------------------------------------//
 var serialPortDue   = '/dev/ttyO4';
-var outputFilePath  = '/var/lib/cloud9/bbb_app/data/';
+var outputFilePath  = __dirname + '/data/'; 
 var tempdirectory   = '/sys/bus/w1/devices/';
 var RunningOnBBB    = 0;
 var LogLevel        = 1;
@@ -74,10 +74,10 @@ function InitApp() {
     console.log('serialPortDue opened...');
     setInterval(function() {UpdateDevicesArray();}, 1000);
     setInterval(function() {onDemoMode();}, 1000);
-    //setInterval(function() {logDatabase();}, 30*60*1000);
-    server.listen(4000); // listen on port 4000
+    var port = process.env.PORT || CONFIG.port;
+    server.listen(4000); // listen on port 
     app.get('/', function(req, res){res.sendFile(__dirname + '/index.html');});
-    console.log('Server listening on port 4000');
+    console.log('Server listening on port process.env.PORT');
     //setInterval(checkInputs,100);
     //runAction(2); // run schript at boot
     //setTimeout(function(){ SyncDevicesArrayFromSerial(); },3000); // Sync from serial.
