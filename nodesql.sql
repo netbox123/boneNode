@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.9.1
+-- version 4.3.0
 -- http://www.phpmyadmin.net
 --
--- Machine: localhost
--- Gegenereerd op: 23 nov 2014 om 19:02
--- Serverversie: 5.5.38-0+wheezy1
--- PHP-versie: 5.4.4-14+deb7u14
+-- Host: localhost
+-- Generation Time: Aug 03, 2014 at 07:56 PM
+-- Server version: 5.5.38-0+wheezy1
+-- PHP Version: 5.4.4-14+deb7u14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Databank: `nodesql`
+-- Database: `nodesql`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `action`
+-- Table structure for table `action`
 --
 
 CREATE TABLE IF NOT EXISTS `action` (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `action` (
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `action`
+-- Dumping data for table `action`
 --
 
 INSERT INTO `action` (`id`, `name`, `events`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `action` (`id`, `name`, `events`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `config`
+-- Table structure for table `config`
 --
 
 CREATE TABLE IF NOT EXISTS `config` (
@@ -59,16 +59,16 @@ CREATE TABLE IF NOT EXISTS `config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Gegevens worden geëxporteerd voor tabel `config`
+-- Dumping data for table `config`
 --
 
 INSERT INTO `config` (`id`, `version`, `hasDock`, `bkgnd_pict`) VALUES
-(1, '0.1.7', 1, 'background.png');
+(1, '0.1.8', 1, 'background.png');
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `device`
+-- Table structure for table `device`
 --
 
 CREATE TABLE IF NOT EXISTS `device` (
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `device` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `device`
+-- Dumping data for table `device`
 --
 
 INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, `action`, `inv`, `toff`, `due`, `re`) VALUES
@@ -149,7 +149,7 @@ INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `event`
+-- Table structure for table `event`
 --
 
 CREATE TABLE IF NOT EXISTS `event` (
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `event` (
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `event`
+-- Dumping data for table `event`
 --
 
 INSERT INTO `event` (`id`, `action_id`, `device_id`, `action`, `value`, `sort`, `device_name`) VALUES
@@ -175,7 +175,7 @@ INSERT INTO `event` (`id`, `action_id`, `device_id`, `action`, `value`, `sort`, 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `item_types`
+-- Table structure for table `item_types`
 --
 
 CREATE TABLE IF NOT EXISTS `item_types` (
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `item_types` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
--- Gegevens worden geëxporteerd voor tabel `item_types`
+-- Dumping data for table `item_types`
 --
 
 INSERT INTO `item_types` (`id`, `naam`, `width`, `height`, `img`) VALUES
@@ -198,7 +198,34 @@ INSERT INTO `item_types` (`id`, `naam`, `width`, `height`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `log`
+-- Table structure for table `link`
+--
+
+CREATE TABLE IF NOT EXISTS `link` (
+`id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `url` varchar(200) NOT NULL,
+  `type` int(11) NOT NULL,
+  `menu` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `link`
+--
+
+INSERT INTO `link` (`id`, `name`, `url`, `type`, `menu`) VALUES
+(1, 'Apple', 'http://www.apple.com', 1, 1),
+(2, 'Ecologieforum', 'http://ecologieforum.eu', 1, 1),
+(3, 'KLM', 'http://klm.nl', 1, 1),
+(4, 'Victron BMV-600', '/pdf/BMV-600.pdf', 2, 0),
+(5, 'Mastervolt AC Master', '/pdf/Mastervolt_ACMaster.pdf', 2, 0),
+(6, 'Beaglebone SRM', '/pdf/BBB_SRM.pdf', 2, 0),
+(7, 'Arduino Due pinout', '/pdf/Due-pinout.pdf', 2, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log`
 --
 
 CREATE TABLE IF NOT EXISTS `log` (
@@ -220,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=latin1;
 
 --
--- Gegevens worden geëxporteerd voor tabel `log`
+-- Dumping data for table `log`
 --
 
 INSERT INTO `log` (`recnr`, `time`, `t_WK`, `t_K1`, `t_K2`, `t_B1`, `t_B2`, `t_B3`, `t_G1`, `t_G2`, `t_BU`, `b_V`, `b_I`, `b_CE`, `b_SOC`) VALUES
@@ -262,7 +289,7 @@ INSERT INTO `log` (`recnr`, `time`, `t_WK`, `t_K1`, `t_K2`, `t_B1`, `t_B2`, `t_B
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `page`
+-- Table structure for table `page`
 --
 
 CREATE TABLE IF NOT EXISTS `page` (
@@ -279,14 +306,14 @@ CREATE TABLE IF NOT EXISTS `page` (
 ) ENGINE=MyISAM AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `page`
+-- Dumping data for table `page`
 --
 
 INSERT INTO `page` (`id`, `name`, `xpos`, `ypos`, `width`, `height`, `vis`, `inmenu`, `mini`, `maxi`) VALUES
 (1, 'Floorplan', 7, 29, 588, 500, 1, 1, 0, 0),
-(2, 'Info', 772, 28, 245, 283, 1, 1, 0, 0),
-(6, 'BMV-600', 780, 317, 249, 333, 1, 1, 0, 0),
-(7, 'Temperaturen', 555, 50, 250, 280, 1, 1, 0, 0),
+(2, 'Info', 772, 28, 245, 283, 0, 1, 0, 0),
+(6, 'BMV-600', 886, 76, 249, 333, 1, 1, 0, 0),
+(7, 'Temperaturen', 600, 30, 250, 280, 1, 1, 0, 0),
 (50, 'About this', 359, 118, 310, 382, 0, 0, 0, 0),
 (51, 'About finder', 405, 154, 310, 382, 0, 0, 0, 0),
 (60, 'Serial monitor', 3, 329, 780, 258, 0, 0, 0, 0),
@@ -296,13 +323,15 @@ INSERT INTO `page` (`id`, `name`, `xpos`, `ypos`, `width`, `height`, `vis`, `inm
 (0, 'system', 1, 1, 1, 1, 0, 0, 0, 0),
 (96, 'Log', 60, 104, 656, 303, 0, 0, 0, 0),
 (95, 'Item new', 171, 61, 266, 320, 0, 0, 0, 0),
-(93, 'Graph temperatures', 13, 202, 710, 342, 1, 0, 0, 0),
-(94, 'Graph current ', 13, 202, 710, 342, 1, 0, 0, 0);
+(93, 'Graph temperatures', 191, 161, 710, 342, 0, 0, 0, 0),
+(94, 'Graph current ', 8, 209, 710, 342, 0, 0, 0, 0),
+(92, 'Safari', 19, 31, 876, 496, 0, 0, 0, 0),
+(91, 'Clock', 854, 31, 198, 168, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `page_items`
+-- Table structure for table `page_items`
 --
 
 CREATE TABLE IF NOT EXISTS `page_items` (
@@ -320,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `page_items` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4013 DEFAULT CHARSET=latin1;
 
 --
--- Gegevens worden geëxporteerd voor tabel `page_items`
+-- Dumping data for table `page_items`
 --
 
 INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `type`, `xpos`, `ypos`, `width`, `height`, `action`) VALUES
@@ -432,12 +461,17 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (482, 'Save', 97, 'Preferences', 0, 3, 157, 287, 80, 20, 'savePreferences()'),
 (554, 'Graph current', 94, '', 3002, 14, 0, 0, 710, 350, ''),
 (553, 'Vermogen', 6, '', 3008, 1, 0, 200, 250, 25, ''),
-(555, 'Graph temperature', 93, '', 3002, 15, 0, 0, 710, 350, '');
+(555, 'Graph temperature', 93, '', 3002, 15, 0, 0, 710, 350, ''),
+(405, 'Safari_iframe', 92, 'Safari', 0, 18, -1, 49, 600, 400, ''),
+(406, 'bkgnd_box', 92, 'Safari', 0, 19, -1, 0, 600, 49, ''),
+(407, 'url', 92, 'Safari', 0, 20, 43, 2, 300, 25, ''),
+(408, 'go', 92, 'Safari', 0, 3, 5, 5, 35, 21, 'goURL()'),
+(409, 'menu', 92, 'Safari', 0, 21, -4, 25, 400, 40, '');
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `port`
+-- Table structure for table `port`
 --
 
 CREATE TABLE IF NOT EXISTS `port` (
@@ -452,7 +486,7 @@ CREATE TABLE IF NOT EXISTS `port` (
 ) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `port`
+-- Dumping data for table `port`
 --
 
 INSERT INTO `port` (`id`, `inout`, `omschr`, `type`, `connect`, `pwm`, `port`, `visible`) VALUES
@@ -512,99 +546,110 @@ INSERT INTO `port` (`id`, `inout`, `omschr`, `type`, `connect`, `pwm`, `port`, `
 (54, 0, '', '', '', 0, 53, 1);
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `action`
+-- Indexes for table `action`
 --
 ALTER TABLE `action`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `config`
+-- Indexes for table `config`
 --
 ALTER TABLE `config`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `device`
+-- Indexes for table `device`
 --
 ALTER TABLE `device`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `event`
+-- Indexes for table `event`
 --
 ALTER TABLE `event`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `item_types`
+-- Indexes for table `item_types`
 --
 ALTER TABLE `item_types`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `log`
+-- Indexes for table `link`
+--
+ALTER TABLE `link`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `log`
 --
 ALTER TABLE `log`
  ADD PRIMARY KEY (`recnr`), ADD UNIQUE KEY `recnr` (`recnr`);
 
 --
--- Indexen voor tabel `page`
+-- Indexes for table `page`
 --
 ALTER TABLE `page`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `page_items`
+-- Indexes for table `page_items`
 --
 ALTER TABLE `page_items`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `port`
+-- Indexes for table `port`
 --
 ALTER TABLE `port`
  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel `action`
+-- AUTO_INCREMENT for table `action`
 --
 ALTER TABLE `action`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
--- AUTO_INCREMENT voor een tabel `event`
+-- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT voor een tabel `item_types`
+-- AUTO_INCREMENT for table `item_types`
 --
 ALTER TABLE `item_types`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT voor een tabel `log`
+-- AUTO_INCREMENT for table `link`
+--
+ALTER TABLE `link`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
 MODIFY `recnr` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=138;
 --
--- AUTO_INCREMENT voor een tabel `page`
+-- AUTO_INCREMENT for table `page`
 --
 ALTER TABLE `page`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=101;
 --
--- AUTO_INCREMENT voor een tabel `page_items`
+-- AUTO_INCREMENT for table `page_items`
 --
 ALTER TABLE `page_items`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4013;
 --
--- AUTO_INCREMENT voor een tabel `port`
+-- AUTO_INCREMENT for table `port`
 --
 ALTER TABLE `port`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;

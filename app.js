@@ -28,6 +28,7 @@ node_names          = [];
 node_addresses      = [];
 var eventsArray     = [];
 var itemTypesArray  = [];
+var linksArray      = [];
 
 bmv_v = '';
 bmv_i = '';
@@ -110,6 +111,7 @@ io.sockets.on('connection', function(socket){
 		socket.emit('pages', pagesArray);
 		socket.emit('events', eventsArray);
 		socket.emit('item_types', itemTypesArray);
+		socket.emit('links', linksArray);
 		socket.emit('pageitems', pageItemsArray);
 	}
 	
@@ -124,9 +126,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('getallvalues', function(data){
         var valstr = '';
         for (var i in devicesArray) {
-            if(devicesArray[i].id > 999){
-                valstr += devicesArray[i].id+'#'+devicesArray[i].val + '*';
-            }
+            valstr += devicesArray[i].id+'#'+devicesArray[i].val + '*';
         }
 		socket.emit('sendallvalues', {msg: valstr});
 		//console.log(valstr);
@@ -434,6 +434,7 @@ function loadDatbase() {
     lib_database.loadInputs('SELECT * FROM device WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;console.log('Inputs: '+inputsArray.length);});
     lib_database.loadEvents('SELECT * FROM event', function(result) {eventsArray = lib_database._eventsArray;console.log('Events: '+eventsArray.length);});
     lib_database.loadItemTypes('SELECT * FROM item_types', function(result) {itemTypesArray = lib_database._itemTypesArray;console.log('ItemTypes: '+itemTypesArray.length);});
+    lib_database.loadLinks('SELECT * FROM link', function(result) {linksArray = lib_database._linksArray;console.log('Links: '+linksArray.length);});
     lib_database.connectionEnd();
 }
 
@@ -705,6 +706,14 @@ function writeToFiles(){
             console.log("Item_type saved to " + outputFilename);
         }
     });
+    var outputFilename = outputFilePath + 'link.json';
+    fs.writeFile(outputFilename, JSON.stringify(linksArray, null, 4), function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log("link saved to " + outputFilename);
+        }
+    });
 }  			
 
 function EmptyServer(){
@@ -737,6 +746,9 @@ function LoadFromFile(){
     outputFilename = outputFilePath + 'event.json';
     eventsArray = require(outputFilename);
     console.log('eventsArray '+eventsArray.length);
+    outputFilename = outputFilePath + 'link.json';
+    linksArray = require(outputFilename);
+    console.log('linksArray '+linksArray.length);
     outputFilename = outputFilePath + 'item_type.json';
     itemTypesArray = require(outputFilename);
     console.log('itemTypesArray '+itemTypesArray.length);

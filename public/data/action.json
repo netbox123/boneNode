@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Alles uit",
+        "events": "1-off-0;22-off-0;26-off-0;36-off-0;8-off-0;25-off-0;24-off-0;23-off-0;27-off-0;28-off-0;29-off-0;31-off-0;34-off-0;35-off-0"
+    },
+    {
+        "id": 2,
+        "name": "Woonkamer aan",
+        "events": "1-on-100;22-on-100;26-on-100;36-on-100;8-on-100"
+    },
+    {
+        "id": 3,
+        "name": "toilet timed off",
+        "events": "29-toff-30"
+    },
+    {
+        "id": 7,
+        "name": "achterdeur timed off",
+        "events": "28-toff-900"
+    },
+    {
+        "id": 8,
+        "name": "NachtL1",
+        "events": "25-toggle-00"
+    },
+    {
+        "id": 9,
+        "name": "NachtL2",
+        "events": "1-off-0;22-off-0;26-off-0;36-off-0;8-off-0;25-off-0;24-off-0;23-off-0;27-off-0;28-off-0;29-off-0;31-off-0;34-off-0;35-off-0"
+    },
+    {
+        "id": 10,
+        "name": "Kachel on",
+        "events": "1-off-00"
+    }
+]

@@ -558,5 +558,5 @@ function Safari_MenuLink(theURL) {
 	//console.log('Safari_MenuLink theURL ' + theURL);
 	$('#input407').val(theURL);
 	$("#Iframe405").attr("src", theURL);
-	$(".menuli").css('display','none');
+	//$(".menuli").fadeOut(500);
 }

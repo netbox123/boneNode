@@ -6,6 +6,7 @@ var	devicesValArray = [];
 var inputsArray = [];
 var configArray = [];
 var eventsArray = [];
+var linksArray = [];
 var itemTypesArray = [];
 var iseditmode = 0;
 var iswineditmode = 0;
@@ -46,22 +47,13 @@ SafariMenuHtml  =' <input type="checkbox" id="css3menu-switcher" class="c3m-swit
 SafariMenuHtml +=' <ul id="css3menu1" class="topmenu">';
 SafariMenuHtml +=' 	<li class="switch"><label onclick="" for="css3menu-switcher"></label></li>';
 SafariMenuHtml +='	<li class="topmenu"><a href="#" style="height:10px;line-height:10px;"><span>PDF</span></a>';
-SafariMenuHtml +=' 	<ul>';
-SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/BMV-600.pdf\');" class="menuli subfirst"><a href="#">Victron BMV-600 Manual</a></li>';
-SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/Mastervolt_ACMaster.pdf\');" class="menuli"><a href="#">Mastervolt AC Master</a></li>';
-SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/BBB_SRM.pdf\');" class="menuli"><a href="#">Beaglebone SRM</a></li>';
-SafariMenuHtml +=' 		<li onclick="Safari_MenuLink(\'/pdf/Due-pinout.pdf\');" class="menuli sublast"><a href="#">Arduino Due pinout</a></li>';
+SafariMenuHtml +=' 	<ul id="safariMenu0">';
 SafariMenuHtml +=' 	</ul></li>';
-SafariMenuHtml +=' 	<li class="topmenu"><a href="#" style="height:12px;line-height:12px;"><span>BBB</span></a>';
-SafariMenuHtml +=' 	<ul>';
-SafariMenuHtml +=' 		<li class="subfirst"><a href="#"><img src="Untitled_files/css3menu1/favour1.png" alt=""/>Item 1 0</a></li>';
-SafariMenuHtml +=' 		<li><a href="#"><img src="Untitled_files/css3menu1/help.png" alt=""/>Item 1 1</a></li>';
-SafariMenuHtml +=' 		<li class="sublast"><a href="#"><img src="Untitled_files/css3menu1/find.png" alt=""/>Item 1 2</a></li>';
+SafariMenuHtml +=' 	<li class="topmenu"><a href="#" style="height:12px;line-height:12px;"><span>Arduino</span></a>';
+SafariMenuHtml +=' 	<ul id="safariMenu1">';
 SafariMenuHtml +=' 	</ul></li>';
 SafariMenuHtml +=' 	<li class="topmenu"><a href="#" style="height:12px;line-height:12px;"><span>Beaglebone black</span></a>';
-SafariMenuHtml +=' 	<ul>';
-SafariMenuHtml +=' 		<li class="subfirst"><a href="#">Beaglebone black 1</a></li>';
-SafariMenuHtml +=' 		<li class="sublast"><a href="#">Beaglebone black 0</a></li>';
+SafariMenuHtml +=' 	<ul id="safariMenu2">';
 SafariMenuHtml +=' 	</ul></li>';
 SafariMenuHtml +=' </ul>';
 
@@ -537,10 +529,8 @@ function addPageItem(pItemNr, pageNr){
 				}
 			}
 		} 
-		
-		
 	} else if (pageItemsArray[pItemNr].type == 18) {
-		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height: 100%;height: -webkit-calc(100% - 34px);height: -moz-calc(100% - 34px);height: calc(100% - 34px);'><iframe src='/pdf/BMV-600.pdf' style='padding:0px; width:100%; height:100%;' id='Iframe"+pageItemsArray[pItemNr].id+"' ></iframe></div>");
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height: 100%;height: -webkit-calc(100% - 49px);height: -moz-calc(100% - 49px);height: calc(100% - 49px);'><iframe src='http://192.168.7.2:88/extplorer/index.php' style='padding:0px; width:100%; height:100%;' id='Iframe"+pageItemsArray[pItemNr].id+"' ></iframe></div>");
 		
 	} else if (pageItemsArray[pItemNr].type == 19) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px; background:#AAAAAA;'></div>");
@@ -551,6 +541,39 @@ function addPageItem(pItemNr, pageNr){
 	} else if (pageItemsArray[pItemNr].type == 21) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;  z-index:1;'>"+SafariMenuHtml+"</div>");
 		//console.log(SafariMenuHtml);
+		var menucount = 0;
+		var count = 0;
+		var imgName;
+		for(p=0; p < 6; p++){
+			menucount = 0;
+			count = 0;
+			for(q=0; q < linksArray.length; q++){
+				if(linksArray[q].menu == p){
+					menucount = menucount + 1;
+				}
+			}
+			for(m=0; m < linksArray.length; m++){
+				if(linksArray[m].menu == p){
+					count = count + 1;
+					if (linksArray[m].type == 1){
+						imgName ='earth.png';
+					} else if (linksArray[m].type == 2){
+						imgName ='pdf.png';
+					}
+					if (count == menucount){
+						console.log('last   ' + count + '  ' + menucount + '  ' +linksArray[m].name);
+						$('#safariMenu' + linksArray[m].menu).append('<li onclick="Safari_MenuLink(\''+linksArray[m].url+'\');" class=" sublast"><a style="padding-left: 25px; top:4px" href="#"><img style="position: absolute; left: 5px; top: 3px" src="img/'+imgName+'" alt=""/>'+linksArray[m].name+'</a></li>');
+					} else if (count == 1){
+						console.log('top   ' + count + '  ' + menucount + '  ' +linksArray[m].name);
+						$('#safariMenu' + linksArray[m].menu).append('<li onclick="Safari_MenuLink(\''+linksArray[m].url+'\');" class=" subfirst"><a style="padding-left: 25px; top:4px" href="#"><img style="position: absolute; left: 5px; top: 3px" src="img/'+imgName+'" alt=""/>'+linksArray[m].name+'</a></li>');
+					} else {
+						console.log('middle ' + count + '  ' + menucount + '  ' +linksArray[m].name);
+						$('#safariMenu' + linksArray[m].menu).append('<li onclick="Safari_MenuLink(\''+linksArray[m].url+'\');"><a style="padding-left: 25px; top:4px" href="#"><img style="position: absolute; left: 5px; top: 3px" src="img/'+imgName+'" alt=""/>'+linksArray[m].name+'</a></li>');
+					}
+				}
+			}
+		}
+		
 	} else if (pageItemsArray[pItemNr].type == 22) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'></div>");
 
@@ -758,6 +781,16 @@ jQuery(function($){
 		bootlog = 'events: ' + eventsArray.length + "\r" + bootlog;
 	});
 	
+	//  -- Receiving links list from server --
+	socket.on('links', function(data){
+		linksArray = [];
+		for(i=0; i < data.length; i++){
+			linksArray.push(data[i]); 
+		}
+		console.log('links: ' + linksArray.length );
+		bootlog = 'links: ' + linksArray.length + "\r" + bootlog;
+	});
+	
 	//  -- Receiving item_types list from server --
 	socket.on('item_types', function(data){
 		itemTypesArray = [];
@@ -946,6 +979,7 @@ jQuery(function($){
         for(j=0; j < ValuesA.length-1; j++){
             OneValueA  = ValuesA[j].split('#');
             devicesValArray[OneValueA[0]] = OneValueA[1];
+            //console.log('devicesValArray '+OneValueA[0]+'  '+OneValueA[1]);
         }
         
         for(j=0; j < pagesArray.length; j++){
@@ -953,6 +987,9 @@ jQuery(function($){
         	if (pagesArray[j].vis | pagesArray[j].id == 0){        		
         		for(xcount=0; xcount < pageItemsArray.length; xcount++){					
         			if (pageItemsArray[xcount].page_id == pagesArray[j].id){
+        				//pageItemsArray[xcount].val = devicesValArray[pageItemsArray[xcount].device_id];
+						//pageItemsArray[xcount].val = devicesValArray[pageItemsArray[xcount].device_id];
+						//devicesValArray[pageItemsArray[xcount].device_id] = 
 						if (pageItemsArray[xcount].type == 0) {
 							$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);	
 						} else if (pageItemsArray[xcount].type == 1 | pageItemsArray[xcount].type == 9) {
@@ -1057,19 +1094,22 @@ jQuery(function($){
 	
 	//  -- Client disconnected --
     socket.on('disconnect', function(data){
-		    aid = $.av.pop({
-            mode: 'alert',
-            template: 'error',
-            title: 'testing',
-            expire: 0,
-            message: 'Disconnected<br>test'
-         });
-         //socket.connect;
+		$.av.pop({
+            title: 'Alert',
+            message: 'Socket disconnected' +'<br>'+'try to restore the connection'
+        });
+        console.log('socket disconnected ');
 	 });
      
     //  -- Client connected --
     socket.on('connect', function(data){
-		    $.av.hide(aid);  
+    	if (configArray.length > 0)
+			$.av.pop({
+    	      title: 'Alert',
+        	   message: 'Socket re-connected' +'<br>'+'connection restored'
+      		});
+      	updateLayoutAll();	
+        console.log('socket re-connected '); 
 	 });
     
     //  -- sendQuery --
@@ -1117,4 +1157,32 @@ jQuery(function($){
 
       } 	
 	}
+	
+	
+	
+	
+	function updateLayoutAll() {
+		if(configArray.length>0){
+			console.log('updateLayoutAll');
+			setTimeout(function(){ updateLayoutAllDelayed(); },1500); // wait for fresh data.
+		}
+	}
+	
+	function updateLayoutAllDelayed() {
+		for(counter=0; counter < pageItemsArray.length; counter++){					
+        	if (pageItemsArray[counter].type == 17){
+        		//console.log('devicesValArray[pageItemsArray[counter].device_id]  '+devicesValArray[pageItemsArray[counter].device_id] +' counter '+counter+ 'pageItemsArray[counter].device_id '+pageItemsArray[counter].device_id);
+				if(devicesValArray[pageItemsArray[counter].device_id] == 0){
+					$("#widgetid"+pageItemsArray[counter].id).jqxCheckBox({ checked:false });
+				}else{
+					$("#widgetid"+pageItemsArray[counter].id).jqxCheckBox({ checked:true });
+				}
+        	}		
+        }
+	}
+		
+	
+	
+	
+	
 });

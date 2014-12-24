@@ -42,6 +42,17 @@ login with youre browser 192.168.7.2:4000
 Have fun!
 
 ### Version history
+**0.2**
+- First steps in removing jqx dependancies.
+
+**0.1.9**
+- Layout update after socket reconnect
+
+**0.1.8**
+- code and css cleanup session 
+- added 'Safari' window for offline viewing pdf's from Beaglebone
+- added 'Safari' window for browsing without leaving app.
+
 **0.1.7**
 - Live charts for power and temperatures
 

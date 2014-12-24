@@ -8,6 +8,7 @@ var _tempsensorArray    = [];
 var _configArray    	= [];
 var _eventsArray    	= [];
 var _itemTypesArray    	= [];
+var _linksArray    		= [];
 
 var connection = mysql.createConnection({host: 'localhost',user: 'root',password: 'pipo',database: 'nodesql'});
 connection.connect();
@@ -20,6 +21,7 @@ module.exports._actionsArray = _actionsArray;
 module.exports._pagesArray = _pagesArray;
 module.exports._eventsArray = _eventsArray;
 module.exports._itemTypesArray = _itemTypesArray;
+module.exports._linksArray = _linksArray;
 module.exports.connectionEnd = function() { connection.end(); };
 
 module.exports.loadConfig = function(querystring, callback){
@@ -50,6 +52,17 @@ module.exports.loadItemTypes = function(querystring, callback){
 		for (var i in result) {
 			var item = result[i];
 			_itemTypesArray.push(item);
+		 }
+         callback();
+	});
+};
+
+module.exports.loadLinks = function(querystring, callback){
+    connection.query(querystring, function(err, result) {
+    	if (err) throw err;
+		for (var i in result) {
+			var item = result[i];
+			_linksArray.push(item);
 		 }
          callback();
 	});
