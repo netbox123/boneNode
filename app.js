@@ -6,7 +6,6 @@ var serialPortDue   = '/dev/ttyO4';
 var outputFilePath  = __dirname + '/data/'; 
 var tempdirectory   = '/sys/bus/w1/devices/';
 var RunningOnBBB    = 0;
-var LogLevel        = 1;
 var fs              = require('fs');
 var sys             = require('sys');
 var b               = require('bonescript');
@@ -56,9 +55,7 @@ var express = require('express'),app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 var server = require('http').createServer(app),io = require('socket.io').listen(server);
 
-
-io.set('log level', 1 ); // reduce logging
-setPins();
+//setPins();
 
 if (hasMySQL){
     console.log('Loading database...');
@@ -79,9 +76,6 @@ function InitApp() {
     server.listen(4000); // listen on port 
     app.get('/', function(req, res){res.sendFile(__dirname + '/index.html');});
     console.log('Server listening on port process.env.PORT');
-    //setInterval(checkInputs,100);
-    //runAction(2); // run schript at boot
-    //setTimeout(function(){ SyncDevicesArrayFromSerial(); },3000); // Sync from serial.
 }
 
 io.sockets.on('connection', function(socket){
@@ -158,7 +152,6 @@ io.sockets.on('connection', function(socket){
                     data: data,
                     timeText: 'testtimetext'
 				});
-            
             console.log('starttemp');
         } else if(temparray[0] == 'reloaddb'){
         	//loadDatbase();
@@ -184,14 +177,111 @@ io.sockets.on('connection', function(socket){
         }
 	});
     
-     //  -- SendAction received from client --
-    socket.on('sendaction', function(data){
-        for (var i in actionsArray) {
-            if (data == actionsArray[i].id){
-                io.sockets.emit('new message', {title: 'Run '+actionsArray[i].name,nick: 'action'+data,data: data,timeText: actionsArray[i].events});
-            }
+    
+    //  -- eventChange received from client --
+    socket.on('eventchange', function(data){
+        console.log('eventchange '+data.action_id);
+        if(data.event_action == 'new'){
+            for(j=0; j < actionsArray.length; j++){
+		        if(actionsArray[j].id == data.action_id){
+			        actionsArray[j].events += data.event_string;
+			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
+		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
+		            query_str += " WHERE  `action`.`id` ="+data.action_id;
+		            sendSqlQuery(query_str);     
+	        	}
+        	}
+        } else if(data.event_action == 'edit'){
+        	var newEventString ='';
+	        for(j=0; j < actionsArray.length; j++){
+		        if(actionsArray[j].id == data.action_id){
+			        ValuesA  = actionsArray[j].events.split(';');
+        	        for(k=0; k < ValuesA.length-1; k++){
+        		        if(k==data.event_nr){
+        			        newEventString += data.event_string;
+        		        }else {
+        			        newEventString += ValuesA[k] +';';
+        		        }
+           	        }
+			        actionsArray[j].events = newEventString;
+			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
+		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
+		            query_str += " WHERE  `action`.`id` ="+data.action_id;
+		            sendSqlQuery(query_str);    
+		        }
+	        }
+        } else if(data.event_action == 'delete'){
+        	var newEventString ='';
+	        for(j=0; j < actionsArray.length; j++){
+		        if(actionsArray[j].id == data.action_id){
+			        ValuesA  = actionsArray[j].events.split(';');
+        	        for(k=0; k < ValuesA.length-1; k++){
+        		        if(k!=data.event_nr){
+        			        newEventString += ValuesA[k] +';';
+        		        }
+           	        }
+			        actionsArray[j].events = newEventString;
+			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
+		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
+		            query_str += " WHERE  `action`.`id` ="+data.action_id;
+		            sendSqlQuery(query_str);  
+		        }
+	        }
         }
-        runAction(data);
+        socket.emit('eventchanged', data);
+    });
+    
+     //  -- actionChange received from client --
+    socket.on('actionchange', function(data){
+        console.log('eventchange '+data.action_id);
+        if(data.event_action == 'new'){
+            for(j=0; j < actionsArray.length; j++){
+		        if(actionsArray[j].id == data.action_id){
+			        actionsArray[j].events += data.event_string;
+			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
+		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
+		            query_str += " WHERE  `action`.`id` ="+data.action_id;
+		            sendSqlQuery(query_str);     
+	        	}
+        	}
+        } else if(data.event_action == 'edit'){
+        	var newEventString ='';
+	        for(j=0; j < actionsArray.length; j++){
+		        if(actionsArray[j].id == data.action_id){
+			        ValuesA  = actionsArray[j].events.split(';');
+        	        for(k=0; k < ValuesA.length-1; k++){
+        		        if(k==data.event_nr){
+        			        newEventString += data.event_string;
+        		        }else {
+        			        newEventString += ValuesA[k] +';';
+        		        }
+           	        }
+			        actionsArray[j].events = newEventString;
+			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
+		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
+		            query_str += " WHERE  `action`.`id` ="+data.action_id;
+		            sendSqlQuery(query_str);    
+		        }
+	        }
+        } else if(data.event_action == 'delete'){
+        	var newEventString ='';
+	        for(j=0; j < actionsArray.length; j++){
+		        if(actionsArray[j].id == data.action_id){
+			        ValuesA  = actionsArray[j].events.split(';');
+        	        for(k=0; k < ValuesA.length-1; k++){
+        		        if(k!=data.event_nr){
+        			        newEventString += ValuesA[k] +';';
+        		        }
+           	        }
+			        actionsArray[j].events = newEventString;
+			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
+		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
+		            query_str += " WHERE  `action`.`id` ="+data.action_id;
+		            sendSqlQuery(query_str);  
+		        }
+	        }
+        }
+        socket.emit('actionchanged', data);
     });
     
     //  -- SendDueSerial received from client --
@@ -389,32 +479,8 @@ function onSerial(x) {
 	}
 }
 
-function checkInputs(){
-    for (var i in inputsArray) {
-        if (RunningOnBBB){
-            checkKey(b.digitalRead(inputsArray[i].pin),inputsArray[i].id,i); 
-        }
-        //console.log(inputsArray[i].pin+' '+inputsArray[i].id+' '+i);
-    }
-}
 
-function checkKey(x, deviceid, arrayid) {
-	if ((x == 0 & inputsArray[arrayid].inv == 0) | (x == 1 & inputsArray[arrayid].inv == 1)) {
-		if (inputsArray[arrayid].mem == 0) {
-			inputsArray[arrayid].mem = 1;
-			var timeText = lib_tool.getDateTime();
-			io.sockets.emit('input change', deviceid+'-on-100');
-            setDeviceVal(deviceid,100);
-			runAction(inputsArray[arrayid].action);
-		}
-	} else {
-		if (inputsArray[arrayid].mem == 1){
-            io.sockets.emit('input change', deviceid+'-off-0');
-            setDeviceVal(deviceid,0);
-            }
-		inputsArray[arrayid].mem = 0;
-	}
-}
+
 
 function setDeviceVal(deviceid, val) {
     for (var i in devicesArray) {
@@ -508,121 +574,6 @@ function SyncDevicesArrayFromSerial() {
      }
 }
 
-
-function setPins(){
-  if (RunningOnBBB){
-    b.pinMode('P8_7', b.OUTPUT);
-    b.pinMode('P8_8', b.OUTPUT);
-    b.pinMode('P8_9', b.OUTPUT);
-    b.pinMode('P8_10', b.OUTPUT);
-    b.pinMode('P8_11', b.OUTPUT);
-    b.pinMode('P8_12', b.OUTPUT);
-    b.pinMode('P8_13', b.OUTPUT);
-    b.pinMode('P8_14', b.OUTPUT);
-    b.pinMode('P8_15', b.OUTPUT);
-    b.pinMode('P8_16', b.OUTPUT);
-    b.pinMode('P8_17', b.OUTPUT);
-    b.pinMode('P8_18', b.OUTPUT);
-    b.pinMode('P8_19', b.OUTPUT);
-    b.pinMode('P8_26', b.OUTPUT);
-    b.pinMode('P9_11', b.OUTPUT); 
-    b.pinMode('P9_12', b.OUTPUT);
-    b.pinMode('P9_13', b.INPUT); 
-    b.pinMode('P9_14', b.INPUT);
-    b.pinMode('P9_15', b.INPUT);
-    b.pinMode('P9_16', b.INPUT);
-    b.pinMode('P9_17', b.INPUT);
-    b.pinMode('P9_18', b.INPUT);
-    b.pinMode('P9_21', b.INPUT);
-    b.pinMode('P9_23', b.INPUT);
-  }
-}
-
-function runAction(actioinid) {
-	for (var i in actionsArray) {
-		if (actioinid == actionsArray[i].id){
-			//console.log(i + ' ' + actionsArray[i].events); 
-			runRawAction(actionsArray[i].events);
-		}
-		
-	 }
-}
-
-function runRawAction(theaction) {
-	//console.log(i + ' ' + actionsArray[i].events); 
-	var event_array = theaction.split(';');
-	for (var j in event_array) {
-		var oneE_array = event_array[j].split('-');
-		if (oneE_array[1] == 'on'){
-			switchLamp(oneE_array[0],1);
-		} else if (oneE_array[1] == 'off') {
-			switchLamp(oneE_array[0],0);
-		} else if (oneE_array[1] == 'toggle') {
-			toggleLamp(oneE_array[0],0);
-		} else if (oneE_array[1] == 'dim') {
-			switchLamp(oneE_array[0],0);
-		} else if (oneE_array[1] == 'toff') {
-			toffLamp(oneE_array[0],oneE_array[2]);
-		}
-	}
-}
-
-function switchLamp(deviceid, onoff) {
-	for (var i in devicesArray) {
-		if (deviceid == devicesArray[i].id){
-			if (onoff){
-				turnOn(devicesArray[i].due);
-				devicesArray[i].val = 100;
-				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
-			} else {
-				turnOff(devicesArray[i].due);
-				devicesArray[i].val = 0;
-				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
-			}
-		}
-		
-	 }
-}
-
-function toffLamp(deviceid, sec) {
-	for (var i in devicesArray) {
-		if (deviceid == devicesArray[i].id){
-			var timenow = new Date().getTime();
-			turnOn(devicesArray[i].due);
-			devicesArray[i].val = 100;
-			devicesArray[i].toff = parseInt(timenow/1000)+parseInt(sec);
-			io.sockets.emit('device change', devicesArray[i].id + '-on-100');
-		}
-		
-	 }
-}
-
-function toggleLamp(deviceid, nu) {
-	for (var i in devicesArray) {
-		if (deviceid == devicesArray[i].id){
-			if (devicesArray[i].val == 0){
-				turnOn(devicesArray[i].due);
-				devicesArray[i].val = 100;
-				io.sockets.emit('device change', devicesArray[i].id + '-on-100');
-			} else {
-				turnOff(devicesArray[i].due);
-				devicesArray[i].val = 0;
-				io.sockets.emit('device change', devicesArray[i].id + '-off-0');
-			}
-		}
-		
-	 }
-}
-
-function turnOn(deviceid) {
- //   serialPort.write(deviceid + '=1\n');
- b.serialWrite(serialPortDue, deviceid + '=1\n');
-}
-
-function turnOff(deviceid) {
- //   serialPort.write(deviceid + '=0\n');
- b.serialWrite(serialPortDue, deviceid + '=0\n');
-}
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
@@ -752,4 +703,21 @@ function LoadFromFile(){
     outputFilename = outputFilePath + 'item_type.json';
     itemTypesArray = require(outputFilename);
     console.log('itemTypesArray '+itemTypesArray.length);
+}
+
+function sendSqlQuery(theQuery){
+    var mysql      = require('mysql');
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+  	    password : 'pipo',
+  	    database : 'nodesql'
+    });
+    connection.connect();
+    connection.query(theQuery, function(err, result, fields) {
+	    if (err) throw err;
+        console.log('Query_result '+result);
+    });
+    connection.end();
+    
 }

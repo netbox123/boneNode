@@ -1,11 +1,15 @@
 var	pagesArray = [];
 var	pageItemsArray = [];
 var actionsArray = [];
+var actionsID = 1;
+var actionsEdit = 0;
 var	devicesArray = [];
 var	devicesValArray = [];
 var inputsArray = [];
 var configArray = [];
 var eventsArray = [];
+var eventsEdit = 0;
+var eventsNr = 1;
 var linksArray = [];
 var itemTypesArray = [];
 var iseditmode = 0;
@@ -516,8 +520,8 @@ function addPageItem(pItemNr, pageNr){
 		$("#widgetid"+pageItemsArray[pItemNr].id).jqxCheckBox({ width: pageItemsArray[pItemNr].width, height: pageItemsArray[pItemNr].height });  
 		$("#wraptopid"+pageItemsArray[pItemNr].id).on('click', function (event) {
 			//console.log(event.target.getAttribute('id')); 
-			var eventid = event.target.getAttribute('id').substr(9);
-			ButtonClicked(2+'-'+eventid);
+			var targetid = event.target.getAttribute('id').substr(9);
+			LampClicked(targetid);
 			//console.log('ButtonClicked ='+$(this).attr("id"));
 		});  
 		for(k=0; k < devicesArray.length; k++){	
@@ -561,13 +565,13 @@ function addPageItem(pItemNr, pageNr){
 						imgName ='pdf.png';
 					}
 					if (count == menucount){
-						console.log('last   ' + count + '  ' + menucount + '  ' +linksArray[m].name);
+						//console.log('last   ' + count + '  ' + menucount + '  ' +linksArray[m].name);
 						$('#safariMenu' + linksArray[m].menu).append('<li onclick="Safari_MenuLink(\''+linksArray[m].url+'\');" class=" sublast"><a style="padding-left: 25px; top:4px" href="#"><img style="position: absolute; left: 5px; top: 3px" src="img/'+imgName+'" alt=""/>'+linksArray[m].name+'</a></li>');
 					} else if (count == 1){
-						console.log('top   ' + count + '  ' + menucount + '  ' +linksArray[m].name);
+						//console.log('top   ' + count + '  ' + menucount + '  ' +linksArray[m].name);
 						$('#safariMenu' + linksArray[m].menu).append('<li onclick="Safari_MenuLink(\''+linksArray[m].url+'\');" class=" subfirst"><a style="padding-left: 25px; top:4px" href="#"><img style="position: absolute; left: 5px; top: 3px" src="img/'+imgName+'" alt=""/>'+linksArray[m].name+'</a></li>');
 					} else {
-						console.log('middle ' + count + '  ' + menucount + '  ' +linksArray[m].name);
+						//console.log('middle ' + count + '  ' + menucount + '  ' +linksArray[m].name);
 						$('#safariMenu' + linksArray[m].menu).append('<li onclick="Safari_MenuLink(\''+linksArray[m].url+'\');"><a style="padding-left: 25px; top:4px" href="#"><img style="position: absolute; left: 5px; top: 3px" src="img/'+imgName+'" alt=""/>'+linksArray[m].name+'</a></li>');
 					}
 				}
@@ -575,6 +579,63 @@ function addPageItem(pItemNr, pageNr){
 		}
 		
 	} else if (pageItemsArray[pItemNr].type == 22) {
+		var actionsCalc = '';
+		for(n=0; n < actionsArray.length; n++){
+			actionsCalc += '<li><div class="cWrap"><div id="idDeleteAction'+n+'" class="cDeleteActionRemove"><img src="/img/delete1616.png"></img><div><div id="idIDAction'+n+'" class="cIDShow">' + actionsArray[n].id + '</div><div class="cName">' + actionsArray[n].name + '</div><div class="cRun" id="actionRun' + actionsArray[n].id + '">' + 'run' + '</div><div id="actionEdit' + actionsArray[n].id + '" class="cButton">' + 'edit' + '</div></div></li>' ;
+		}
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height: -webkit-calc(100% - 34px);height: -moz-calc(100% - 34px);height: calc(100% - 34px);'><actionNav><ul>"+ actionsCalc +"</ul></actionNav></div>");
+		for(n=0; n < actionsArray.length; n++){
+			$("#actionRun"+actionsArray[n].id).on('click', function (event) {
+			var eventid = event.target.getAttribute('id').substr(9);
+			//console.log('eventid '+eventid); 
+			ActionClicked(eventid);
+			}); 
+			$("#actionEdit"+actionsArray[n].id).on('click', function (event) {
+			var eventid = event.target.getAttribute('id').substr(10);
+			//console.log('eventid '+eventid); 
+			ActionEditClicked(eventid);
+			}); 
+		}
+		
+
+	} else if (pageItemsArray[pItemNr].type == 23) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; bottom:0px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'><div class='inputButtonAreaClass'><div style='left:0px; position: absolute; padding-left:8px; padding-top:5px;'><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='deleteActionButtonClicked();'>delete</a></p></div><div style=' padding-top:5px; right:0px; width:60px; position: absolute;'><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='newActionButtonClicked();'>new</a></p></div></div></div>");
+
+	} else if (pageItemsArray[pItemNr].type == 24) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:250px; height:"+pageItemsArray[pItemNr].height+"px;'><actionNav><ul><div id='eventWrapid"+pageItemsArray[pItemNr].id+"'>"+ "test" +"</div></ul></actionNav></div>");
+		for(n=0; n < eventsArray.length; n++){
+			$("#wrapid"+actionsArray[n].id).on('click', function (event) {
+			var eventid = event.target.getAttribute('id').substr(9);
+			console.log('eventid '+eventid); 
+			//ActionClicked(eventid);
+			}); 
+		}
+		
+
+	} else if (pageItemsArray[pItemNr].type == 25) {
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; bottom:0px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'><div class='inputButtonAreaClass'><div style='left:10px; position: absolute; top:10px;'><a class='about-this button ' style='width:50px; text-align:center;  '  onclick='deleteEventButtonClicked();'>delete</a></div><div class='inputButtonAreaClass'><div style='left:300px; top:10px; position: absolute;'><a class='about-this button ' style='width:50px; text-align:center;' onclick='newEventButtonClicked();'>new</a></div><div style=' top:10px; left:380px; width:60px; position: absolute;'><a class='about-this button ' style='width:50px; text-align:center;'  onclick='editEventButtonClicked();'>"+pageItemsArray[pItemNr].name+"</a></div></div></div>");
+
+
+	} else if (pageItemsArray[pItemNr].type == 26) {
+		var inputCalc = "<div style='line-height:23px;padding:0px;'><input id='eventAction1' type='radio' name='inputType' value='on'>&nbsp;turn on<br><input id='eventAction2' type='radio' name='inputType' value='off' >&nbsp;turn off<br>";
+		inputCalc += "<input id='eventAction3' type='radio' name='inputType' value='toggle'>&nbsp;toggle<br><input id='eventAction4' type='radio' name='inputType' value='dim' >&nbsp;dim<br>";
+		inputCalc += "<input id='eventAction5' type='radio' name='inputType' value='ton' >&nbsp;timed on<br><input id='eventAction6' type='radio' name='inputType' value='toff' >&nbsp;timed off<br>";
+		inputCalc += "<input id='eventAction7' type='radio' name='inputType' value='pulse'>&nbsp;pulse<br><input id='eventAction7' type='radio' name='inputType' value='blink' >&nbsp;blink<br></div>";
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px;  width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'>"+inputCalc+"</div>");
+
+	} else if (pageItemsArray[pItemNr].type == 27) {
+		var inputCalc = "<div style='line-height:23px;padding:0px;'> <input type='text' size='5' id='typeDim'>&nbsp;%<br><input type='text' size='5' id='typeTon'>&nbsp;sec.<br>";
+		inputCalc += "<input type='text' size='5' id='typeToff'>&nbsp;sec.<br><input type='text' size='5' id='typePulse'>&nbsp;sec.<br>";
+		inputCalc += "<input type='text' size='5' id='typeBlink'>&nbsp;sec.<br></div>";
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px;  width:"+pageItemsArray[pItemNr].width+"px; height:"+pageItemsArray[pItemNr].height+"px;'>"+inputCalc+"</div>");
+	} else if (pageItemsArray[pItemNr].type == 28) {
+		selectCalc = '<form id="actionSelectRadio"><select name="actionSelectRadio">';
+		for(n=0; n < devicesArray.length; n++){
+			selectCalc += '<option  value='+devicesArray[n].id+'>'+devicesArray[n].name+'</option>';
+		}
+		selectCalc += '</select></form>';
+		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'><div id='eventSelectCalc'>"+selectCalc+"</div></div>");
+	} else if (pageItemsArray[pItemNr].type == 29) {
 		$('#containerInside' + pagesArray[pageNr].id).append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[pItemNr].id+"' style='position:absolute; left:"+pageItemsArray[pItemNr].xpos+"px; top:"+pageItemsArray[pItemNr].ypos+"px; width:100%; height:"+pageItemsArray[pItemNr].height+"px;'></div>");
 
 	} else if (pageItemsArray[pItemNr].type == 30) {
@@ -657,17 +718,6 @@ jQuery(function($){
 			}
     	})	
     };
-    
-    window.SendAction = function (buttonid){
-        var actionid = buttonid - 5000;
-        socket.emit('sendaction', actionid , function(data){
-        	if(data){
-				
-			} else{
-				
-			}
-    	})	
-    };
 	
 	window.SendDueSerial = function (serialText){
         socket.emit('senddueserial', serialText , function(data){
@@ -724,6 +774,27 @@ jQuery(function($){
 			}
     	})	
     };
+    
+    //  -- Event Change to server --
+    window.eventChange = function (actionsID,eventNr,eventstring, eventaction ){
+        socket.emit('eventchange', {action_id: actionsID, event_nr:eventNr, event_string:eventstring, event_action:eventaction } , function(data){
+        	if(data){
+			} else{
+			}
+    	})	
+    };
+    
+    //  -- Event Change from server --
+	socket.on('eventchanged', function(data){
+        console.log('eventchanged '+data.action_id);
+        if(data.event_action == 'new'){
+        	newEventfromServer(data.action_id, data.event_string);
+        } else if(data.event_action == 'edit'){
+        	editEventfromServer(data.action_id, data.event_nr, data.event_string);
+        } else if(data.event_action == 'delete'){
+        	deleteEventfromServer(data.action_id, data.event_nr);
+        }
+	});
     
 	//  -- Send username to server --
 	$nickForm.submit(function(e){
@@ -1119,46 +1190,31 @@ jQuery(function($){
 	}
     
     
-    //  -- ButtonClicked --
-    window.ButtonClicked = function (actionString) { 
-        
-    var actionStr = [];
-    var pageItemA = [];
-    var actionStr  = actionString.split('-');
-      
-    for(j=0; j < pageItemsArray.length; j++){if (pageItemsArray[j].id == actionStr[1]){var pageItemnr = j;}}
-           
-      
-      if (iseditmode){
-          for(j=0; j < pageItemsArray.length; j++){
-            pageItemA = pageItemsArray[j];
-            if (pageItemA.id == actionStr[3].substr(3)){
-                pageItemnr = j;  
-            }
-           }
-           //alert('edit mode '+actionString+'   '+actionStr[3]+'   '+pageItemnr);
-           $("#pageItemPanel").css({top: (pageItemsArray[pageItemnr].ypos), left: (pageItemsArray[pageItemnr].xpos+pageItemsArray[pageItemnr].width)});
-           //$("#pageItemPanel").show();
-      }else{
-     //console.log(actionString);
-        if (actionStr[0] == 1) {
-            socket.emit('send action', actionString);
-        } else if (actionStr[0] == 2) {
-            // type=2 : button
-            socket.emit('send action', pageItemsArray[pageItemnr].device_id+'-'+pageItemsArray[pageItemnr].action);
-        } else if (actionStr[0] == 3) {
-            // type=3 : Pagelink
-            var offset = 20; //Offset of 20px
-            $('html, body').animate({
-                scrollTop: $("#"+actionStr[1]).offset().top + offset
-            }, 2000);
+    //  -- LampClicked --
+    window.LampClicked = function (item_id) { 
+        //console.log('LampClicked ' + item_id);
+        for(j=0; j < pageItemsArray.length; j++){
+        	if (pageItemsArray[j].id == item_id){
+        		for(k=0; k < devicesArray.length; k++){
+        			if(devicesArray[k].id == pageItemsArray[j].device_id){
+        				SendDueSerial(devicesArray[k].id+'-toggle-0;');
+        				console.log('SendDueSerial ' + devicesArray[k].id+'-toggle-0');
+        			}
+        		}
+        	}
         }
-
-
-      } 	
 	}
 	
-	
+	//  -- ActionClicked --
+    window.ActionClicked = function (item_id) { 
+        //console.log('LampClicked ' + item_id);
+        for(j=0; j < actionsArray.length; j++){
+        	if (actionsArray[j].id == item_id){
+        		SendDueSerial(actionsArray[j].events);
+        		//console.log('SendDueSerial ' + actionsArray[j].events);
+        	}
+        }
+	}
 	
 	
 	function updateLayoutAll() {

@@ -560,3 +560,311 @@ function Safari_MenuLink(theURL) {
 	$("#Iframe405").attr("src", theURL);
 	//$(".menuli").fadeOut(500);
 }
+
+function ActionEditClicked(ItemID) {
+	console.log('ActionEditClicked  ' + ItemID);
+	actionsID = ItemID;
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == ItemID){
+			var eventsCalc = '';
+			eventsArray  = actionsArray[j].events.split(';');
+			ValuesA  = actionsArray[j].events.split(';');
+			$("#titleInside89").html(actionsArray[j].name);
+        	for(k=0; k < ValuesA.length-1; k++){
+        		for(l=0; l < devicesArray.length; l++){
+        			OneValueA  = ValuesA[k].split('-');
+        			if(devicesArray[l].id == OneValueA[0]){
+        				console.log('idDeleteEvent>  ' + k);
+            			eventsCalc += '<li><div class="cWrap"><div width="20px" id="idDeleteEvent'+k+'" class="cDeleteEventRemove"><img onclick="deleteEventImgClicked('+k+');" src="/img/delete1616.png"></img><div><div id="idIDEvent'+k+'" class="cIDShow">' + devicesArray[l].id + '</div><div id="eventName' + k + '" class="cName">' + devicesArray[l].name + '</div><div class="cRun" id="eventRun' + n + '">' + OneValueA[1] + '</div><div class="cButton">' + OneValueA[2] + '</div></div></li>' ;
+        			}
+        		}
+        	}
+			$("#eventWrapid465").html(eventsCalc);
+			console.log('xxxxxxxxxxx>  ' );
+			for(m=0; m < ValuesA.length-1; m++){
+				$("#eventName"+m).on('click', function (event) {
+				var eventid = event.target.getAttribute('id').substr(9);
+				eventsNr = eventid;
+				console.log('eventid>  ' + eventid);
+				OneValueA  = ValuesA[eventid].split('-');
+				SetEventFromClick(OneValueA[0], OneValueA[1], OneValueA[2]);
+				}); 
+
+			}
+			OneValueA  = ValuesA[0].split('-');
+			SetEventFromClick(OneValueA[0], OneValueA[1], OneValueA[2]);
+			for(m=0; m < pagesArray.length; m++){
+				if (pagesArray[m].id == 89){
+					if (pagesArray[m].vis != 1){
+						menuWindow_openOne(89);
+					}
+				}
+			}
+			//ValuesA  = actionsArray[j].events.split(';');
+		
+        	for(m=0; m < ValuesA.length-1; m++){
+        		if(eventsEdit!=1){
+        			$('#idDeleteEvent'+m).removeClass('cDeleteEventShow').addClass('cDeleteEventRemove');
+        			$('#idIDEvent'+m).removeClass('cIDRemove').addClass('cIDShow');
+        		}else{
+        			$('#idDeleteEvent'+m).removeClass('cDeleteEventRemove').addClass('cDeleteEventShow');
+        			$('#idIDEvent'+m).removeClass('cIDShow').addClass('cIDRemove');
+        		}
+        	}
+        	
+        	
+			
+		}
+	}
+
+	
+}
+
+function SetEventFromClick(eventDeviceID, eventAction, eventValue) {
+	var selectCalc = '<select id="eventdeviceSelector">';
+	for(l=0; l < devicesArray.length; l++){
+	  //console.log('devicesArray[n].pd'+devicesArray[n].pd);
+	  if (devicesArray[l].pd){
+		if(devicesArray[l].id == eventDeviceID){
+			selectCalc += '<option value='+devicesArray[l].id+' selected >'+devicesArray[l].name+'</option>';
+		} else {
+			selectCalc += '<option value='+devicesArray[l].id+'>'+devicesArray[l].name+'</option>';
+		}
+	  }
+	}
+	selectCalc += '</select>';
+	$("#eventSelectCalc").html(selectCalc);
+	//console.log('eventAction=' + eventAction+'=');
+	
+	if (eventAction == 'on'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[0].checked = true;
+	} else if (eventAction == 'off'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[1].checked = true;
+	} else if (eventAction == 'toggle'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[2].checked = true;
+	} else if (eventAction == 'dim'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[3].checked = true;
+		$("#typeDim").val(eventValue);
+	} else if (eventAction == 'ton'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[4].checked = true;
+		$("#typeTon").val(eventValue);
+	} else if (eventAction == 'toff'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[5].checked = true;
+		$("#typeToff").val(eventValue);
+	} else if (eventAction == 'pulse'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[6].checked = true;
+		$("#typePulse").val(eventValue);
+	} else if (eventAction == 'blink'){
+		ClearEventlayout();
+		$('input:radio[name=inputType]')[7].checked = true;
+		$("#typeBlink").val(eventValue);
+	}
+}
+
+function ClearEventlayout() {
+	$("#typeDim").val('');
+	$("#typeTon").val('');
+	$("#typeToff").val('');
+	$("#typePulse").val('');
+	$("#typeBlink").val('');
+	$("#eventAction1").attr("checked",false);
+	$("#eventAction2").attr("checked",false);
+	$("#eventAction3").attr("checked",false);
+	$("#eventAction4").attr("checked",false);
+	$("#eventAction5").attr("checked",false);
+	$("#eventAction6").attr("checked",false);
+	$("#eventAction7").attr("checked",false);
+	
+}
+
+function newEventButtonClicked() {
+	//console.log('newEventButtonClicked=' );
+	var eventValue = '';
+	var theEvent = '';
+	var eventDevID = $("#eventdeviceSelector").val();
+	var eventAction = $('input[name=inputType]:checked').val();
+	if(eventAction == 'on'){
+		eventValue = '100';
+	} else if(eventAction == 'off'){	
+		eventValue = '0';
+	} else if(eventAction == 'toggle'){	
+		eventValue = '0';
+	} else if(eventAction == 'dim'){
+		eventValue = $("#typeDim").val();
+	} else if(eventAction == 'ton'){
+		eventValue = $("#typeTon").val();
+	} else if(eventAction == 'toff'){
+		eventValue = $("#typeToff").val();
+	} else if(eventAction == 'pulse'){
+		eventValue = $("#typePulse").val();
+	} else if(eventAction == 'blink'){
+		eventValue = $("#typeBlink").val();
+	}
+	console.log('newEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
+	theEvent = eventDevID+'-'+eventAction+'-'+eventValue+';';
+	
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionsID){
+			 
+			//console.log('j '+j+'=');
+			//console.log('actionsArray[j].events voor '+actionsArray[j].events);
+			//actionsArray[j].events += theEvent   // add the new event to the current action
+			//console.log('actionsArray[j].events na '+actionsArray[j].events);
+			eventChange(actionsID,1,theEvent,'new');
+		}
+	}
+	//ActionEditClicked(actionsID); // reload current action
+	
+}
+
+function deleteEventButtonClicked() {
+	console.log('deleteEventButtonClicked=' );
+//	$('#cDeleteEvent').css({'visibility':'visible'});
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionsID){
+			ValuesA  = actionsArray[j].events.split(';');
+			$("#titleInside89").html(actionsArray[j].name);
+        	for(k=0; k < ValuesA.length-1; k++){
+        		if(eventsEdit){
+        			$('#idDeleteEvent'+k).removeClass('cDeleteEventShow').addClass('cDeleteEventRemove');
+        			$('#idIDEvent'+k).removeClass('cIDRemove').addClass('cIDShow');
+        		}else{
+        			$('#idDeleteEvent'+k).removeClass('cDeleteEventRemove').addClass('cDeleteEventShow');
+        			$('#idIDEvent'+k).removeClass('cIDShow').addClass('cIDRemove');
+        		}
+        	}
+        	if(eventsEdit){
+        		eventsEdit = 0;
+        	}else{
+        		eventsEdit = 1;
+        	}
+			
+		}
+	}
+
+}
+
+function deleteEventImgClicked(eventNr) {
+	//console.log('deleteEventImgClicked='+itemID );
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionsID){
+			var eventstring = actionsArray[j].events
+		}
+	}
+	eventChange(actionsID,eventNr,eventstring,'delete');
+}
+
+function deleteEventfromServer(actionID, eventNr) {
+	console.log('deleteEventfromServer='+actionID +'='+eventNr);
+	var newEventString ='';
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionID){
+			ValuesA  = actionsArray[j].events.split(';');
+        	for(k=0; k < ValuesA.length-1; k++){
+        		if(k!=eventNr){
+        			newEventString += ValuesA[k] +';';
+        		}
+           	}
+			actionsArray[j].events = newEventString;
+			console.log('newEventString='+newEventString );
+			ActionEditClicked(actionID);
+		}
+	}
+}
+
+function editEventfromServer(actionID, eventNr, eventString) {
+	console.log('editEventfromServer='+actionID +'='+eventNr+'='+eventString);
+	var newEventString ='';
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionID){
+			ValuesA  = actionsArray[j].events.split(';');
+        	for(k=0; k < ValuesA.length-1; k++){
+        		if(k==eventNr){
+        			newEventString += eventString +';';
+        		}else {
+        			newEventString += ValuesA[k] +';';
+        		}
+           	}
+			actionsArray[j].events = newEventString;
+			console.log('editEventfromServer='+newEventString );
+			ActionEditClicked(actionID);
+		}
+	}
+}
+
+function newEventfromServer(actionID, eventString) {
+	//console.log('newEventfromServer='+actionID +'='+eventString);
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionID){
+			actionsArray[j].events += eventString;
+			ActionEditClicked(actionID);
+		}
+	}
+}
+
+function editEventButtonClicked() {
+	console.log('editEventButtonClicked eventsNr='+eventsNr );
+	var eventValue = '';
+	var theEvent = '';
+	var eventDevID = $("#eventdeviceSelector").val();
+	var eventAction = $('input[name=inputType]:checked').val();
+	if(eventAction == 'on'){
+		eventValue = '100';
+	} else if(eventAction == 'off'){	
+		eventValue = '0';
+	} else if(eventAction == 'toggle'){	
+		eventValue = '0';
+	} else if(eventAction == 'dim'){
+		eventValue = $("#typeDim").val();
+	} else if(eventAction == 'ton'){
+		eventValue = $("#typeTon").val();
+	} else if(eventAction == 'toff'){
+		eventValue = $("#typeToff").val();
+	} else if(eventAction == 'pulse'){
+		eventValue = $("#typePulse").val();
+	} else if(eventAction == 'blink'){
+		eventValue = $("#typeBlink").val();
+	}
+	console.log('editEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
+	theEvent = eventDevID+'-'+eventAction+'-'+eventValue+';';
+	
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionsID){
+			 
+			//console.log('j '+j+'=');
+			//console.log('actionsArray[j].events voor '+actionsArray[j].events);
+			//actionsArray[j].events += theEvent   // add the new event to the current action
+			//console.log('actionsArray[j].events na '+actionsArray[j].events);
+			eventChange(actionsID,eventsNr,theEvent,'edit');
+		}
+	}
+	//ActionEditClicked(actionsID); // reload current action
+
+	
+	
+}
+
+function deleteActionButtonClicked() {
+	console.log('deleteActionButtonClicked=' );
+	for(k=0; k < actionsArray.length; k++){
+        if(actionsEdit){
+        	$('#idDeleteAction'+k).removeClass('cDeleteActionShow').addClass('cDeleteActionRemove');
+        	$('#idIDAction'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	$('#idDeleteAction'+k).removeClass('cDeleteActionRemove').addClass('cDeleteActionShow');
+        	$('#idIDAction'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+	if(actionsEdit){
+		actionsEdit = 0;
+    }else{
+    	actionsEdit = 1;
+    }
+}
