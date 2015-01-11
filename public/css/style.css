@@ -572,21 +572,42 @@ actionNav li{
   	background-color: #ffffff;
 }
 actionNav li .cWrap {position:relative;}
+actionNav li .cEditAction, .cDeleteAction{visibility:visible;cursor:pointer;float:left;position:absolute;left:4px;top:3px;}
+actionNav li .cDeleteAction{visibility:visible;cursor:pointer;float:left;position:absolute;left:5px;top:3px;}
 
-actionNav li .cName {visibility:visible;cursor:pointer;float:left;position:absolute;left:26px;top:3px;}
-actionNav li .cButton {visibility:visible;cursor:pointer;float:left;position:absolute;right:10px;top:3px;}
-actionNav li .cRun {visibility:visible;cursor:pointer;float:left;position:absolute;right:38px;top:3px;}
-actionNav li .cDeleteActionShow {visibility:visible;cursor:pointer;padding:3px;}
-actionNav li .cDeleteActionRemove {visibility:hidden;cursor:pointer;padding:3px;}
+
+actionNav li .cName {visibility:visible;cursor:pointer;float:left;position:absolute;left:26px;top:4px;}
+actionNav li .cButton {visibility:visible;cursor:pointer;float:left;position:absolute;right:10px;top:4px;}
+actionNav li .cRun {visibility:visible;cursor:pointer;float:left;position:absolute;right:38px;top:4px;}
+actionNav li .cEditActionShow {visibility:visible;}
+actionNav li .cEditActionRemove {visibility:hidden;}
+actionNav li .cDeleteActionShow {visibility:visible;}
+actionNav li .cDeleteActionRemove {visibility:hidden;}
 actionNav li .cDeleteEventShow {visibility:visible;cursor:pointer;padding:3px;}
 actionNav li .cDeleteEventRemove {visibility:hidden;cursor:pointer;padding:3px;}
 actionNav li .cIDShow {visibility:visible;float:left;position:absolute;left:5px;top:3px;}
 actionNav li .cIDRemove {visibility:hidden;float:left;position:absolute;left:5px;top:3px;}
 actionNav ul{overflow:hidden; overflow-y:scroll;}	
 	
+.infoPanel {
+	position:absolute;
+    width:200px;
+    height:75px;
+    z-index:15;
+    top:23px;
+    left:50%;
+    margin:0px 0 0 -100px;
+    background-color: #eeeeee;
+  	visibility:hidden;
+  	box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 22px 70px 4px rgba(0,0,0,0.56), 0 1px 0 1px rgba(0, 0, 0, 0.3);
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+}
 	
-	
-	
+.lampclass{
+	display:none;
+	cursor:pointer;
+}	
 
 .jqx-grid-selectionarea-custom
 {

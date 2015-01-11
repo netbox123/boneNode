@@ -548,7 +548,7 @@ function itemClicked(itemID){
 }
 
 function goURL(){
-	console.log ($('#input407').val());
+	//console.log ($('#input407').val());
 	$("#Iframe405").attr("src", $('#input407').val());
 }
 
@@ -562,7 +562,7 @@ function Safari_MenuLink(theURL) {
 }
 
 function ActionEditClicked(ItemID) {
-	console.log('ActionEditClicked  ' + ItemID);
+	//console.log('ActionEditClicked  ' + ItemID);
 	actionsID = ItemID;
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == ItemID){
@@ -574,18 +574,18 @@ function ActionEditClicked(ItemID) {
         		for(l=0; l < devicesArray.length; l++){
         			OneValueA  = ValuesA[k].split('-');
         			if(devicesArray[l].id == OneValueA[0]){
-        				console.log('idDeleteEvent>  ' + k);
+        				//console.log('idDeleteEvent>  ' + k);
             			eventsCalc += '<li><div class="cWrap"><div width="20px" id="idDeleteEvent'+k+'" class="cDeleteEventRemove"><img onclick="deleteEventImgClicked('+k+');" src="/img/delete1616.png"></img><div><div id="idIDEvent'+k+'" class="cIDShow">' + devicesArray[l].id + '</div><div id="eventName' + k + '" class="cName">' + devicesArray[l].name + '</div><div class="cRun" id="eventRun' + n + '">' + OneValueA[1] + '</div><div class="cButton">' + OneValueA[2] + '</div></div></li>' ;
         			}
         		}
         	}
 			$("#eventWrapid465").html(eventsCalc);
-			console.log('xxxxxxxxxxx>  ' );
+			//console.log('xxxxxxxxxxx>  ' );
 			for(m=0; m < ValuesA.length-1; m++){
 				$("#eventName"+m).on('click', function (event) {
 				var eventid = event.target.getAttribute('id').substr(9);
 				eventsNr = eventid;
-				console.log('eventid>  ' + eventid);
+				//console.log('eventid>  ' + eventid);
 				OneValueA  = ValuesA[eventid].split('-');
 				SetEventFromClick(OneValueA[0], OneValueA[1], OneValueA[2]);
 				}); 
@@ -707,7 +707,7 @@ function newEventButtonClicked() {
 	} else if(eventAction == 'blink'){
 		eventValue = $("#typeBlink").val();
 	}
-	console.log('newEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
+	//console.log('newEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
 	theEvent = eventDevID+'-'+eventAction+'-'+eventValue+';';
 	
 	for(j=0; j < actionsArray.length; j++){
@@ -725,7 +725,7 @@ function newEventButtonClicked() {
 }
 
 function deleteEventButtonClicked() {
-	console.log('deleteEventButtonClicked=' );
+	//console.log('deleteEventButtonClicked' );
 //	$('#cDeleteEvent').css({'visibility':'visible'});
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionsID){
@@ -752,7 +752,7 @@ function deleteEventButtonClicked() {
 }
 
 function deleteEventImgClicked(eventNr) {
-	//console.log('deleteEventImgClicked='+itemID );
+	//console.log('deleteEventImgClicked='+eventNr );
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionsID){
 			var eventstring = actionsArray[j].events
@@ -762,7 +762,7 @@ function deleteEventImgClicked(eventNr) {
 }
 
 function deleteEventfromServer(actionID, eventNr) {
-	console.log('deleteEventfromServer='+actionID +'='+eventNr);
+	//console.log('deleteEventfromServer='+actionID +'='+eventNr);
 	var newEventString ='';
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionID){
@@ -773,14 +773,14 @@ function deleteEventfromServer(actionID, eventNr) {
         		}
            	}
 			actionsArray[j].events = newEventString;
-			console.log('newEventString='+newEventString );
+			//console.log('newEventString='+newEventString );
 			ActionEditClicked(actionID);
 		}
 	}
 }
 
 function editEventfromServer(actionID, eventNr, eventString) {
-	console.log('editEventfromServer='+actionID +'='+eventNr+'='+eventString);
+	//console.log('editEventfromServer='+actionID +'='+eventNr+'='+eventString);
 	var newEventString ='';
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionID){
@@ -793,7 +793,7 @@ function editEventfromServer(actionID, eventNr, eventString) {
         		}
            	}
 			actionsArray[j].events = newEventString;
-			console.log('editEventfromServer='+newEventString );
+			//console.log('editEventfromServer='+newEventString );
 			ActionEditClicked(actionID);
 		}
 	}
@@ -810,7 +810,7 @@ function newEventfromServer(actionID, eventString) {
 }
 
 function editEventButtonClicked() {
-	console.log('editEventButtonClicked eventsNr='+eventsNr );
+	//console.log('editEventButtonClicked eventsNr='+eventsNr );
 	var eventValue = '';
 	var theEvent = '';
 	var eventDevID = $("#eventdeviceSelector").val();
@@ -832,7 +832,7 @@ function editEventButtonClicked() {
 	} else if(eventAction == 'blink'){
 		eventValue = $("#typeBlink").val();
 	}
-	console.log('editEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
+	//console.log('editEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
 	theEvent = eventDevID+'-'+eventAction+'-'+eventValue+';';
 	
 	for(j=0; j < actionsArray.length; j++){
@@ -852,19 +852,161 @@ function editEventButtonClicked() {
 }
 
 function deleteActionButtonClicked() {
-	console.log('deleteActionButtonClicked=' );
+	//console.log('deleteActionButtonClicked' );
 	for(k=0; k < actionsArray.length; k++){
-        if(actionsEdit){
+		//console.log('deleteActionButtonClicked '+k );
+        if(actionsDelete){
         	$('#idDeleteAction'+k).removeClass('cDeleteActionShow').addClass('cDeleteActionRemove');
+        	//$('#idEditAction'+k).removeClass('cEditActionRemove').addClass('cEditActionShow');
         	$('#idIDAction'+k).removeClass('cIDRemove').addClass('cIDShow');
         }else{
         	$('#idDeleteAction'+k).removeClass('cDeleteActionRemove').addClass('cDeleteActionShow');
+        	$('#idEditAction'+k).removeClass('cEditActionShow').addClass('cEditActionRemove');
         	$('#idIDAction'+k).removeClass('cIDShow').addClass('cIDRemove');
         }
 	}
+	actionsEdit = 0;
+	if(actionsDelete){
+		actionsDelete = 0;
+    }else{
+    	actionsDelete = 1;
+    }
+}
+
+function editActionButtonClicked() {
+	//console.log('editActionButtonClicked' );
+	for(k=0; k < actionsArray.length; k++){
+		//console.log('editActionButtonClicked '+k );
+        if(actionsEdit){
+        	$('#idEditAction'+k).removeClass('cEditActionShow').addClass('cEditActionRemove');
+        	$('#idIDAction'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	$('#idEditAction'+k).removeClass('cEditActionRemove').addClass('cEditActionShow');
+        	$('#idDeleteAction'+k).removeClass('cDeleteActionShow').addClass('cDeleteActionRemove');
+        	$('#idIDAction'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+	actionsDelete = 0;
 	if(actionsEdit){
 		actionsEdit = 0;
     }else{
     	actionsEdit = 1;
     }
 }
+
+function newActionButtonClicked() {
+	//console.log('newActionButtonClicked' );
+	$("#infoPanel90").css({"display": "none"});
+	$("#infoPanel90").css({"visibility": "visible"});
+	$("#infoPanel90").slideDown("slow");
+	$("#infoPanel90").html("<div style='position:absolute;left:10px;top:8px;'>Name:</div>");
+	$("#infoPanel90").append("<div style='position:absolute;left:8px;top:23px;'><input value='' size='25' type='text' id='inputActionName'></input></div>");
+	$("#infoPanel90").append("<div style='width:50px;position:absolute;left:137px;top:40px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='newSubmitActionButtonClicked();'>new</a></p></div></div>");
+	$("#infoPanel90").append("<div style='width:50px;position:absolute;left:10px;top:40px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='cancelSubmitActionButtonClicked();'>cancel</a></p></div></div>");
+}
+
+function newSubmitActionButtonClicked() {
+	var maxid=0;
+	var actionname = $("#inputActionName").val();
+	//console.log('newSubmitActionButtonClicked '+actionname );
+	for(k=0; k < actionsArray.length; k++){
+		if(actionsArray[k].id>maxid){
+			maxid=actionsArray[k].id
+		}
+	}
+	actionChange(maxid+1,actionname,'new');
+}
+
+function cancelSubmitActionButtonClicked() {
+	//console.log('cancelSubmitActionButtonClicked ' );
+	
+	//$("#infoPanel90").css({"visibility": "hidden"});
+	//$("#infoPanel90").css({"display": "none"});
+	$("#infoPanel90").slideUp("slow");
+}
+
+function deleteActionImgClicked(actionid) {
+	//console.log('deleteActionImgClicked='+actionid );
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionid){
+			var actionname = actionsArray[j].name
+			actionChange(actionid,actionname,'delete');
+		}
+	}
+}
+
+function editActionImgClicked(actionid) {
+	//console.log('editActionImgClicked='+actionid );
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionid){
+			//console.log('editActionImgClicked='+actionsArray[j].name);
+			$("#infoPanel90").css({"display": "none"});
+			$("#infoPanel90").css({"visibility": "visible"});
+			$("#infoPanel90").slideDown("slow");
+			$("#infoPanel90").html("<div style='position:absolute;left:10px;top:8px;'>Name:</div>");
+			$("#infoPanel90").append("<div style='position:absolute;left:8px;top:23px;'><input value='' size='25' type='text' id='inputActionName'></input></div>");
+			$("#infoPanel90").append("<div style='width:50px;position:absolute;left:136px;top:40px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='editSubmitActionButtonClicked();'>edit</a></p></div></div>");
+			$("#infoPanel90").append("<div style='width:50px;position:absolute;left:10px;top:40px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='cancelSubmitActionButtonClicked();'>cancel</a></p></div></div>");
+			$("#inputActionName").val(actionsArray[j].name);
+			actionsID = actionid;
+		}
+	}
+}
+
+function editSubmitActionButtonClicked() {
+	var actionname = $("#inputActionName").val();
+	//console.log('editSubmitActionButtonClicked '+actionname );
+	actionChange(actionsID,actionname,'edit');
+}
+
+function editActionfromServer(actionID, actionName) {
+	//console.log('editActionfromServer='+actionID+' '+actionName);
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionID){
+			actionsArray[j].name = actionName;
+			refreshActionList();
+			cancelSubmitActionButtonClicked();
+		}
+	}
+}
+
+function deleteActionfromServer(actionID) {
+	//console.log('deleteActionfromServer='+actionID);
+	for(j=0; j < actionsArray.length; j++){
+		if(actionsArray[j].id == actionID){
+			actionsArray.splice(j, 1);
+			actionsDelete = 1;
+			refreshActionList();
+		}
+	}
+}
+
+function newActionfromServer(actionID, actionName) {
+	//console.log('newActionfromServer='+actionID+' '+actionName);
+	var newAction = [];
+	newAction.id = actionID;
+	newAction.name = actionName;
+	actionsArray.push(newAction);
+	refreshActionList();
+	cancelSubmitActionButtonClicked();
+}
+
+function refreshActionList() {
+	var actionCalc = '';
+	for(j=0; j < actionsArray.length; j++){
+		actionCalc += '<li><div class="cWrap"><div id="idEditAction'+j+'" class="cEditAction cEditActionRemove"><img onclick="editActionImgClicked('+actionsArray[j].id+');" src="/img/edit1616.png"></img></div><div id="idDeleteAction'+j+'" class="cDeleteActionRemove cDeleteAction"><img onclick="deleteActionImgClicked('+actionsArray[j].id+');" src="/img/delete1616.png"></img></div><div id="idIDAction'+j+'" class="cIDShow"><img onclick="editActionImgClicked('+actionsArray[j].id+');" src="/img/text1616.png"></img></div><div onclick="ActionEditClicked('+actionsArray[j].id+');" class="cName">' + actionsArray[j].name + '</div><div style="top:3px;" id="actionEdit' + actionsArray[j].id + '" class="cButton"><img onclick="ActionClicked('+actionsArray[j].id+');" src="/img/compile1616.png"></img></div></div></li>'; 
+	}
+	$("#actionWrapid460").html(actionCalc);
+	for(k=0; k < actionsArray.length; k++){
+        if(actionsDelete!=1){
+        	$('#idDeleteAction'+k).removeClass('cDeleteActionShow').addClass('cDeleteActionRemove');
+        	$('#idIDAction'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	//$('#idEditAction'+k).removeClass('cEditActionRemove').addClass('cEditActionShow');
+        	$('#idDeleteAction'+k).removeClass('cDeleteActionRemove').addClass('cDeleteActionShow');
+        	//$('#idDeleteAction'+k).removeClass('cDeleteActionShow').addClass('cDeleteActionRemove');
+        	$('#idIDAction'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+}
+

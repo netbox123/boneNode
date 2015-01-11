@@ -233,51 +233,28 @@ io.sockets.on('connection', function(socket){
     
      //  -- actionChange received from client --
     socket.on('actionchange', function(data){
-        console.log('eventchange '+data.action_id);
-        if(data.event_action == 'new'){
+        console.log('actionchange '+data.action_id);
+        if(data.action_action == 'new'){
             for(j=0; j < actionsArray.length; j++){
 		        if(actionsArray[j].id == data.action_id){
-			        actionsArray[j].events += data.event_string;
-			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
-		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
-		            query_str += " WHERE  `action`.`id` ="+data.action_id;
-		            sendSqlQuery(query_str);     
+			        
+		            //sendSqlQuery(query_str);     
 	        	}
         	}
-        } else if(data.event_action == 'edit'){
+        } else if(data.action_action == 'edit'){
         	var newEventString ='';
 	        for(j=0; j < actionsArray.length; j++){
 		        if(actionsArray[j].id == data.action_id){
-			        ValuesA  = actionsArray[j].events.split(';');
-        	        for(k=0; k < ValuesA.length-1; k++){
-        		        if(k==data.event_nr){
-        			        newEventString += data.event_string;
-        		        }else {
-        			        newEventString += ValuesA[k] +';';
-        		        }
-           	        }
-			        actionsArray[j].events = newEventString;
-			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
-		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
-		            query_str += " WHERE  `action`.`id` ="+data.action_id;
-		            sendSqlQuery(query_str);    
+			       
+		            //sendSqlQuery(query_str);    
 		        }
 	        }
-        } else if(data.event_action == 'delete'){
+        } else if(data.action_action == 'delete'){
         	var newEventString ='';
 	        for(j=0; j < actionsArray.length; j++){
 		        if(actionsArray[j].id == data.action_id){
-			        ValuesA  = actionsArray[j].events.split(';');
-        	        for(k=0; k < ValuesA.length-1; k++){
-        		        if(k!=data.event_nr){
-        			        newEventString += ValuesA[k] +';';
-        		        }
-           	        }
-			        actionsArray[j].events = newEventString;
-			        var query_str = "UPDATE  `nodesql`.`action` SET  ";
-		            query_str += "`events` =  '"+actionsArray[j].events+"'  ";
-		            query_str += " WHERE  `action`.`id` ="+data.action_id;
-		            sendSqlQuery(query_str);  
+			        
+		            //sendSqlQuery(query_str);  
 		        }
 	        }
         }
