@@ -561,6 +561,8 @@ function Safari_MenuLink(theURL) {
 	//$(".menuli").fadeOut(500);
 }
 
+///////////////////////////////////////// -Event- /////////////////////////////////
+
 function ActionEditClicked(ItemID) {
 	//console.log('ActionEditClicked  ' + ItemID);
 	actionsID = ItemID;
@@ -575,7 +577,7 @@ function ActionEditClicked(ItemID) {
         			OneValueA  = ValuesA[k].split('-');
         			if(devicesArray[l].id == OneValueA[0]){
         				//console.log('idDeleteEvent>  ' + k);
-            			eventsCalc += '<li><div class="cWrap"><div width="20px" id="idDeleteEvent'+k+'" class="cDeleteEventRemove"><img onclick="deleteEventImgClicked('+k+');" src="/img/delete1616.png"></img><div><div id="idIDEvent'+k+'" class="cIDShow">' + devicesArray[l].id + '</div><div id="eventName' + k + '" class="cName">' + devicesArray[l].name + '</div><div class="cRun" id="eventRun' + n + '">' + OneValueA[1] + '</div><div class="cButton">' + OneValueA[2] + '</div></div></li>' ;
+            			eventsCalc += '<li><div class="cWrap"><div width="20px" id="idDeleteEvent'+k+'" class="cDeleteEventRemove"><img onclick="deleteEventImgClicked('+k+');" src="/img/delete1616.png"></img><div><div id="idIDEvent'+k+'" class="cIDShow"><img onclick="editActionImgClicked('+actionsArray[j].id+');" src="/img/bulb16x16.png"></img></div><div id="eventName' + k + '" class="cName">' + devicesArray[l].name + '</div><div class="cRun" id="eventRun' + n + '">' + OneValueA[1] + '</div><div class="cButton">' + OneValueA[2] + '</div></div></li>' ;
         			}
         		}
         	}
@@ -832,32 +834,22 @@ function editEventButtonClicked() {
 	} else if(eventAction == 'blink'){
 		eventValue = $("#typeBlink").val();
 	}
-	//console.log('editEventButtonClicked '+eventDevID+'-'+eventAction+'-'+eventValue+';');
 	theEvent = eventDevID+'-'+eventAction+'-'+eventValue+';';
 	
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionsID){
-			 
-			//console.log('j '+j+'=');
-			//console.log('actionsArray[j].events voor '+actionsArray[j].events);
-			//actionsArray[j].events += theEvent   // add the new event to the current action
-			//console.log('actionsArray[j].events na '+actionsArray[j].events);
 			eventChange(actionsID,eventsNr,theEvent,'edit');
 		}
 	}
-	//ActionEditClicked(actionsID); // reload current action
-
-	
-	
 }
+
+///////////////////////////////////////// -Acton- /////////////////////////////////
 
 function deleteActionButtonClicked() {
 	//console.log('deleteActionButtonClicked' );
 	for(k=0; k < actionsArray.length; k++){
-		//console.log('deleteActionButtonClicked '+k );
         if(actionsDelete){
         	$('#idDeleteAction'+k).removeClass('cDeleteActionShow').addClass('cDeleteActionRemove');
-        	//$('#idEditAction'+k).removeClass('cEditActionRemove').addClass('cEditActionShow');
         	$('#idIDAction'+k).removeClass('cIDRemove').addClass('cIDShow');
         }else{
         	$('#idDeleteAction'+k).removeClass('cDeleteActionRemove').addClass('cDeleteActionShow');
@@ -918,10 +910,6 @@ function newSubmitActionButtonClicked() {
 }
 
 function cancelSubmitActionButtonClicked() {
-	//console.log('cancelSubmitActionButtonClicked ' );
-	
-	//$("#infoPanel90").css({"visibility": "hidden"});
-	//$("#infoPanel90").css({"display": "none"});
 	$("#infoPanel90").slideUp("slow");
 }
 
@@ -964,6 +952,8 @@ function editActionfromServer(actionID, actionName) {
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionID){
 			actionsArray[j].name = actionName;
+			actionsDelete = 0;
+			actionsEdit = 0;
 			refreshActionList();
 			cancelSubmitActionButtonClicked();
 		}
@@ -975,7 +965,8 @@ function deleteActionfromServer(actionID) {
 	for(j=0; j < actionsArray.length; j++){
 		if(actionsArray[j].id == actionID){
 			actionsArray.splice(j, 1);
-			actionsDelete = 1;
+			actionsDelete = 0;
+			actionsEdit = 0;
 			refreshActionList();
 		}
 	}
@@ -983,10 +974,13 @@ function deleteActionfromServer(actionID) {
 
 function newActionfromServer(actionID, actionName) {
 	//console.log('newActionfromServer='+actionID+' '+actionName);
-	var newAction = [];
+	var newAction = {};
 	newAction.id = actionID;
 	newAction.name = actionName;
+	newAction.events = "";
 	actionsArray.push(newAction);
+	actionsDelete = 0;
+	actionsEdit = 0;
 	refreshActionList();
 	cancelSubmitActionButtonClicked();
 }
@@ -1010,3 +1004,453 @@ function refreshActionList() {
 	}
 }
 
+///////////////////////////////////////// -Timer- /////////////////////////////////
+
+function deleteTimerButtonClicked() {
+	//console.log('deleteTimerButtonClicked' );
+	for(k=0; k < timersArray.length; k++){
+        if(timersDelete){
+        	$('#idDeleteTimer'+k).removeClass('cDeleteTimerShow').addClass('cDeleteTimerRemove');
+        	$('#idIDTimer'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	$('#idDeleteTimer'+k).removeClass('cDeleteTimerRemove').addClass('cDeleteTimerShow');
+        	$('#idEditTimer'+k).removeClass('cEditTimerShow').addClass('cEditTimerRemove');
+        	$('#idIDTimer'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+	timersEdit = 0;
+	if(timersDelete){
+		timersDelete = 0;
+    }else{
+    	timersDelete = 1;
+    }
+}
+
+function editTimerButtonClicked() {
+	//console.log('editTimerButtonClicked' );
+	for(k=0; k < timersArray.length; k++){
+		//console.log('editTimerButtonClicked '+k );
+        if(timersEdit){
+        	$('#idEditTimer'+k).removeClass('cEditTimerShow').addClass('cEditTimerRemove');
+        	$('#idIDTimer'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	$('#idEditTimer'+k).removeClass('cEditTimerRemove').addClass('cEditTimerShow');
+        	$('#idDeleteTimer'+k).removeClass('cDeleteTimerShow').addClass('cDeleteTimerRemove');
+        	$('#idIDTimer'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+	timersDelete = 0;
+	if(timersEdit){
+		timersEdit = 0;
+    }else{
+    	timersEdit = 1;
+    }
+}
+
+function newTimerButtonClicked() {
+	console.log('newTimerButtonClicked' );
+	$("#infoPanel88").css({"height":"154px"});
+	$("#infoPanel88").css({"display": "none"});
+	$("#infoPanel88").css({"visibility": "visible"});
+	$("#infoPanel88").slideDown("slow");
+	$("#infoPanel88").html("<div style='position:absolute;left:10px;top:10px;'>Name:</div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:52px;top:7px;'><input value='' size='17' type='text' id='inputTimerName'></input></div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:10px;top:33px;'>Time:</div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:52px;top:30px;'><input value='' size='17' type='text' id='inputTimerTime'></input></div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:10px;top:56px;'>Day:</div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:52px;top:53px;'><input value='' size='17' type='text' id='inputTimerDay'></input></div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:10px;top:79px;'>OnOff:</div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:52px;top:76px;'><input value='' size='17' type='text' id='inputTimerOnOff'></input></div>");
+	$("#infoPanel88").append("<div style='position:absolute;left:10px;top:102px;'>Action:</div>");
+			selectCalc = '<select id="inputTimerAction">';
+			for(l=0; l < actionsArray.length; l++){
+							selectCalc += '<option value='+actionsArray[l].id+'>'+actionsArray[l].name+'</option>';
+			}
+			selectCalc += '</select>';
+			$("#infoPanel88").append("<div style='position:absolute;left:52px;top:99px;'>"+selectCalc+"</div>");
+
+	$("#infoPanel88").append("<div style='width:50px;position:absolute;left:137px;top:120px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='newSubmitTimerButtonClicked();'>new</a></p></div></div>");
+	$("#infoPanel88").append("<div style='width:50px;position:absolute;left:10px;top:120px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='cancelSubmitTimerButtonClicked();'>cancel</a></p></div></div>");
+}
+
+function newSubmitTimerButtonClicked() {
+	var maxid=0;
+	var timername = $("#inputTimerName").val();
+	var timertime = $("#inputTimerTime").val();
+	var timerday = $("#inputTimerDay").val();
+	var timeronoff = $("#inputTimerOnOff").val();
+	var timeractionid = $("#inputTimerAction").val();
+	//console.log('newSubmitTimerButtonClicked '+timername );
+	for(k=0; k < timersArray.length; k++){
+		if(timersArray[k].id>maxid){
+			maxid=timersArray[k].id
+		}
+	}
+	timerChange(maxid+1,timername,'new', timertime, timerday, timeronoff, timeractionid);
+}
+
+function cancelSubmitTimerButtonClicked() {
+	$("#infoPanel88").slideUp("slow");
+}
+
+function deleteTimerImgClicked(timerid) {
+	//console.log('deleteTimerImgClicked='+timerid );
+	for(j=0; j < timersArray.length; j++){
+		if(timersArray[j].id == timerid){
+			var timername = timersArray[j].name
+			timerChange(timerid,timername,'delete');
+		}
+	}
+}
+
+function editTimerImgClicked(timerid) {
+	//console.log('editTimerImgClicked='+timerid );
+	for(j=0; j < timersArray.length; j++){
+		if(timersArray[j].id == timerid){
+			//console.log('editTimerImgClicked='+timersArray[j].name);
+			$("#infoPanel88").css({"height":"154px"});
+			$("#infoPanel88").css({"display": "none"});
+			$("#infoPanel88").css({"visibility": "visible"});
+			$("#infoPanel88").slideDown("slow");
+			$("#infoPanel88").html("<div style='position:absolute;left:10px;top:10px;'>Name:</div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:52px;top:7px;'><input value='' size='17' type='text' id='inputTimerName'></input></div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:10px;top:33px;'>Time:</div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:52px;top:30px;'><input value='' size='17' type='text' id='inputTimerTime'></input></div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:10px;top:56px;'>Day:</div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:52px;top:53px;'><input value='' size='17' type='text' id='inputTimerDay'></input></div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:10px;top:79px;'>OnOff:</div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:52px;top:76px;'><input value='' size='17' type='text' id='inputTimerOnOff'></input></div>");
+			$("#infoPanel88").append("<div style='position:absolute;left:10px;top:102px;'>Action:</div>");
+			selectCalc = '<select id="inputTimerAction">';
+			for(l=0; l < actionsArray.length; l++){
+				if(actionsArray[l].id == timersArray[j].action){
+					selectCalc += '<option value='+actionsArray[l].id+' selected >'+actionsArray[l].name+'</option>';
+				} else {
+					selectCalc += '<option value='+actionsArray[l].id+'>'+actionsArray[l].name+'</option>';
+				}
+			}
+			selectCalc += '</select>';
+			$("#infoPanel88").append("<div style='position:absolute;left:52px;top:99px;'>"+selectCalc+"</div>");
+			$("#infoPanel88").append("<div style='width:50px;position:absolute;left:137px;top:120px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='editSubmitTimerButtonClicked();'>edit</a></p></div></div>");
+			$("#infoPanel88").append("<div style='width:50px;position:absolute;left:10px;top:120px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='cancelSubmitTimerButtonClicked();'>cancel</a></p></div></div>");
+			$("#inputTimerName").val(timersArray[j].name);
+			$("#inputTimerTime").val(timersArray[j].time);
+			$("#inputTimerDay").val(timersArray[j].day);
+			$("#inputTimerOnOff").val(timersArray[j].onoff);
+			$("#inputTimerAction").val(timersArray[j].action);
+			timersID = timerid;
+		}
+	}
+}
+
+function editSubmitTimerButtonClicked() {
+	var timername = $("#inputTimerName").val();
+	var timertime = $("#inputTimerTime").val();
+	var timerday = $("#inputTimerDay").val();
+	var timeronoff = $("#inputTimerOnOff").val();
+	var timeractionid = $("#inputTimerAction").val();
+	console.log('editSubmitTimerButtonClicked timeractionid '+timeractionid );
+	timerChange(timersID,timername,'edit', timertime, timerday, timeronoff, timeractionid);
+}
+
+function editTimerfromServer(timerID, timerName, timerTime, timerDay, timerOnOff, timerAction) {
+	console.log('editTimerfromServer='+timerID+' '+timerName);
+	for(j=0; j < timersArray.length; j++){
+		if(timersArray[j].id == timerID){
+			timersArray[j].name = timerName;
+			timersArray[j].time = timerTime;
+			timersArray[j].day = timerDay;
+			timersArray[j].onoff = timerOnOff;
+			timersArray[j].action = timerAction;
+			timersDelete = 0;
+			timersEdit = 0;
+			refreshTimerList();
+			cancelSubmitTimerButtonClicked();
+		}
+	}
+}
+
+function deleteTimerfromServer(timerID) {
+	//console.log('deleteTimerfromServer='+timerID);
+	for(j=0; j < timersArray.length; j++){
+		if(timersArray[j].id == timerID){
+			timersArray.splice(j, 1);
+			timersDelete = 0;
+			timersEdit = 0;
+			refreshTimerList();
+		}
+	}
+}
+
+function newTimerfromServer(timerID, timerName, timerTime, timerDay, timerOnOff, timerAction) {
+	//console.log('newTimerfromServer='+timerID+' '+timerName);
+	var newTimer = {};
+	newTimer.id = timerID;
+	newTimer.name = timerName;
+	newTimer.time = timerTime;
+	newTimer.day = timerDay;
+	newTimer.onoff = timerOnOff;
+	newTimer.action = timerAction;
+	timersArray.push(newTimer);
+	timersDelete = 0;
+	timersEdit = 0;
+	refreshTimerList();
+	cancelSubmitTimerButtonClicked();
+}
+
+function refreshTimerList() {
+	var timerCalc = '';
+	for(j=0; j < timersArray.length; j++){
+		console.log('refreshTimerList='+j+' '+timersArray[j].time+'name '+timersArray[j].name);
+		var timerHourCalc = timersArray[j].time.substr(0,2);
+		var timerMinCalc = timersArray[j].time.substr(3,2);
+		var timerTimeCalc = timerHourCalc + ':' + timerMinCalc;
+		timerCalc += '<li><div class="cWrap"><div id="idEditTimer'+j+'" class="cEditTimer cEditTimerRemove"><img onclick="editTimerImgClicked('+timersArray[j].id+');" src="/img/edit1616.png"></img></div><div id="idDeleteTimer'+j+'" class="cDeleteTimerRemove cDeleteTimer"><img onclick="deleteTimerImgClicked('+timersArray[j].id+');" src="/img/delete1616.png"></img></div><div id="idIDTimer'+j+'" class="cIDShow"><img onclick="editTimerImgClicked('+timersArray[j].id+');" src="/img/clock21616.png"></img></div><div onclick="TimerEditClicked('+timersArray[j].id+');" class="cName">' + timersArray[j].name + '</div><div class="cTime">' + timerTimeCalc + '</div><div style="top:2px;" id="timerEdit' + timersArray[j].id + '" class="cButton"><form name="myform" ><input type="checkbox" name="option' + timersArray[j].id + '" value="Milk"></form></div></div></li>'; 
+	}
+	$("#timerWrapid470").html(timerCalc);
+	for(k=0; k < timersArray.length; k++){
+        if(timersDelete!=1){
+        	$('#idDeleteTimer'+k).removeClass('cDeleteTimerShow').addClass('cDeleteTimerRemove');
+        	$('#idIDTimer'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	//$('#idEditTimer'+k).removeClass('cEditTimerRemove').addClass('cEditTimerShow');
+        	$('#idDeleteTimer'+k).removeClass('cDeleteTimerRemove').addClass('cDeleteTimerShow');
+        	//$('#idDeleteTimer'+k).removeClass('cDeleteTimerShow').addClass('cDeleteTimerRemove');
+        	$('#idIDTimer'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+}
+
+///////////////////////////////////////// -Link- /////////////////////////////////
+
+function deleteLinkButtonClicked() {
+	//console.log('deleteLinkButtonClicked' );
+	for(k=0; k < linksArray.length; k++){
+        if(linksDelete){
+        	$('#idDeleteLink'+k).removeClass('cDeleteLinkShow').addClass('cDeleteLinkRemove');
+        	$('#idIDLink'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	$('#idDeleteLink'+k).removeClass('cDeleteLinkRemove').addClass('cDeleteLinkShow');
+        	$('#idEditLink'+k).removeClass('cEditLinkShow').addClass('cEditLinkRemove');
+        	$('#idIDLink'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+	linksEdit = 0;
+	if(linksDelete){
+		linksDelete = 0;
+    }else{
+    	linksDelete = 1;
+    }
+}
+
+function editLinkButtonClicked() {
+	//console.log('editLinkButtonClicked' );
+	for(k=0; k < linksArray.length; k++){
+		//console.log('editLinkButtonClicked '+k );
+        if(linksEdit){
+        	$('#idEditLink'+k).removeClass('cEditLinkShow').addClass('cEditLinkRemove');
+        	$('#idIDLink'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	$('#idEditLink'+k).removeClass('cEditLinkRemove').addClass('cEditLinkShow');
+        	$('#idDeleteLink'+k).removeClass('cDeleteLinkShow').addClass('cDeleteLinkRemove');
+        	$('#idIDLink'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+	linksDelete = 0;
+	if(linksEdit){
+		linksEdit = 0;
+    }else{
+    	linksEdit = 1;
+    }
+}
+
+function newLinkButtonClicked() {
+	//console.log('newLinkButtonClicked' );
+			$("#infoPanel87").css({"height":"130px"});
+			$("#infoPanel87").css({"display": "none"});
+			$("#infoPanel87").css({"visibility": "visible"});
+			$("#infoPanel87").slideDown("slow");
+			$("#infoPanel87").html("<div style='position:absolute;left:10px;top:10px;'>Name:</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:7px;'><input value='' size='17' type='text' id='inputLinkName'></input></div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:10px;top:33px;'>URL:</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:30px;'><input value='' size='17' type='text' id='inputLinkUrl'></input></div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:10px;top:56px;'>Type:</div>");
+
+
+			var selectCalc = '<select id="inputLinkType">';
+			selectCalc += '<option value="1">links1</option>';
+			selectCalc += '<option value="2">links2</option>';
+			selectCalc += '<option value="3">links3</option>';
+			selectCalc += '<option value="4">links4</option>';
+			selectCalc += '</select>';
+			
+			
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:53px;'>"+selectCalc+"</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:10px;top:79px;'>Menu:</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:76px;'><input value='' size='17' type='text' id='inputLinkMenu'></input></div>");	
+			$("#infoPanel87").append("<div style='width:50px;position:absolute;left:137px;top:95px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='newSubmitLinkButtonClicked();'>new</a></p></div></div>");
+			$("#infoPanel87").append("<div style='width:50px;position:absolute;left:10px;top:95px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='cancelSubmitLinkButtonClicked();'>cancel</a></p></div></div>");
+}
+
+function newSubmitLinkButtonClicked() {
+	var maxid=0;
+	var linkname = $("#inputLinkName").val();
+	var linkurl = $("#inputLinkUrl").val();
+	var linktype = $("#inputLinkType").val();
+	var linkmenu = $("#inputLinkMenu").val();
+	//console.log('newSubmitLinkButtonClicked '+linkname );
+	for(k=0; k < linksArray.length; k++){
+		if(linksArray[k].id>maxid){
+			maxid=linksArray[k].id
+		}
+	}
+	linkChange(maxid+1,linkname,'new', linkurl, linktype, linkmenu);
+}
+
+function cancelSubmitLinkButtonClicked() {
+	$("#infoPanel87").slideUp("slow");
+}
+
+function deleteLinkImgClicked(linkid) {
+	//console.log('deleteLinkImgClicked='+linkid );
+	for(j=0; j < linksArray.length; j++){
+		if(linksArray[j].id == linkid){
+			var linkname = linksArray[j].name
+			linkChange(linkid,linkname,'delete');
+		}
+	}
+}
+
+function editLinkImgClicked(linkid) {
+	//console.log('editLinkImgClicked='+linkid );
+	for(j=0; j < linksArray.length; j++){
+		if(linksArray[j].id == linkid){
+			//console.log('editLinkImgClicked='+linksArray[j].name);
+			$("#infoPanel87").css({"height":"130px"});
+			$("#infoPanel87").css({"display": "none"});
+			$("#infoPanel87").css({"visibility": "visible"});
+			$("#infoPanel87").slideDown("slow");
+			$("#infoPanel87").html("<div style='position:absolute;left:10px;top:10px;'>Name:</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:7px;'><input value='' size='17' type='text' id='inputLinkName'></input></div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:10px;top:33px;'>URL:</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:30px;'><input value='' size='17' type='text' id='inputLinkUrl'></input></div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:10px;top:56px;'>Type:</div>");
+
+			
+			var selectCalc = '<select id="inputLinkType">';
+			if (linksArray[j].type==1){selectSelected='selected'}else{selectSelected=''}
+			selectCalc += '<option '+selectSelected+' value="1">links1</option>';
+			if (linksArray[j].type==2){selectSelected='selected'}else{selectSelected=''}
+			selectCalc += '<option '+selectSelected+' value="2">links2</option>';
+			if (linksArray[j].type==3){selectSelected='selected'}else{selectSelected=''}
+			selectCalc += '<option '+selectSelected+' value="3">links3</option>';
+			if (linksArray[j].type==4){selectSelected='selected'}else{selectSelected=''}
+			selectCalc += '<option '+selectSelected+' value="4">links4</option>';
+			selectCalc += '</select>';
+			
+			
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:53px;'>"+selectCalc+"</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:10px;top:79px;'>Menu:</div>");
+			$("#infoPanel87").append("<div style='position:absolute;left:52px;top:76px;'><input value='' size='17' type='text' id='inputLinkMenu'></input></div>");			
+			$("#infoPanel87").append("<div style='width:50px;position:absolute;left:136px;top:95px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='editSubmitLinkButtonClicked();'>edit</a></p></div></div>");
+			$("#infoPanel87").append("<div style='width:50px;position:absolute;left:10px;top:95px;' class='inputButtonAreaClass'><div><p><a class='about-this button ' style='width:50px; text-align:center;' onclick='cancelSubmitLinkButtonClicked();'>cancel</a></p></div></div>");
+			$("#inputLinkName").val(linksArray[j].name);
+			$("#inputLinkUrl").val(linksArray[j].url);
+			$("#inputLinkMenu").val(linksArray[j].menu);
+			linksID = linkid;
+		}
+	}
+}
+
+function editSubmitLinkButtonClicked() {
+	var linkname = $("#inputLinkName").val();
+	var linkurl = $("#inputLinkUrl").val();
+	var linktype = $("#inputLinkType").val();
+	var linkmenu = $("#inputLinkMenu").val();
+	//console.log('editSubmitLinkButtonClicked '+linkname );
+	linkChange(linksID,linkname,'edit', linkurl, linktype, linkmenu);
+}
+
+function editLinkfromServer(linkID, linkName, linkurl, linktype, linkmenu) {
+	//console.log('editLinkfromServer='+linkID+' '+linkName);
+	for(j=0; j < linksArray.length; j++){
+		if(linksArray[j].id == linkID){
+			linksArray[j].name = linkName;
+			linksArray[j].url = linkurl;
+			linksArray[j].type = linktype;
+			linksArray[j].menu = linkmenu;
+			linksEdit = 0;
+			linksDelete = 0;
+			refreshLinkList();
+			cancelSubmitLinkButtonClicked();
+		}
+	}
+}
+
+function deleteLinkfromServer(linkID) {
+	//console.log('deleteLinkfromServer='+linkID);
+	for(j=0; j < linksArray.length; j++){
+		if(linksArray[j].id == linkID){
+			linksArray.splice(j, 1);
+			linksEdit = 0;
+			linksDelete = 0;
+			refreshLinkList();
+		}
+	}
+}
+
+function newLinkfromServer(linkID, linkName, linkurl, linktype, linkmenu) {
+	//console.log('newLinkfromServer='+linkID+' '+linkName);
+	var newLink = {};
+	newLink.id = linkID;
+	newLink.name = linkName;
+	newLink.url = linkurl;
+	newLink.type = linktype;
+	newLink.menu = linkmenu;
+	linksArray.push(newLink);
+	linksEdit = 0;
+	linksDelete = 0;
+	refreshLinkList();
+	cancelSubmitLinkButtonClicked();
+}
+
+function clickLinkfromList(linkID) {
+	console.log('clickLinkfromList='+linkID);
+	for(k=0; k < linksArray.length; k++){
+		if(linksArray[k].id == linkID){
+			if(1==2){
+				$("#input407").val(linksArray[k].url);
+				$("#Iframe405").attr("src", linksArray[k].url);	
+				menuWindow_openOne(92);
+			}else{
+				console.log('clickLinkfromList url='+linksArray[k].url);
+				popitup(linksArray[k].url);
+			}
+		}
+	}
+}
+
+function popitup(a){
+	window.open(a,'open_window','menubar=no, toolbar=no, location=no, directories=no, status=no, scrollbars=no, resizable=no, dependent, width=1024, height=768, left=0, top=0');
+}
+
+function refreshLinkList() {
+	var linkCalc = '';
+	for(j=0; j < linksArray.length; j++){
+		linkCalc += '<li><div class="cWrap"><div id="idEditLink'+j+'" class="cEditLink cEditLinkRemove"><img onclick="editLinkImgClicked('+linksArray[j].id+');" src="/img/edit1616.png"></img></div><div id="idDeleteLink'+j+'" class="cDeleteLinkRemove cDeleteLink"><img onclick="deleteLinkImgClicked('+linksArray[j].id+');" src="/img/delete1616.png"></img></div><div id="idIDLink'+j+'" class="cIDShow"><img onclick="editLinkImgClicked('+linksArray[j].id+');" src="/img/earth1616.png"></img></div><div onclick="clickLinkfromList('+linksArray[j].id+');" class="cName">' + linksArray[j].name + '</div><div class="cLinkType">' + linksArray[j].type + '</div><div style="top:3px;" id="linkEdit' + linksArray[j].id + '" class="cButton"><img onclick="LinkClicked('+linksArray[j].id+');" src="/img/compile1616.png"></img></div></div></li>'; 
+	}
+	$("#linkWrapid474").html(linkCalc);
+	for(k=0; k < linksArray.length; k++){
+        if(linksDelete!=1){
+        	$('#idDeleteLink'+k).removeClass('cDeleteLinkShow').addClass('cDeleteLinkRemove');
+        	$('#idIDLink'+k).removeClass('cIDRemove').addClass('cIDShow');
+        }else{
+        	//$('#idEditLink'+k).removeClass('cEditLinkRemove').addClass('cEditLinkShow');
+        	$('#idDeleteLink'+k).removeClass('cDeleteLinkRemove').addClass('cDeleteLinkShow');
+        	//$('#idDeleteLink'+k).removeClass('cDeleteLinkShow').addClass('cDeleteLinkRemove');
+        	$('#idIDLink'+k).removeClass('cIDShow').addClass('cIDRemove');
+        }
+	}
+}
+
+///////////////////////////////////////// -------- /////////////////////////////////

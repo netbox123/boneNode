@@ -1,3 +1,6 @@
+/*-----------------------------------------------------------------------------------*/
+/*	01.	Window
+/*-----------------------------------------------------------------------------------*/
 
 .window {
 	background:rgba(233, 233, 233, 0.5);
@@ -421,12 +424,12 @@ color: #777777;
 
 
     
-input[type="checkbox"] { 
+/* input[type="checkbox"] { 
     position: absolute;
 	opacity: 0;
     width: 55px;    
     height: 30px;
-}
+}*/
 
 /* Normal Track */
 input[type="checkbox"].ios-switch + div {

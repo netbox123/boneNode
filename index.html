@@ -16,14 +16,10 @@
 	<script type="text/javascript" src="js/fix-and-clock.js"></script>
     <script type="text/javascript" src="js/highcharts.js"></script>
     <script type="text/javascript" src="js/exporting.js"></script>
-    <script src="js/alert_view.min.js"></script>
     <script src="js/raphael.2.1.0.min.js"></script>
     <script src="js/justgage.1.0.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
-	<link rel="stylesheet" href="css/alert_view.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
-	
-
 </head>
 
 <body>
@@ -36,97 +32,123 @@
 	</div>
 </div>
 
+
 <!-- PAGE -->
 <div id="page">
-	<!-- MENU -->
-	<div id='jqxWidget' style='height: 42px;'>
-		<div id='jqxMenu' style='visibility: hidden; margin-left: 0px;'>
-			<ul class='menuBarClass'  style='padding-top: 0px; margin-top: 0px; border-top: 0px;'>
-				<div id='widgetid240'>00</div><div id='mbarDot1'>:</div><div id='widgetid241'>00</div><div id='mbarDot2'>:</div><div id='widgetid242'>00</div>
-				<div id='mbarBattery'></div><div id='widgetid243'>00</div>
-				<li id="apple" style='width: 30px; padding: 0px; padding-left: 10px;'><a href="#all">Apple</a>
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
-						<li onclick="menuWindow_openOne(50);">About This Mac</li>
-						<li onclick="menuClicked('File','Updates')" >Software Updates...</li>
-						<li>App Store...</li>
-						<li type='separator'></li>
-						<li>System Preferences...</li>
-						<li type='separator'></li>
-						<li>Force Quit...</li>
-						<li type='separator'></li>
-						<li>Sleep</li>
-						<li>Restart...</li>
-						<li>Shut Down...</li>
-						<li type='separator'></li>
-						<li>Log Out...</li>
-					</ul>
-				</li>
-				<li style='padding-top: 2px;'><strong>Finder</strong>
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 250px;'>
-						<li onclick="menuWindow_openOne(51);">About Finder</li>
-						<li type='separator'></li>
-						<li onclick="menuWindow_openOne(97);">Preferences...</li>
-						<li type='separator'></li>
-						<li>Secure Empty Trash...</li>
-						<li type='separator'></li>
-						<li>Services
+	<header id="head">
+		<div id='widgetid240'>00</div><div id='mbarDot1'>:</div><div id='widgetid241'>00</div>
+		<div id='mbarDot2'>:</div><div id='widgetid242'>00</div>
+		<div id='mbarBattery'></div><div id='widgetid243'>00</div>
+		<nav id="menu">
+			<ul>
+			<li class="apple">
+				<a href="#all">Apple</a>
+				<ul class="sublist">
+					<li onclick="menuWindow_openOne(50);">About This Mac</li>
+					<li onclick="menuClicked('File','Updates')">Software Updates...</li>
+					<li>App Store...</li>
+					<li class="divider"></li>
+					<li>System Preferences...</li>
+					<li class="divider"></li>
+					<li>Force Quit...</li>
+					<li class="divider"></li>
+					<li>Sleep</li>
+					<li>Restart...</li>
+					<li>Shut Down...</li>
+					<li class="divider"></li>
+					<li>Log Out...</li>
+				</ul>
+			</li>
+			<li class="here">
+				<a href="#all">Finder</a>
+				<ul class="sublist">
+					<li onclick="menuWindow_openOne(51);">About Finder</li>
+					<li class="divider"></li>
+					<li onclick="menuWindow_openOne(97);">Preferences...</li>
+					<li class="divider"></li>
+					<li>Secure Empty Trash...</li>
+					<li class="divider"></li>
+					<li>Services
+						<span class="arrow"></span>
 						<ul class="sublist-menu">
-						   <li class="disable">No Services Apply</li>
-						   <li>Services Preferences...</li>
+						<li class="disable">No Services Apply</li>
+						<li>Services Preferences...</li>
 						</ul>
-						</li>
-						<li type='separator'></li>
-						<li>Hide Finder</li>
-						<li>Hide Others</li>
-					</ul>
-				</li>
-				<li style='padding-top: 2px;'>File
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 250px;'>
-						<li>New Finder Window</li>
-						<li>New Folder</li>
-					</ul>
-				</li>
-				<li style='padding-top: 2px;'>Edit
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
-						<li id="menuEitCut">Cut</li>
-						<li class="disable">Copy</li>
-						<li class="disable">Paste</li>
-						<li>Select All</li>
-						<li type='separator'></li>
-						<li>Show Clipboard</li>
-						<li type='separator'></li>
-						<li>Special Characters...</li>
-					</ul>
-				</li>
-				<li style='padding-top: 2px;'>Go
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
-						<li onclick="menuWindow_openOne(96);">Log</li>
-						<li onclick="menuWindow_openOne(60);">Serial monitor</li>
-						<li type='separator'></li>
-					</ul>
-				</li>
-				<li style='padding-top: 2px;'>Window
-					<ul class='menuShadow' style='padding-left: 0px; padding-right: 0px; width: 200px;'>
-						<li onclick="menuClicked('Window','closeAll')">Close All</li>
-						<li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
-						<li type='separator'></li>
-						<li onclick="openWindowInfo('windoweventtarget')">Edit Window</li></li>
-						<li onclick="newItemMenu('itemeventtarget')">New Item</li></li>
-						<li onclick="openItemInfo('itemeventtarget')">Edit Item</li></li>
-						<li onclick="menuClicked('Edit','editItems')">Move Items</li>
-						<li type='separator'></li>
-						<li onclick="menuWindow_openOne(2);">Info</li>
-						<li onclick="menuWindow_openOne(1);">Floorplan</li>
-						<li onclick="menuWindow_openOne(6);">BMV-600</li>
-						<li onclick="menuWindow_openOne(7);">Temperaturen</li>
-						<li onclick="menuWindow_openOne(90);">Action</li>
-						<li onclick="menuWindow_openOne(94);">Chart current (A)</li>
-						<li onclick="menuWindow_openOne(93);">Chart temperatures (°C)</li>
-					</ul>
-				</li>
+					</li>
+					<li class="divider"></li>
+					<li>Hide Finder</li>
+					<li>Hide Others</li>
+					<li class="disable">Show All</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#all">File</a>   
+				<ul class="sublist">
+					<li>New Finder Window</li>
+					<li>New Folder</li>
+					<li class="disable">New Folder with Selection</li>
+					<li>New Smart Folder</li>
+					<li>New Burn Folder</li>
+					<li class="disable">Open</li>
+					<li class="disable">Open With
+						<span class="arrow"></span>
+					</li>
+					<li class="disable">Print</li>
+					<li class="disable">Close Window</li>
+				</ul> 
+			</li>
+			<li>
+				<a href="#all">Edit</a>
+				<ul class="sublist">
+					<li class="disable">Undo</li>
+					<li class="disable">Redo</li>
+					<li class="divider"></li>
+					<li class="disable">Cut</li>
+					<li class="disable">Copy</li>
+					<li class="disable">Paste</li>
+					<li>Select All</li>
+					<li class="divider"></li>
+					<li>Show Clipboard</li>
+					<li class="divider"></li>
+					<li>Special Characters...</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#all">Go</a>
+				<ul class="sublist">
+					<li onclick="menuWindow_openOne(96);">Log</li>
+					<li onclick="menuWindow_openOne(60);">Serial monitor</li>
+				</ul>    
+			</li>
+			<li>
+				<a href="#all">Window</a>
+				<ul class="sublist">
+					<li onclick="menuClicked('Window','closeAll')">Close All</li>
+					<li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
+					<li class="divider"></li>
+					<li onclick="openWindowInfo('windoweventtarget')">Edit Window</li></li>
+					<li onclick="newItemMenu('itemeventtarget')">New Item</li></li>
+					<li onclick="openItemInfo('itemeventtarget')">Edit Item</li></li>
+					<li onclick="menuClicked('Edit','editItems')">Move Items</li>
+					<li class="divider"></li>
+					<li onclick="menuWindow_openOne(2);">Info</li>
+					<li onclick="menuWindow_openOne(1);">Floorplan</li>
+					<li onclick="menuWindow_openOne(6);">BMV-600</li>
+					<li onclick="menuWindow_openOne(7);">Temperaturen</li>
+					<li onclick="menuWindow_openOne(90);">Action</li>
+					<li onclick="menuWindow_openOne(88);">Timer</li>
+					<li onclick="menuWindow_openOne(94);">Chart current (A)</li>
+					<li onclick="menuWindow_openOne(93);">Chart temperatures (°C)</li>
+				</ul>    
+			</li>
 			</ul>
-		</div>
-	</div> <!-- MENU end -->
+		</nav>
+	</header>
+
+
+
+
+
         
 	
 	<div id="warning" class="window warning">

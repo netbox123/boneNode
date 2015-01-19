@@ -559,9 +559,37 @@ ul#css3menu1 li.sublast>a{
 	position:absolute;
   	left:25px;
   	top:2px
-}		
+}
+
+linkNav li .cEditLink, .cDeleteLink{visibility:visible;cursor:pointer;float:left;position:absolute;left:4px;top:3px;}
+linkNav li .cDeleteLink{visibility:visible;cursor:pointer;float:left;position:absolute;left:5px;top:3px;}
+linkNav li .cEditLinkShow {visibility:visible;}
+linkNav li .cEditLinkRemove {visibility:hidden;}
+linkNav li .cDeleteLinkShow {visibility:visible;}
+linkNav li .cDeleteLinkRemove {visibility:hidden;}
+linkNav ul{height:100%; width:100%;}
+linkNav li{
+	height:22px; 
+	border-bottom:1px solid #444444; 
+	border-color: #8e8e97;
+  	background-color: #ffffff;
+}
+linkNav ul{overflow:hidden; overflow-y:scroll;}
 	
-	
+timerNav li .cEditTimer, .cDeleteTimer{visibility:visible;cursor:pointer;float:left;position:absolute;left:4px;top:3px;}
+timerNav li .cDeleteTimer{visibility:visible;cursor:pointer;float:left;position:absolute;left:5px;top:3px;}
+timerNav li .cEditTimerShow {visibility:visible;}
+timerNav li .cEditTimerRemove {visibility:hidden;}
+timerNav li .cDeleteTimerShow {visibility:visible;}
+timerNav li .cDeleteTimerRemove {visibility:hidden;}
+timerNav ul{height:100%; width:100%;}
+timerNav li{
+	height:22px; 
+	border-bottom:1px solid #444444; 
+	border-color: #8e8e97;
+  	background-color: #ffffff;
+}
+timerNav ul{overflow:hidden; overflow-y:scroll;}
 	
 	
 actionNav ul{height:100%; width:100%;}
@@ -571,22 +599,24 @@ actionNav li{
 	border-color: #8e8e97;
   	background-color: #ffffff;
 }
-actionNav li .cWrap {position:relative;}
+
+ .cWrap {position:relative;}
 actionNav li .cEditAction, .cDeleteAction{visibility:visible;cursor:pointer;float:left;position:absolute;left:4px;top:3px;}
 actionNav li .cDeleteAction{visibility:visible;cursor:pointer;float:left;position:absolute;left:5px;top:3px;}
 
-
-actionNav li .cName {visibility:visible;cursor:pointer;float:left;position:absolute;left:26px;top:4px;}
-actionNav li .cButton {visibility:visible;cursor:pointer;float:left;position:absolute;right:10px;top:4px;}
-actionNav li .cRun {visibility:visible;cursor:pointer;float:left;position:absolute;right:38px;top:4px;}
+.cLinkType {visibility:visible;float:left;position:absolute;right:35px;top:4px;}
+.cTime {visibility:visible;float:left;position:absolute;right:35px;top:4px;}
+.cName {visibility:visible;cursor:pointer;float:left;position:absolute;left:26px;top:4px;}
+.cButton {visibility:visible;cursor:pointer;float:left;position:absolute;right:10px;top:4px;}
+.cRun {visibility:visible;cursor:pointer;float:left;position:absolute;right:38px;top:4px;}
 actionNav li .cEditActionShow {visibility:visible;}
 actionNav li .cEditActionRemove {visibility:hidden;}
 actionNav li .cDeleteActionShow {visibility:visible;}
 actionNav li .cDeleteActionRemove {visibility:hidden;}
 actionNav li .cDeleteEventShow {visibility:visible;cursor:pointer;padding:3px;}
 actionNav li .cDeleteEventRemove {visibility:hidden;cursor:pointer;padding:3px;}
-actionNav li .cIDShow {visibility:visible;float:left;position:absolute;left:5px;top:3px;}
-actionNav li .cIDRemove {visibility:hidden;float:left;position:absolute;left:5px;top:3px;}
+ .cIDShow {visibility:visible;float:left;position:absolute;left:5px;top:3px;}
+ .cIDRemove {visibility:hidden;float:left;position:absolute;left:5px;top:3px;}
 actionNav ul{overflow:hidden; overflow-y:scroll;}	
 	
 .infoPanel {
@@ -609,75 +639,6 @@ actionNav ul{overflow:hidden; overflow-y:scroll;}
 	cursor:pointer;
 }	
 
-.jqx-grid-selectionarea-custom
-{
-  border-color: #8e8e97;
-  background-color: #ffffff;
-}
-.jqx-widget-custom .jqx-grid-cell-sort-custom, .jqx-widget-custom .jqx-grid-cell-filter-custom, .jqx-widget-custom .jqx-grid-cell-pinned-custom, .jqx-grid-cell-sort-custom, .jqx-grid-cell-filter-custom, .jqx-grid-cell-pinned-custom
-{
-  background-color: #d7d9df;
-  color: #222222;
-  text-shadow: none;
-}
-.jqx-widget-custom .jqx-grid-cell-alt-custom, .jqx-widget-custom .jqx-grid-cell-sort-alt-custom, .jqx-widget-custom .jqx-grid-cell-pinned-alt-custom, .jqx-widget-custom .jqx-grid-cell-filter-alt-custom, .jqx-grid-cell-alt-custom, .jqx-grid-cell-sort-alt-custom, .jqx-grid-cell-filter-alt-custom
-{
-  background-color: #d7d9df;
-  color: #222222;
-  text-shadow: none;
-}
-.jqx-fill-state-hover-custom, .jqx-widget-custom .jqx-grid-cell-hover-custom
-{
-  color: #FFFFFF;
-  text-shadow: none;
-  border-color: #015DE6;
-  background-color: #058CF5;
-  background-image: -moz-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -ms-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -o-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#058CF5), to(#015DE6));
-  background-image: -webkit-linear-gradient(top, #058CF5, #015DE6);
-  background-image: linear-gradient(top, #058CF5, #015DE6);
-  background-image: linear-gradient(to bottom, #058CF5, #015DE6);
-  -moz-background-clip: padding;
-  background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  font-family: Verdana;
-}
-.jqx-fill-state-pressed-custom, .jqx-widget-custom .jqx-grid-cell-selected-custom
-{
-  color: #ffffff;
-  text-shadow: none;
-  border-color: #014ab8;
-  background-color: #058CF5;
-  background-image: -moz-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -ms-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -o-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#058CF5), to(#015DE6));
-  background-image: -webkit-linear-gradient(top, #058CF5, #015DE6);
-  background-image: linear-gradient(top, #058CF5, #015DE6);
-  background-image: linear-gradient(to bottom, #058CF5, #015DE6);
-  -moz-background-clip: padding;
-  background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  font-family: Verdana;
-}
-.jqx-switchbutton-label-on-custom
-{
-  color: #ffffff;
-  text-shadow: none;
-  border-color: #014ab8;
-  background-color: #058CF5;
-  background-image: -moz-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -ms-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -o-linear-gradient(top, #058CF5, #015DE6);
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#058CF5), to(#015DE6));
-  background-image: -webkit-linear-gradient(top, #058CF5, #015DE6);
-  background-image: linear-gradient(top, #058CF5, #015DE6);
-  background-image: linear-gradient(to bottom, #058CF5, #015DE6);
-  -moz-background-clip: padding;
-  background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-}
+.alert_view_center{width:1024px;overflow:hidden;position:fixed;z-index:1600}.alert_view{width:1024px;overflow:hidden;z-index:1600;opacity:0.9;padding:10px;position:absolute;color:#333;background-color:#f5f5f5;border:1px solid #e3e3e3;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px;-webkit-box-shadow:rgba(0,0,0,0.1) 0 0 3px inset;-moz-box-shadow:rgba(0,0,0,0.1) 0 0 3px inset;box-shadow:rgba(0,0,0,0.1) 0 0 3px inset;-webkit-box-shadow:#999 0 0 10px;-moz-box-shadow:#999 0 0 10px;box-shadow:#999 0 0 10px}.alert_view_notification{padding:0;position:fixed;margin:5px;margin-top:28px;width:250px;height:73px;-webkit-box-shadow:#444 0 0 10px;-moz-box-shadow:#444 0 0 10px;box-shadow:#444 0 0 10px}.alert_view .av_title{font-size:15px;line-height:25px;font-weight:bolder;color:#222}.alert_view .av_message{margin-left:10px;font-size:13px;line-height:20px}.alert_view_notification .av_title{border-bottom:1px solid #e3e3e3;background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #ffffff));background-image:-webkit-linear-gradient(#f0f0f0,#ffffff);background-image:-moz-linear-gradient(#f0f0f0,#ffffff);background-image:-o-linear-gradient(#f0f0f0,#ffffff);background-image:linear-gradient(#f0f0f0,#ffffff);padding:0 10px}.alert_view_notification .av_message{padding:2px 10px;margin-left:0}.alert_view .av_close{line-height:25px;float:right;font-weight:bold;cursor:pointer;font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;color:#888}.alert_view_error{background-color:#f2dede;color:#b92a28}.alert_view_notification.alert_view_error .av_title{color:white;background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ee5f5b), color-stop(100%, #bd362f));background-image:-webkit-linear-gradient(#ee5f5b,#bd362f);background-image:-moz-linear-gradient(#ee5f5b,#bd362f);background-image:-o-linear-gradient(#ee5f5b,#bd362f);background-image:linear-gradient(#ee5f5b,#bd362f)}.alert_view_error .av_title{color:#b92a28}.alert_view_black{border:1px solid #777;background-color:#222;color:#f6f6f6}.alert_view_notification.alert_view_black .av_title{border-bottom:1px solid #777;background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #555555), color-stop(100%, #222222));background-image:-webkit-linear-gradient(#555555,#222222);background-image:-moz-linear-gradient(#555555,#222222);background-image:-o-linear-gradient(#555555,#222222);background-image:linear-gradient(#555555,#222222)}.alert_view_black .av_title{color:white}
 
 
