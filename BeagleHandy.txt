@@ -1,0 +1,65 @@
+ssh root@192.168.7.2
+BeagleBoard.org BeagleBone Debian Image 2014-05-14
+
+======= Beaglebone Element14 revC ========
+uname -a
+Linux beaglebone 3.8.13-bone50 #1 SMP Tue May 13 13:24:52 UTC 2014 armv7l GNU/Linux
+
+======= network ========
+mv /etc/network/interfaces /etc/network/interfaces.bak
+nano /etc/network/interfaces          
+------- paste >> 
+auto lo
+iface lo inet loopback
+
+iface eth0 inet static
+	address	192.168.0.100
+	netmask	255.255.255.0	
+	network	192.168.0.0	
+	broadcast 192.168.0.255
+	gateway	192.168.0.1
+-------
+nano /etc/resolv.conf
+------- paste >>
+nameserver	8.8.8.8 
+nameserver	8.8.4.4
+-------
+nano /etc/hosts
+------- paste >>
+127.0.0.1     localhost
+192.168.0.1   server1.example.com server1
+-------
+/etc/init.d/networking restart
+
+======= mysql ========
+apt-get update
+dpkg-reconfigure locales
+apt-get install mysql-server 
+mysql_secure_installation
+
+======= lighttpd ========
+apt-get install lighttpd
+nano /etc/lighttpd/lighttpd.conf
+nano /var/log/lighttpd/error.log
+
+======= php5 ========
+apt-get install php5-cgi
+nano /etc/php5/cgi/php.ini >> uncomment cgi.fix_pathinfo=1
+/etc/init.d/lighttpd force-reload
+
+First, check that your configuration is ok:
+	$ lighttpd -t -f lighttpd.conf
+Now start the server for testing:
+	$ lighttpd -D -f lighttpd.conf
+
+======= phpMyAdmin ========
+copying with cloud9 sucks, you will missing files.
+copy phpMyAdmin.tar.gz to cloud9 directory and untar it there.
+chown it to www-data:www-data * -R (same as lighttpd config file) 
+do better debugging, try run php index.php in CLI, you'll get error right there..
+
+======= serialport ========
+npm install -g serialport    < not working, readline parsing method error
+
+now i'm fighting(again) with the missing b.serialParsers.readline method  
+
