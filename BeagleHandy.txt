@@ -30,10 +30,14 @@ nano /etc/hosts
 192.168.0.1   server1.example.com server1
 -------
 /etc/init.d/networking restart
+reboot
+dpkg-reconfigure locales
+sudo apt-get update
+sudo apt-get upgrade
+reboot
 
 ======= mysql ========
 apt-get update
-dpkg-reconfigure locales
 apt-get install mysql-server 
 mysql_secure_installation
 
