@@ -13,11 +13,11 @@ auto lo
 iface lo inet loopback
 
 iface eth0 inet static
-	address	192.168.0.100
+	address	192.168.7.100
 	netmask	255.255.255.0	
-	network	192.168.0.0	
+	network	192.168.7.0	
 	broadcast 192.168.0.255
-	gateway	192.168.0.1
+	gateway	192.168.7.1
 -------
 nano /etc/resolv.conf
 ------- paste >>
@@ -30,14 +30,11 @@ nano /etc/hosts
 192.168.0.1   server1.example.com server1
 -------
 /etc/init.d/networking restart
-reboot
 dpkg-reconfigure locales
 sudo apt-get update
-sudo apt-get upgrade
 reboot
 
 ======= mysql ========
-apt-get update
 apt-get install mysql-server 
 mysql_secure_installation
 
@@ -45,25 +42,86 @@ mysql_secure_installation
 apt-get install lighttpd
 nano /etc/lighttpd/lighttpd.conf
 nano /var/log/lighttpd/error.log
+/etc/init.d/lighttpd force-reload
+
+First, check that your configuration is ok:
+	lighttpd -t -f /etc/lighttpd/lighttpd.conf
+Now start the server for testing:
+	lighttpd -D -f lighttpd.conf
 
 ======= php5 ========
 apt-get install php5-cgi
 nano /etc/php5/cgi/php.ini >> uncomment cgi.fix_pathinfo=1
+apt-get install php5-mysql
 /etc/init.d/lighttpd force-reload
-
-First, check that your configuration is ok:
-	$ lighttpd -t -f lighttpd.conf
-Now start the server for testing:
-	$ lighttpd -D -f lighttpd.conf
 
 ======= phpMyAdmin ========
 copying with cloud9 sucks, you will missing files.
 copy phpMyAdmin.tar.gz to cloud9 directory and untar it there.
+tar zxvf phpMyAdmin.tar.gz -C phpMyAdmin
 chown it to www-data:www-data * -R (same as lighttpd config file) 
 do better debugging, try run php index.php in CLI, you'll get error right there..
 
+======= enable serialport (dts file) ========
+nano enable-uart5.dts
+------- paste >>
+/*
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "ti,beaglebone", "ti,beaglebone-black";
+
+    /* identification */
+    part-number = "uart5";
+
+    fragment@0 {
+        target = <&am33xx_pinmux>;
+        __overlay__ {
+            pinctrl_uart5: pinctrl_uart5_pins {
+                pinctrl-single,pins = <					 				   
+                        0x070 0x26  /* P9_11 = GPIO0_30 = GPMC_WAIT0 , MODE6 */
+                        0x074 0x06  /* P9_13 = GPIO0_31 = GPMC_WPN, MODE6 */
+                >;
+            };
+        };
+    };
+
+	fragment@1{
+		target = <&uart5>;
+		__overlay__ {
+			status			= "okay";
+		};
+	};
+
+    fragment@2 {
+        target = <&ocp>;
+        __overlay__ {
+            test_helper: helper {
+                compatible = "bone-pinmux-helper";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_uart5>;
+                status = "okay";
+            };
+        };
+    };
+};
+-------
+dtc -O dtb -o enable-uart5-00A0.dtbo -b 0 -@ enable-uart5.dts
+cp enable-uart5-00A0.dtbo /lib/firmware/
+echo enable-uart5 > /sys/devices/bone_capemgr.*/slots
+cat /dev/ttyO4
+
 ======= serialport ========
 npm install -g serialport    < not working, readline parsing method error
-
-now i'm fighting(again) with the missing b.serialParsers.readline method  
-
+see > https://github.com/jadonk/bonescript/issues/85
+nano /usr/local/lib/node_modules/bonescript/serial.js
+------- paste (add on end) >>
+exports.serialParsers = m.module.exists ? m.module.parsers : {};
+-------
