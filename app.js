@@ -74,6 +74,7 @@ function InitApp() {
     var port = process.env.PORT || CONFIG.port;
     server.listen(4000); // listen on port 
     app.get('/', function(req, res){res.sendFile(__dirname + '/index.html');});
+    app.get('/mobi', function(req, res){res.sendFile(__dirname + '/mobi/index.html');});
     console.log('Server listening on port process.env.PORT');
 }
 

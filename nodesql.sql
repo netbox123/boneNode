@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.3.0
+-- version 4.3.9
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 03, 2014 at 07:56 PM
--- Server version: 5.5.38-0+wheezy1
--- PHP Version: 5.4.4-14+deb7u14
+-- Generation Time: May 16, 2014 at 05:16 AM
+-- Server version: 5.5.41-0+wheezy1
+-- PHP Version: 5.4.36-0+deb7u3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,10 +27,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `action` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `events` varchar(1024) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `action`
@@ -43,7 +43,8 @@ INSERT INTO `action` (`id`, `name`, `events`) VALUES
 (7, 'achterdeur timed off', '28-toff-900'),
 (8, 'NachtL1', '25-toggle-00'),
 (9, 'NachtL2', '1-off-0;22-off-0;26-off-0;36-off-0;8-off-0;25-off-0;24-off-0;23-off-0;27-off-0;28-off-0;29-off-0;31-off-0;34-off-0;35-off-0'),
-(10, 'Kachel on', '1-off-00');
+(10, 'Kachel on', '1-off-00'),
+(11, 'testing', 'undefined');
 
 -- --------------------------------------------------------
 
@@ -78,73 +79,72 @@ CREATE TABLE IF NOT EXISTS `device` (
   `type` int(11) NOT NULL,
   `opm` varchar(255) NOT NULL,
   `mem` int(20) NOT NULL,
-  `pin` varchar(8) NOT NULL,
   `val` int(11) NOT NULL,
   `action` int(11) NOT NULL,
-  `inv` int(11) NOT NULL,
   `toff` int(11) NOT NULL,
   `due` int(11) NOT NULL,
-  `re` varchar(6) NOT NULL
+  `re` varchar(6) NOT NULL,
+  `mobi` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `device`
 --
 
-INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, `action`, `inv`, `toff`, `due`, `re`) VALUES
-(37, 'Woonkamer', 77, 1, 'output', 0, '', 0, 0, 0, 0, 37, 'B7'),
-(36, 'Eettafel', 2, 1, 'output', 0, '', 0, 0, 0, 0, 36, 'B6'),
-(24, 'Nachtlampje', 0, 1, 'output', 0, '', 0, 0, 0, 0, 24, 'A6'),
-(30, 'Slaapkamer', 0, 1, 'output', 0, '', 0, 0, 0, 0, 30, 'A3'),
-(25, 'Hal entree', 0, 1, 'output', 0, '', 0, 0, 0, 0, 25, 'A2'),
-(23, 'Spot schilderij', 0, 1, 'output', 0, '', 0, 0, 0, 0, 23, 'A1'),
-(31, 'Spotjes tv', 0, 1, 'output', 0, '', 0, 0, 0, 0, 31, 'B1'),
-(26, 'Douche', 0, 1, 'output', 0, '', 0, 0, 0, 0, 26, 'A5'),
-(28, 'Buffer', 0, 1, 'output', 0, '', 0, 0, 0, 0, 28, 'A8'),
-(33, 'Toilet', 0, 1, 'output', 0, '', 0, 0, 0, 0, 33, 'B2'),
-(35, 'Keuken', 0, 1, 'output', 0, '', 0, 0, 0, 0, 35, 'B5'),
-(27, 'Trap', 0, 1, 'output', 0, '', 0, 0, 0, 0, 27, 'A4'),
-(135, 'Buffer', 0, 1, 'output', 0, 'P8_19', 0, 0, 0, 0, 0, ''),
-(4001, 'Woonkamer', 0, 4, '28-00000495815b', 0, '', 0, 0, 0, 0, 0, ''),
-(1003, 'BoneTime', 0, 2, 'time', 0, '', 0, 0, 0, 0, 0, ''),
-(1004, 'BoneDate', 0, 2, 'date', 0, '', 0, 0, 0, 0, 0, ''),
-(1005, 'BoneClock', 0, 2, 'seconds', 0, '', 0, 0, 0, 0, 0, ''),
-(1006, 'Set clock', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0, ''),
-(1007, 'Temp script', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0, ''),
-(1000, 'Edit items', 0, 2, 'Switch', 0, '', 0, 0, 0, 0, 0, ''),
-(1001, 'Edit bkgnd', 0, 2, 'Switch', 0, '', 0, 0, 0, 0, 0, ''),
-(1008, 'Reload serverDB', 0, 2, 'Button', 0, '', 0, 0, 0, 0, 0, ''),
-(2001, 'input 1', 0, 3, 'input', 0, '', 0, 1, 0, 0, 44, ''),
-(2002, 'input 2', 0, 3, 'input', 0, '', 0, 10, 0, 0, 45, ''),
-(2003, 'input 3', 0, 3, 'input', 0, '', 0, 3, 1, 0, 46, ''),
-(2004, 'input 4', 0, 3, 'input', 0, '', 0, 7, 1, 0, 47, ''),
-(3001, 'BMV-V', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3002, 'BMV-I', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3003, 'BMV-CE', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3004, 'BMV-SOC', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3005, 'BMV-TTG', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3006, 'BMV-Alarm', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3007, 'BMV-Relay', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(3008, 'BMV-W', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(4002, 'Kachel boven', 0, 4, '28-00000494fa07', 0, '', 0, 0, 0, 0, 0, ''),
-(4003, 'Kachel onder', 0, 4, '28-00000495a8d0', 0, '', 0, 0, 0, 0, 0, ''),
-(4004, 'Buffer boven', 0, 4, '28-00000495df77', 0, '', 0, 0, 0, 0, 0, ''),
-(4005, 'Buffer midden', 0, 4, '28-0000049586c3', 0, '', 0, 0, 0, 0, 0, ''),
-(4006, 'Buffer onder', 0, 4, '28-000004954834', 0, '', 0, 0, 0, 0, 0, ''),
-(4008, 'gen onder', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0, ''),
-(4009, 'buiten', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0, ''),
-(2005, 'input 5', 0, 3, 'input', 0, '', 0, 0, 0, 0, 48, ''),
-(4007, 'gen boven', 0, 4, '28-00000494bd4b', 0, '', 0, 0, 0, 0, 0, ''),
-(39, 'Omvormer1', 2, 1, '', 0, '', 0, 0, 0, 0, 39, 'B8'),
-(1002, 'DueStep', 0, 2, 'step(sec)', 0, '', 0, 0, 0, 0, 0, ''),
-(1010, 'BoneSec', 0, 2, '', 0, '', 0, 0, 0, 0, 0, ''),
-(1011, 'BoneMin', 0, 2, '', 0, '', 0, 0, 0, 0, 0, ''),
-(1012, 'BoneHour', 0, 2, '', 0, '', 0, 0, 0, 0, 0, ''),
-(3009, 'BMV-SOC-mbar', 0, 2, 'BMV-600 serial input', 0, '', 0, 0, 0, 0, 0, ''),
-(2006, 'input 6', 0, 3, 'input', 0, '', 0, 0, 0, 0, 49, ''),
-(32, 'Aqua pomp', 0, 1, 'output', 0, '', 0, 0, 0, 0, 32, 'B3'),
-(34, 'Achterdeur', 0, 1, 'output', 0, '', 0, 0, 0, 0, 34, 'B4'),
-(29, 'Omvormer 2', 0, 1, 'output', 0, '', 0, 0, 0, 0, 29, 'A7');
+INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `val`, `action`, `toff`, `due`, `re`, `mobi`) VALUES
+(37, 'Woonkamer', 77, 1, 'output', 0, 0, 0, 0, 37, 'B7', 1),
+(36, 'Eettafel', 2, 1, 'output', 0, 0, 0, 0, 36, 'B6', 1),
+(24, 'Nachtlampje', 0, 1, 'output', 0, 0, 0, 0, 24, 'A6', 1),
+(30, 'Slaapkamer', 0, 1, 'output', 0, 0, 0, 0, 30, 'A3', 1),
+(25, 'Hal entree', 0, 1, 'output', 0, 0, 0, 0, 25, 'A2', 1),
+(23, 'Spot schilderij', 0, 1, 'output', 0, 0, 0, 0, 23, 'A1', 1),
+(31, 'Spotjes tv', 0, 1, 'output', 0, 0, 0, 0, 31, 'B1', 1),
+(26, 'Douche', 0, 1, 'output', 0, 0, 0, 0, 26, 'A5', 1),
+(28, 'Buffer', 0, 1, 'output', 0, 0, 0, 0, 28, 'A8', 1),
+(33, 'Toilet', 0, 1, 'output', 0, 0, 0, 0, 33, 'B2', 1),
+(35, 'Keuken', 0, 1, 'output', 0, 0, 0, 0, 35, 'B5', 1),
+(27, 'Trap', 0, 1, 'output', 0, 0, 0, 0, 27, 'A4', 1),
+(135, 'Buffer', 0, 1, 'output', 0, 0, 0, 0, 0, '', 0),
+(4001, 'Woonkamer', 0, 4, '28-00000495815b', 0, 0, 0, 0, 0, '', 0),
+(1003, 'BoneTime', 0, 2, 'time', 0, 0, 0, 0, 0, '', 0),
+(1004, 'BoneDate', 0, 2, 'date', 0, 0, 0, 0, 0, '', 0),
+(1005, 'BoneClock', 0, 2, 'seconds', 0, 0, 0, 0, 0, '', 0),
+(1006, 'Set clock', 0, 2, 'Button', 0, 0, 0, 0, 0, '', 0),
+(1007, 'Temp script', 0, 2, 'Button', 0, 0, 0, 0, 0, '', 0),
+(1000, 'Edit items', 0, 2, 'Switch', 0, 0, 0, 0, 0, '', 0),
+(1001, 'Edit bkgnd', 0, 2, 'Switch', 0, 0, 0, 0, 0, '', 0),
+(1008, 'Reload serverDB', 0, 2, 'Button', 0, 0, 0, 0, 0, '', 0),
+(2001, 'input 1', 0, 3, 'input', 0, 0, 1, 0, 44, '', 0),
+(2002, 'input 2', 0, 3, 'input', 0, 0, 10, 0, 45, '', 0),
+(2003, 'input 3', 0, 3, 'input', 0, 0, 3, 0, 46, '', 0),
+(2004, 'input 4', 0, 3, 'input', 0, 0, 7, 0, 47, '', 0),
+(3001, 'BMV-V', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3002, 'BMV-I', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3003, 'BMV-CE', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3004, 'BMV-SOC', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3005, 'BMV-TTG', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3006, 'BMV-Alarm', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3007, 'BMV-Relay', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(3008, 'BMV-W', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(4002, 'Kachel boven', 0, 4, '28-00000494fa07', 0, 0, 0, 0, 0, '', 0),
+(4003, 'Kachel onder', 0, 4, '28-00000495a8d0', 0, 0, 0, 0, 0, '', 0),
+(4004, 'Buffer boven', 0, 4, '28-00000495df77', 0, 0, 0, 0, 0, '', 0),
+(4005, 'Buffer midden', 0, 4, '28-0000049586c3', 0, 0, 0, 0, 0, '', 0),
+(4006, 'Buffer onder', 0, 4, '28-000004954834', 0, 0, 0, 0, 0, '', 0),
+(4008, 'gen onder', 0, 4, '28-00000494bd4b', 0, 0, 0, 0, 0, '', 0),
+(4009, 'buiten', 0, 4, '28-00000494bd4b', 0, 0, 0, 0, 0, '', 0),
+(2005, 'input 5', 0, 3, 'input', 0, 0, 0, 0, 48, '', 0),
+(4007, 'gen boven', 0, 4, '28-00000494bd4b', 0, 0, 0, 0, 0, '', 0),
+(39, 'Omvormer1', 2, 1, '', 0, 0, 0, 0, 39, 'B8', 1),
+(1002, 'DueStep', 0, 2, 'step(sec)', 0, 0, 0, 0, 0, '', 0),
+(1010, 'BoneSec', 0, 2, '', 0, 0, 0, 0, 0, '', 0),
+(1011, 'BoneMin', 0, 2, '', 0, 0, 0, 0, 0, '', 0),
+(1012, 'BoneHour', 0, 2, '', 0, 0, 0, 0, 0, '', 0),
+(3009, 'BMV-SOC-mbar', 0, 2, 'BMV-600 serial input', 0, 0, 0, 0, 0, '', 0),
+(2006, 'input 6', 0, 3, 'input', 0, 0, 0, 0, 49, '', 0),
+(32, 'Aqua pomp', 0, 1, 'output', 0, 0, 0, 0, 32, 'B3', 1),
+(34, 'Achterdeur', 0, 1, 'output', 0, 0, 0, 0, 34, 'B4', 1),
+(29, 'Omvormer 2', 0, 1, 'output', 0, 0, 0, 0, 29, 'A7', 1);
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ INSERT INTO `device` (`id`, `name`, `sort`, `type`, `opm`, `mem`, `pin`, `val`, 
 --
 
 CREATE TABLE IF NOT EXISTS `event` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `action_id` int(11) NOT NULL,
   `device_id` int(11) NOT NULL,
   `action` varchar(20) NOT NULL,
@@ -179,7 +179,7 @@ INSERT INTO `event` (`id`, `action_id`, `device_id`, `action`, `value`, `sort`, 
 --
 
 CREATE TABLE IF NOT EXISTS `item_types` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `naam` varchar(30) NOT NULL,
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
@@ -202,7 +202,7 @@ INSERT INTO `item_types` (`id`, `naam`, `width`, `height`, `img`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `link` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `url` varchar(200) NOT NULL,
   `type` int(11) NOT NULL,
@@ -229,7 +229,7 @@ INSERT INTO `link` (`id`, `name`, `url`, `type`, `menu`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `log` (
-`recnr` int(11) NOT NULL,
+  `recnr` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `t_WK` float NOT NULL,
   `t_K1` float NOT NULL,
@@ -293,7 +293,7 @@ INSERT INTO `log` (`recnr`, `time`, `t_WK`, `t_K1`, `t_K2`, `t_B1`, `t_B2`, `t_B
 --
 
 CREATE TABLE IF NOT EXISTS `page` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `xpos` int(11) NOT NULL,
   `ypos` int(11) NOT NULL,
@@ -326,7 +326,8 @@ INSERT INTO `page` (`id`, `name`, `xpos`, `ypos`, `width`, `height`, `vis`, `inm
 (93, 'Graph temperatures', 191, 161, 710, 342, 0, 0, 0, 0),
 (94, 'Graph current ', 8, 209, 710, 342, 0, 0, 0, 0),
 (92, 'Safari', 19, 31, 876, 496, 0, 0, 0, 0),
-(91, 'Clock', 854, 31, 198, 168, 1, 0, 0, 0);
+(91, 'Clock', 854, 31, 198, 168, 1, 0, 0, 0),
+(90, 'Action', 620, 50, 250, 280, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -335,7 +336,7 @@ INSERT INTO `page` (`id`, `name`, `xpos`, `ypos`, `width`, `height`, `vis`, `inm
 --
 
 CREATE TABLE IF NOT EXISTS `page_items` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `page_id` int(11) NOT NULL,
   `page_name` varchar(20) NOT NULL,
@@ -346,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `page_items` (
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
   `action` varchar(100) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=4013 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4014 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `page_items`
@@ -466,7 +467,10 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 (406, 'bkgnd_box', 92, 'Safari', 0, 19, -1, 0, 600, 49, ''),
 (407, 'url', 92, 'Safari', 0, 20, 43, 2, 300, 25, ''),
 (408, 'go', 92, 'Safari', 0, 3, 5, 5, 35, 21, 'goURL()'),
-(409, 'menu', 92, 'Safari', 0, 21, -4, 25, 400, 40, '');
+(409, 'menu', 92, 'Safari', 0, 21, -4, 25, 400, 40, ''),
+(460, 'Action wrap', 90, 'Action', 0, 22, 0, 0, 200, 100, ''),
+(461, 'Action wrap', 90, 'Action', 0, 23, 0, 100, 200, 40, ''),
+(462, 'Action wrap', 90, 'Action', 0, 24, 0, 100, 250, 100, '');
 
 -- --------------------------------------------------------
 
@@ -475,7 +479,7 @@ INSERT INTO `page_items` (`id`, `name`, `page_id`, `page_name`, `device_id`, `ty
 --
 
 CREATE TABLE IF NOT EXISTS `port` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `inout` int(11) NOT NULL,
   `omschr` varchar(256) NOT NULL,
   `type` varchar(20) NOT NULL,
@@ -545,6 +549,28 @@ INSERT INTO `port` (`id`, `inout`, `omschr`, `type`, `connect`, `pwm`, `port`, `
 (53, 1, '', '', '', 0, 52, 1),
 (54, 0, '', '', '', 0, 53, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timer`
+--
+
+CREATE TABLE IF NOT EXISTS `timer` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `time` varchar(50) NOT NULL,
+  `day` int(11) NOT NULL,
+  `onoff` int(11) NOT NULL,
+  `action` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `timer`
+--
+
+INSERT INTO `timer` (`id`, `name`, `time`, `day`, `onoff`, `action`) VALUES
+(1, 'test', '9', 0, 0, 0);
+
 --
 -- Indexes for dumped tables
 --
@@ -553,61 +579,67 @@ INSERT INTO `port` (`id`, `inout`, `omschr`, `type`, `connect`, `pwm`, `port`, `
 -- Indexes for table `action`
 --
 ALTER TABLE `action`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `config`
 --
 ALTER TABLE `config`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `device`
 --
 ALTER TABLE `device`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `event`
 --
 ALTER TABLE `event`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `item_types`
 --
 ALTER TABLE `item_types`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `link`
 --
 ALTER TABLE `link`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `log`
 --
 ALTER TABLE `log`
- ADD PRIMARY KEY (`recnr`), ADD UNIQUE KEY `recnr` (`recnr`);
+  ADD PRIMARY KEY (`recnr`), ADD UNIQUE KEY `recnr` (`recnr`);
 
 --
 -- Indexes for table `page`
 --
 ALTER TABLE `page`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `page_items`
 --
 ALTER TABLE `page_items`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `port`
 --
 ALTER TABLE `port`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `timer`
+--
+ALTER TABLE `timer`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -617,42 +649,47 @@ ALTER TABLE `port`
 -- AUTO_INCREMENT for table `action`
 --
 ALTER TABLE `action`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `item_types`
 --
 ALTER TABLE `item_types`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `link`
 --
 ALTER TABLE `link`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-MODIFY `recnr` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=138;
+  MODIFY `recnr` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=138;
 --
 -- AUTO_INCREMENT for table `page`
 --
 ALTER TABLE `page`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `page_items`
 --
 ALTER TABLE `page_items`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4013;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4014;
 --
 -- AUTO_INCREMENT for table `port`
 --
 ALTER TABLE `port`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
+--
+-- AUTO_INCREMENT for table `timer`
+--
+ALTER TABLE `timer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
