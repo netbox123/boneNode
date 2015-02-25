@@ -12,5 +12,40 @@
         "url": "http://ecologieforum.eu",
         "type": 1,
         "menu": 1
+    },
+    {
+        "id": 3,
+        "name": "KLM",
+        "url": "http://klm.nl",
+        "type": 1,
+        "menu": 1
+    },
+    {
+        "id": 4,
+        "name": "Victron BMV-600",
+        "url": "/pdf/BMV-600.pdf",
+        "type": 2,
+        "menu": 0
+    },
+    {
+        "id": 5,
+        "name": "Mastervolt AC Master",
+        "url": "/pdf/Mastervolt_ACMaster.pdf",
+        "type": 2,
+        "menu": 0
+    },
+    {
+        "id": 6,
+        "name": "Beaglebone SRM",
+        "url": "/pdf/BBB_SRM.pdf",
+        "type": 2,
+        "menu": 0
+    },
+    {
+        "id": 7,
+        "name": "Arduino Due pinout",
+        "url": "/pdf/Due-pinout.pdf",
+        "type": 2,
+        "menu": 0
     }
 ]

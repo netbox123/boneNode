@@ -64,15 +64,16 @@ function initWindows() {
 	var listCount = 0;
 	// ------------ action ------------ //
 	for(j=0; j < actionsArray.length; j++){
-		$("#actionListUL").append("<li class='forward'><a href='#'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+actionsArray[j].name+"<small class='counter'>42</small></a></li>");
+		$("#actionListUL").append("<li class='forward'><div class='listIconOn'><img src='img/action_icon.png'></img></div><a href='#' onclick='actionClicked("+actionsArray[j].id+");'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+actionsArray[j].name+"</a></li>");
 		listCount += 1;
 	}
 	$("#actionCounter").html(listCount);
 	listCount = 0;
+	
 	// ------------ device ------------ //
 	for(j=0; j < devicesArray.length; j++){
 		if (devicesArray[j].mobi){
-			$("#deviceListUL").append("<li class='forward'><div class='listIcon'><img src='img/bulb_off.png'></img></div><a href='#' onclick='deviceClicked("+devicesArray[j].id+");'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+devicesArray[j].name+"<small class='counter'>42</small></a></li>");
+			$("#deviceListUL").append("<li class='forward'><div class='listIconOn' id='iconOff"+devicesArray[j].id+"'><img src='img/bulb_off.png'></img></div><div class='listIconOff' id='iconOn"+devicesArray[j].id+"'><img src='img/bulb_on.png'></img></div><a href='#' onclick='deviceClicked("+devicesArray[j].id+");'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+devicesArray[j].name+"<small class='counter'><div id='listVal"+devicesArray[j].id+"'>0</div></small></a></li>");
 			listCount += 1;
 		}
 	}
@@ -81,27 +82,45 @@ function initWindows() {
 	// ------------ temp ------------ //
 	for(j=0; j < devicesArray.length; j++){
 		if (devicesArray[j].type == 4){
-			$("#tempListUL").append("<li class='forward'><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+devicesArray[j].name+"<small class='counter'>42</small></a></li>");
+			$("#tempListUL").append("<li class='forward'><div class='listIconOn'><img src='img/temp_icon.png'></img></div><div class='listTempVal' id='listTempVal"+devicesArray[j].id+"'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+devicesArray[j].name+"</a></li>");
 			listCount += 1;
 		}
 	}
-	$("#tempCounter").html(listCount);
+	//$("#tempCounter").html(listCount);
 	listCount = 0;
 	// ------------ link ------------ //
 	for(j=0; j < linksArray.length; j++){
-		$("#linkListUL").append("<li class='forward'><a href='#'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+linksArray[j].name+"<small class='counter'>42</small></a></li>");
+		$("#linkListUL").append("<li class='forward'><div class='listIconOn'><img src='img/url_icon.png'></img></div><a href='#'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+linksArray[j].name+"<small class='counter'>42</small></a></li>");
 		listCount += 1;
 	}
 	$("#linkCounter").html(listCount);
 	listCount = 0;
 	// ------------ timer ------------ //
 	for(j=0; j < timersArray.length; j++){
-		$("#timerListUL").append("<li class='forward'><a href='#'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+timersArray[j].name+"<small class='counter'>42</small></a></li>");
+		$("#timerListUL").append("<li class='forward'><div class='listIconOn'><img src='img/timer_icon.png'></img></div><a href='#'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+timersArray[j].name+"<small class='counter'>42</small></a></li>");
 		listCount += 1;
 	}
 	$("#timerCounter").html(listCount);
+	updateDevicesLayout();
 }
 
+function updateDevicesLayout() {
+		//console.log('updateDevicesLayout');
+		for(j=0; j < devicesArray.length; j++){
+			if(devicesArray[j].mobi==1){
+				//console.log('updateDevicesLayout '+"#iconOn"+devicesArray[j].id);
+				if (devicesArray[j].val==100){
+					$("#iconOn"+devicesArray[j].id).removeClass("listIconOff");
+					$("#iconOn"+devicesArray[j].id).addClass("listIconOn");
+					$("#listVal"+devicesArray[j].id).html("100");
+				} else if (devicesArray[j].val==0){
+					$("#iconOn"+devicesArray[j].id).removeClass("listIconOn");
+					$("#iconOn"+devicesArray[j].id).addClass("listIconOff");
+					$("#listVal"+devicesArray[j].id).html("0");
+				}
+			}
+		}
+}
 
 jQuery(function($){
 	var socket = io.connect();
@@ -198,19 +217,17 @@ jQuery(function($){
 		}
 		console.log('links: ' + linksArray.length );
 		bootlog = 'links: ' + linksArray.length + "\r" + bootlog;
+		
+		        console.log('-----------------------------');
+        console.log('Version: '+configArray[0].version);
+        console.log('-----------------------------');
+        bootlog = '-----------------------------' + '\r' + bootlog;
+        bootlog = 'Version: '+configArray[0].version + '\r' + bootlog;
+        bootlog = '-----------------------------' + '\r' + bootlog;
+        initWindows();
 	});
 	
-	//  -- Receiving item_types list from server --
-	socket.on('item_types', function(data){
-		itemTypesArray = [];
-		for(i=0; i < data.length; i++){
-			itemTypesArray.push(data[i]); 
-		}
-		console.log('item_types: ' + itemTypesArray.length );
-		bootlog = 'item_types: ' + itemTypesArray.length + "\r" + bootlog;
-	});
 	
-    
     //  -- Receiving input list from server --
 	socket.on('inputs', function(data){
 		inputsArray = [];
@@ -229,48 +246,10 @@ jQuery(function($){
 		}
         console.log('actions: '+actionsArray.length );
         bootlog = 'actions: ' + actionsArray.length + "\r" + bootlog;
+        
+
 	});
 
-	//  -- Receiving page list from server --	
-	socket.on('pages', function(data){
-	    pagesArray = [];
-		for(i=0; i < data.length; i++){
-			pagesArray.push(data[i]);
-		}
-		console.log('pages: '+pagesArray.length );
-		bootlog = 'pages: ' + pagesArray.length + "\r" + bootlog;
-	});
-	
-	//  -- Receiving item_type from server --	
-	socket.on('item_type', function(data){
-	    itemTypeArray = [];
-		for(i=0; i < data.length; i++){
-			itemTypeArray.push(data[i]);
-		}
-		console.log('item_type: '+pagesArray.length );
-		bootlog = 'item_type: ' + pagesArray.length + "\r" + bootlog;
-	});
-	
-	//  -- Receiving pageitem list from server --	
-	socket.on('pageitems', function(data){
-		pageItemsArray = [];
-		for(i=0; i < data.length; i++){
-			pageItemsArray.push(data[i]);
-            
-		}
-		console.log('pageitems: '+pageItemsArray.length );
-		bootlog = 'pageitems: ' + pageItemsArray.length + '\r' + bootlog;
-		// Init windows
-        //ControlPageLoad();
-        console.log('-----------------------------');
-        console.log('Version: '+configArray[0].version);
-        console.log('-----------------------------');
-        bootlog = '-----------------------------' + '\r' + bootlog;
-        bootlog = 'Version: '+configArray[0].version + '\r' + bootlog;
-        bootlog = '-----------------------------' + '\r' + bootlog;
-        initWindows();
-	});
-	
 
 	
 	//  -- Send message to server --
@@ -296,32 +275,33 @@ jQuery(function($){
         var datetime = new Date();
         for(j=0; j < ValuesA.length-1; j++){
             OneValueA  = ValuesA[j].split('#');
-            devicesValArray[OneValueA[0]] = OneValueA[1];
-            //console.log('devicesValArray '+OneValueA[0]+'  '+OneValueA[1]);
+            if (OneValueA[0]==4001){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4002){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4003){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4004){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4005){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4006){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4007){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4008){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4009){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+
+			if (OneValueA[0]==3002){$("#powerCounter").html(Number(OneValueA[1]).toFixed(1)+' A');}
+			if (OneValueA[0]==4002){$("#tempCounter").html(OneValueA[1]);}
+			
+			if (OneValueA[0]==3001){$("#listPowerVal3001").html(OneValueA[1]);}
+			if (OneValueA[0]==3002){$("#listPowerVal3002").html(OneValueA[1]+' A');}
+			if (OneValueA[0]==3008){$("#listPowerVal3008").html(OneValueA[1]);}
+			
+			if (OneValueA[0]==3003){$("#listPowerVal3003").html(OneValueA[1]);}
+			if (OneValueA[0]==3004){$("#listPowerVal3004").html(OneValueA[1]);}
+			if (OneValueA[0]==3005){$("#listPowerVal3005").html(OneValueA[1]);}
+			
+			if (OneValueA[0]==3006){$("#listPowerVal3006").html(OneValueA[1]);}
+			if (OneValueA[0]==3007){$("#listPowerVal3007").html(OneValueA[1]);}
+			
         }
         
-        for(j=0; j < pagesArray.length; j++){
-    		//console.log('pagesArray ' + pagesArray[j].id + ' ' + pagesArray[j].name);
-        	if (pagesArray[j].vis | pagesArray[j].id == 0){        		
-        		for(xcount=0; xcount < pageItemsArray.length; xcount++){					
-        			if (pageItemsArray[xcount].page_id == pagesArray[j].id){
-        				//pageItemsArray[xcount].val = devicesValArray[pageItemsArray[xcount].device_id];
-						//pageItemsArray[xcount].val = devicesValArray[pageItemsArray[xcount].device_id];
-						//devicesValArray[pageItemsArray[xcount].device_id] = 
-						if (pageItemsArray[xcount].type == 0) {
-							//$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);	
-						} else if (pageItemsArray[xcount].type == 1 | pageItemsArray[xcount].type == 9) {
-							//$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);
-						} else if (pageItemsArray[xcount].type == 14) {
-							//$('#widgetid' + pageItemsArray[xcount].id).html(devicesValArray[pageItemsArray[xcount].device_id]);
-							//bmv_i = devicesValArray[pageItemsArray[xcount].device_id];
-						} else if (pageItemsArray[xcount].type == 30) {
-							//widgetidJG[pageItemsArray[xcount].id].refresh(parseInt(devicesValArray[pageItemsArray[xcount].device_id])); 
-						}
-        			}
-        		}
-        	}
-        }
+
 	});
 	
 	//  -- Receiving sendserialtext from server --
@@ -337,50 +317,16 @@ jQuery(function($){
 		var pageItemA = [];
 		//console.log('data'+data);
 		ActionA  = data.split('-');
-		for(j=0; j < pageItemsArray.length; j++){
-		//for(j=0; j < 0; j++){
-			pageItemA = pageItemsArray[j];
-			if (pageItemA.device_id == ActionA[0]) {
-			    if (pageItemA.type == 10 | pageItemA.type == 13){
-					if(ActionA[2] == 0){
-						$("#inputid"+pageItemA.id).prop("checked", false);
-					}else{
-						$("#inputid"+pageItemA.id).prop("checked", true);
-					}
-				} else if (pageItemA.type == 12){
-						$("#widgetid"+pageItemA.id).jqxGauge({ value:ActionA[2] });
-				} else if (pageItemA.type == 55){
-						$("#widgetid"+pageItemA.id).jqxLinearGauge({ value:ActionA[2] });
-				} else if (pageItemA.type == 14){
-					if(ActionA[2] == 0){
-						$("#widgetid"+pageItemA.id).jqxCheckBox({ checked:false });
-					}else{
-						$("#widgetid"+pageItemA.id).jqxCheckBox({ checked:true });
-					}
-				} else if (pageItemA.type == 16){
-					if(ActionA[2] == 0){
-						$("#widgetid"+pageItemA.id).jqxSwitchButton({ checked:false });
-					}else{
-						$("#widgetid"+pageItemA.id).jqxSwitchButton({ checked:true });
-					}
-				} else if (pageItemA.type == 17){
-					if(ActionA[2] == 0){
-						$("#lampid"+pageItemA.id).fadeOut();
-					}else{
-						$("#lampid"+pageItemA.id).fadeIn();
-					}
-				} else if (pageItemA.type == 18 | pageItemA.type == 19 | pageItemA.type == 20 | pageItemA.type == 21 |pageItemA.type == 22 | pageItemA.type == 23){
-					if(ActionA[2] == 0){
-						$("#widgetid"+pageItemA.id).prop("checked", false);
-					}else{
-						$("#widgetid"+pageItemA.id).prop("checked", true);
-					}
-				} else if (pageItemA.type == 37){
-					if(ActionA[2] == 0){
-						$("#lampid"+pageItemA.id).fadeOut();
-					}else{
-						$("#lampid"+pageItemA.id).fadeIn();
-					}
+		for(j=0; j < devicesArray.length; j++){
+			if(devicesArray[j].id==ActionA[0] & devicesArray[j].mobi){			
+				if (ActionA[1]=='on'){
+					$("#iconOn"+ActionA[0]).removeClass("listIconOff");
+					$("#iconOn"+ActionA[0]).addClass("listIconOn");
+					$("#listVal"+devicesArray[j].id).html("100");
+				} else if (ActionA[1]=='off'){
+					$("#iconOn"+ActionA[0]).removeClass("listIconOn");
+					$("#iconOn"+ActionA[0]).addClass("listIconOff");
+					$("#listVal"+devicesArray[j].id).html("0");
 				}
 			}
 		}
@@ -410,11 +356,6 @@ jQuery(function($){
      
     //  -- Client connected --
     socket.on('connect', function(data){
-    	if (configArray.length > 0)
-			$.av.pop({
-    	      title: 'Alert',
-        	   message: 'Socket re-connected' +'<br>'+'connection restored'
-      		});
       	updateLayoutAll();	
         console.log('socket re-connected '); 
 	 });
@@ -441,8 +382,8 @@ jQuery(function($){
         }
 	}
 	
-	//  -- ActionClicked --
-    window.ActionClicked = function (item_id) { 
+	//  -- actionClicked --
+    window.actionClicked = function (item_id) { 
         //console.log('LampClicked ' + item_id);
         for(j=0; j < actionsArray.length; j++){
         	if (actionsArray[j].id == item_id){
@@ -478,9 +419,7 @@ jQuery(function($){
         }
 	}
 		
-	
-	
-	
+
 	
 });
 

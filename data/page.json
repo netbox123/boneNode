@@ -26,11 +26,11 @@
     {
         "id": 6,
         "name": "BMV-600",
-        "xpos": 780,
-        "ypos": 317,
+        "xpos": 886,
+        "ypos": 76,
         "width": 249,
         "height": 333,
-        "vis": 0,
+        "vis": 1,
         "inmenu": 1,
         "mini": 0,
         "maxi": 0
@@ -182,11 +182,11 @@
     {
         "id": 92,
         "name": "Safari",
-        "xpos": 131,
-        "ypos": 134,
-        "width": 710,
-        "height": 342,
-        "vis": 1,
+        "xpos": 19,
+        "ypos": 31,
+        "width": 876,
+        "height": 496,
+        "vis": 0,
         "inmenu": 0,
         "mini": 0,
         "maxi": 0
@@ -200,6 +200,18 @@
         "height": 168,
         "vis": 1,
         "inmenu": 0,
+        "mini": 0,
+        "maxi": 0
+    },
+    {
+        "id": 90,
+        "name": "Action",
+        "xpos": 620,
+        "ypos": 50,
+        "width": 250,
+        "height": 280,
+        "vis": 1,
+        "inmenu": 1,
         "mini": 0,
         "maxi": 0
     }
