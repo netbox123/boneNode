@@ -42,8 +42,13 @@ login with youre browser 192.168.7.2:4000
 Have fun!
 
 ### Version history
-**0.2**
-- First steps in removing jqx dependancies.
+**0.2.1**
+- Touch client Devices and Actions work now.
+- You can reach the touch client with: 192.168.7.2:4000/mobi
+
+**0.2.0**
+- jqx dependancies removed.
+- beginning of a touch client
 
 **0.1.9**
 - Layout update after socket reconnect
