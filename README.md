@@ -8,8 +8,10 @@ a webremote for BeagleboneBlack / RadxaRock etc.
 
 In the end this will be coolest remote ever.<br>
 
+Safari client 
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshot2.png)](https://github.com/netbox123/boneNode/blob/master/Screenshot2.png)
 
+Mobile client
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/ScreenshotMobi.png)](https://github.com/netbox123/boneNode/blob/master/ScreenshotMobi.png)
 
 ## INSTALLATION
