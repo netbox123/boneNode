@@ -82,7 +82,7 @@ function initWindows() {
 	// ------------ temp ------------ //
 	for(j=0; j < devicesArray.length; j++){
 		if (devicesArray[j].type == 4){
-			$("#tempListUL").append("<li class='forward'><div class='listIconOn'><img src='img/temp_icon.png'></img></div><div class='listTempVal' id='listTempVal"+devicesArray[j].id+"'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+devicesArray[j].name+"</a></li>");
+			$("#tempListUL").append("<li><div class='listIconOn'><img src='img/temp_icon.png'></img></div><div class='listTempVal' id='listTempVal"+devicesArray[j].id+"'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+devicesArray[j].name+"</a></li>");
 			listCount += 1;
 		}
 	}

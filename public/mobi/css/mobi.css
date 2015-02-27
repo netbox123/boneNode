@@ -22,7 +22,7 @@
 .listTempVal {
   float:left;
 	position:absolute;
-  right: 50px;
+  right: 20px;
   bottom: 10px;
   z-index: 15;
 }
