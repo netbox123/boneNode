@@ -9,13 +9,13 @@ a webremote for BeagleboneBlack / RadxaRock etc.
 In the end this will be coolest remote ever.<br>
 
 Safari client 
-[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshot2.png)](https://github.com/netbox123/boneNode/blob/master/Screenshot2.png)
+[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/Screenshot2.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/Screenshot2.png)
 
 Mobile client
-[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/ScreenshotMobi.png)](https://github.com/netbox123/boneNode/blob/master/ScreenshotMobi.png)
+[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/ScreenshotMobi.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/ScreenshotMobi.png)
 
 HTML client<br>
-[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/ScreenshotHtml.png)](https://github.com/netbox123/boneNode/blob/master/ScreenshotHtml.png)
+[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/ScreenshotHtml.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/ScreenshotHtml.png)
 
 ## INSTALLATION
 
