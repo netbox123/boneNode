@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0610"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2FFF996B1AA1D831001990DF"
+               BlueprintIdentifier = "1DAA988213E1BE260040BCB7"
                BuildableName = "BoneNode.app"
                BlueprintName = "BoneNode"
                ReferencedContainer = "container:BoneNode.xcodeproj">
@@ -28,21 +28,11 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2FFF998C1AA1D831001990DF"
-               BuildableName = "BoneNodeTests.xctest"
-               BlueprintName = "BoneNodeTests"
-               ReferencedContainer = "container:BoneNode.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2FFF996B1AA1D831001990DF"
+            BlueprintIdentifier = "1DAA988213E1BE260040BCB7"
             BuildableName = "BoneNode.app"
             BlueprintName = "BoneNode"
             ReferencedContainer = "container:BoneNode.xcodeproj">
@@ -58,10 +48,11 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2FFF996B1AA1D831001990DF"
+            BlueprintIdentifier = "1DAA988213E1BE260040BCB7"
             BuildableName = "BoneNode.app"
             BlueprintName = "BoneNode"
             ReferencedContainer = "container:BoneNode.xcodeproj">
@@ -76,10 +67,11 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2FFF996B1AA1D831001990DF"
+            BlueprintIdentifier = "1DAA988213E1BE260040BCB7"
             BuildableName = "BoneNode.app"
             BlueprintName = "BoneNode"
             ReferencedContainer = "container:BoneNode.xcodeproj">

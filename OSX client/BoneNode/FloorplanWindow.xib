@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="6751"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="FloorplanWindow">
+            <connections>
+                <outlet property="webview" destination="M6M-8H-bfB" id="Xr5-qu-knY"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Floorplan" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" rightStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="7" y="292" width="573" height="485"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <value key="minSize" type="size" width="573" height="485"/>
+            <value key="maxSize" type="size" width="573" height="485"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="573" height="485"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <webView autoresizesSubviews="NO" id="M6M-8H-bfB">
+                        <rect key="frame" x="0.0" y="9" width="563" height="475"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12"/>
+                    </webView>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="256.5" y="254.5"/>
+        </window>
+    </objects>
+</document>
