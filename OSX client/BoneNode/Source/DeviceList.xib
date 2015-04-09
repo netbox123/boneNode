@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DeviceListWindow">
             <connections>
-                <outlet property="mywebview" destination="of1-eQ-uI6" id="c4q-Y1-4Sx"/>
                 <outlet property="webview" destination="of1-eQ-uI6" id="uYt-WN-rL3"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="Pkf-EU-CqW"/>
             </connections>

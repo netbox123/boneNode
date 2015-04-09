@@ -12,6 +12,16 @@
 
 
 @interface FloorplanWindow : NSWindowController
-@property (assign) IBOutlet WebView *webview;
+@property (assign) IBOutlet id webView;
+@property(nonatomic, readonly, strong) WebScriptObject *windowScriptObject;
+- (NSString *)appURL;
+
+// This method is called from JavaScript on the web page.
+- (void)showMessage:(NSString *)message;
+
+- (void)MAction01:(id)sender;
+- (void)MAction02:(id)sender;
 
 @end
+
+

@@ -20,6 +20,7 @@
 		2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F50989F1ACDD09400F195ED /* ActionListWindow.xib */; };
 		2F5098A51ACDD95B00F195ED /* FloorplanWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */; };
 		2F5098A61ACDD95B00F195ED /* FloorplanWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */; };
+		2F5098A81ACF5B6700F195ED /* Remote.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A71ACF5B6700F195ED /* Remote.png */; };
 		2FB80FE81AA348E30027BE18 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB80FE71AA348E30027BE18 /* WebKit.framework */; };
 		2FB80FEA1AA34DD70027BE18 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FB80FE91AA34DD70027BE18 /* About.xib */; };
 		2FB80FED1AA34EEA0027BE18 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB80FEC1AA34EEA0027BE18 /* AboutController.m */; };
@@ -52,6 +53,7 @@
 		2F5098A21ACDD95B00F195ED /* FloorplanWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FloorplanWindow.h; path = ../FloorplanWindow.h; sourceTree = "<group>"; };
 		2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FloorplanWindow.m; path = ../FloorplanWindow.m; sourceTree = "<group>"; };
 		2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FloorplanWindow.xib; path = ../FloorplanWindow.xib; sourceTree = "<group>"; };
+		2F5098A71ACF5B6700F195ED /* Remote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Remote.png; sourceTree = "<group>"; };
 		2FB80FE71AA348E30027BE18 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2FB80FE91AA34DD70027BE18 /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = About.xib; sourceTree = "<group>"; };
 		2FB80FEB1AA34EEA0027BE18 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 		1DAA988E13E1BE260040BCB7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F5098A71ACF5B6700F195ED /* Remote.png */,
 				1DAA988F13E1BE260040BCB7 /* Info.plist */,
 				1DAA989013E1BE260040BCB7 /* InfoPlist.strings */,
 				1DAA989313E1BE260040BCB7 /* Prefix.pch */,
@@ -203,6 +206,7 @@
 			files = (
 				1DAA989213E1BE260040BCB7 /* InfoPlist.strings in Resources */,
 				2F5098A61ACDD95B00F195ED /* FloorplanWindow.xib in Resources */,
+				2F5098A81ACF5B6700F195ED /* Remote.png in Resources */,
 				2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */,
 				1DAA989813E1BE260040BCB7 /* Credits.rtf in Resources */,
 				1DAA989E13E1BE260040BCB7 /* MainMenu.xib in Resources */,

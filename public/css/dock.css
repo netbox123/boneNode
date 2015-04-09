@@ -1,47 +1,143 @@
-/*-----------------------------------------------------------------------------------*/
-/*	01.	Dock
-/*-----------------------------------------------------------------------------------*/
+/* --------------------------------------------
+CSS Dock
 
+Version: 	2.0
+Author:		Michael Hüneburg
+URL: 		http://michaelhue.com/cssdock
+Copyright: 	(c)2011 by Michael Hüneburg
+License: 	MIT License (see LICENSE file)
+----------------------------------------------- */
+
+/* @group Animation */
+/* Defines the bounce animation. Note that only the up motion is defined as
+   the down motion is created automatically using
+   `animation-direction: alternate;`. */
+@-webkit-keyframes bounce {
+	  0% { -webkit-transform: translateY(0); }
+	100% { -webkit-transform: translateY(-20px); }
+}
+
+@-moz-keyframes bounce {
+	  0% { -moz-transform: translateY(0); }
+	100% { -moz-transform: translateY(-20px); }
+}
+/* @end */
+
+/* @group Dock */
 .dock {
 	position: absolute;
 	bottom: 0;
-	z-index: 9999;
-	width: 100%;
+	z-index: 10;
+	width: 500px;
 	text-align: center;
+	font: normal 14px/1 'Lucida Grande', Arial, sans-serif;
 }
+
 .dock ul {
 	position: relative;
 	display: inline-block;
 	padding: 0 5px;
 	margin: 0;
-	background:url(../img/dock-bg.png) repeat-x bottom;
+	background: url(images/dock-m.png) repeat-x bottom;
 }
+
+/* Creates the left and right end caps of the dock. You may not need these
+   when creating your own dock. */
 .dock ul:before, .dock ul:after {
-	content: "";
+	content: " ";
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	width: 38px;
+	width: 31px;
 }
+
 .dock ul:before {
-	left: -38px;
-	background: url(../img/dock-bg-left.png) no-repeat left bottom;
+	left: -31px;
+	background: url(images/dock-l.png) no-repeat left bottom;
 }
+
 .dock ul:after {
-	right: -38px;
-	background: url(../img/dock-bg-right.png) no-repeat right bottom;
+	right: -31px;
+	background: url(images/dock-r.png) no-repeat right bottom;
 }
+/* @end */
+
+/* @group Items */
+/* Defines a dock item. Note the `-webkit-box-reflect` property which creates
+   a nice reflection below the item. The gradient is a mask in order to
+   exlcude the status indicator from the reflection. */
 .dock li {
 	display: inline-block;
 	position: relative;
-	margin: 0 0 15px 0;
-	-webkit-box-reflect: below -16px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(91%, rgba(255, 255, 255, .1)), color-stop(91.01%, transparent), to(transparent));
+	margin: 0 1px;
+	margin-bottom: 15px;
+	vertical-align: baseline;
+	-webkit-box-reflect: below -16px -webkit-gradient(
+		linear, left top, left bottom,
+		from(transparent),
+		color-stop(91%, rgba(255, 255, 255, .1)),
+		color-stop(91.01%, transparent),
+		to(transparent)
+	);
 }
+
 .dock a {
-	display: block;
+	display: inline-block;
 	cursor: default;
 	outline: none;
 }
+/* Applies the bounce animation to the targeted dock item.  */
+.dock li:target a {
+	-webkit-animation: bounce .3s 6 alternate ease-out;
+	-moz-animation: bounce .3s 6 alternate ease-out;
+}
+
+/* Generates the status indicator. Looks complex but most of this stuff is
+   just repetition with different vendor prefixes. Isn't it fun to write
+   everything three times? *sigh* */
+.dock li:after {
+	content: " ";
+	position: absolute;
+	bottom: -5px;
+	left: 50%;
+	width: 5px;
+	height: 5px;
+	opacity: 0;
+	visibility: hidden;
+	background-color: rgba(255, 255, 255, .8);
+	margin-left: -2px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow:
+		inset 0 1px 3px rgba(75, 255, 255, .4),
+		0 0 4px rgba(75, 255, 255, .5),
+		0 -1px 7px rgb(75, 255, 255);
+	-moz-box-shadow:
+		inset 0 1px 3px rgba(75, 255, 255, .4),
+		0 0 4px rgba(75, 255, 255, .5),
+		0 -1px 7px rgb(75, 255, 255);
+	box-shadow:
+		inset 0 1px 3px rgba(75, 255, 255, .4),
+		0 0 4px rgba(75, 255, 255, .5),
+		0 -1px 7px rgb(75, 255, 255);
+	-webkit-transition: opacity .5s;
+	-moz-transition: opacity .5s;
+	-o-transition: opacity .5s;
+}
+
+/* Displays the status indicator of the targeted dock item. */
+.dock li:target:after {
+	visibility: visible;
+	opacity: 1;
+}
+/* @end */
+
+/* @group Label */
+/* This is just a wrapper in order to center the actual label horizontally.
+   You may need to adjust the width negative margin if you have really long
+   labels. */
 .dock em {
 	position: absolute;
 	top: -34px;
@@ -51,6 +147,8 @@
 	margin-left: -75px;
 	text-align: center;
 }
+
+/* Generates the little arrow at the bottom of the label. */
 .dock em:after {
 	content: " ";
 	position: absolute;
@@ -61,69 +159,49 @@
 	height: 0;
 	border-left: 6px solid transparent;
 	border-right: 6px solid transparent;
-	border-top: 6px solid rgba(0, 0, 0, 0.6);
+	border-top: 6px solid rgba(0, 0, 0, .6);
 	border-bottom: none;
 }
+
+/* This is the actual label. */
 .dock em span {
 	display: inline-block;
 	padding: 5px 12px;
-	background: rgba(0, 0, 0, 0.6);
-	font-style:normal;
-	font-size:12px;
-	color:#fff;
-	text-shadow:0 1px 1px #000;
-	border-radius: 10px;
+	font-size: 14px;
+	font-style: normal;
+	color: #FFF;
+	background: #000;
+	background: rgba(0, 0, 0, .6);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, .9);
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	-o-border-radius: 12px;
+	border-radius: 12px;
 }
-.dock li:hover em {
+
+.dock li:hover em, .dock li a:focus em {
 	display: block;
 }
+/* @end */
+
+/* @group Icon */
+/* Sets the icons to a smaller width so they can be enlarged and applies
+   transitions for a smooth animation. Make sure to adjust the width so it
+   matches your images. */
 .dock img {
-	width: 48px;
+	width: 66px;
 	height: auto;
 	border: none;
-	-webkit-transition:all 0.1s linear;
-	-moz-transition:all 0.1s linear;
-}
-.dock li.ok:hover img {
-	width: 128px;
-	-webkit-transition:all 0.15s linear;
-	-moz-transition:all 0.15s linear;
-}
-.dock li.prev img, .dock li.next img {
-	width:96px;
-	-webkit-transition:all 0.15s linear;
-	-moz-transition:all 0.15s linear;
-}
-.dock li.prev-ancor img, .dock li.next-ancor img {
-	width:72px;
-	-webkit-transition:all 0.15s linear;
-	-moz-transition:all 0.15s linear;
-}
-.dock li a .fresh {
-	content: " ";
-	position: absolute;
-	bottom: -8px;
-	left: 50%;
-	width: 8px;
-	height: 6px;
-	opacity:1;
-	background-color: rgba(255, 255, 255, .8);
-	margin-left: -2px;
-	border-radius:100%;
-	box-shadow: inset 0 1px 3px rgba(75, 255, 255, .4), 0 0 4px rgba(75, 255, 255, .5), 0 -1px 7px rgb(75, 255, 255);
-	-webkit-box-reflect: below 5px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(91%, rgba(255, 255, 255, 0.5)), color-stop(91.01%, transparent), to(transparent));
+	-webkit-transition: width .2s, height .2s;
+	-moz-transition: width .2s, height .2s;
+	-o-transition: width .2s, height .2s;
 }
 
-.bounce {
-	-webkit-animation: bounce 0.4s 4 alternate ease-out;
-	-moz-animation: bounce 0.4s 4 alternate ease-out;
-}
-@-webkit-keyframes bounce {
-	  0% { -webkit-transform: translateY(0); }
-	100% { -webkit-transform: translateY(-20px); }
+.dock li:hover img, .dock li a:focus img {
+	width: 96px;
 }
 
-@-moz-keyframes bounce {
-	  0% { -moz-transform: translateY(0); }
-	100% { -moz-transform: translateY(-20px); }
+.dock li:active img {
+	opacity: .9;
 }
+/* @end */

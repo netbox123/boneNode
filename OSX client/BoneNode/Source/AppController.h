@@ -29,4 +29,7 @@
 - (IBAction)showActionList:(id)sender;
 - (IBAction)showFloorplanWindow:(id)sender;
 
+- (IBAction)MenuAction01:(id)sender;
+- (IBAction)MenuAction02:(id)sender;
+
 @end

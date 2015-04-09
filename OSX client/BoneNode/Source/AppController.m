@@ -63,6 +63,14 @@
     [floorplanWindow showWindow:self];
 }
 
+- (IBAction)MenuAction01:(id)sender {
+    [floorplanWindow MAction01:self];
+}
+
+- (IBAction)MenuAction02:(id)sender {
+    [floorplanWindow MAction02:self];
+}
+
 - (void)dealloc
 {
     [super dealloc];

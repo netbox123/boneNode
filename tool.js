@@ -1,8 +1,4 @@
 
-    
-
-	
-	
 exports.getDateTime = function () {
     var date = new Date();
     var second = date.getSeconds();
