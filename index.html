@@ -1,146 +1,277 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html lang="en-US" >
 <head>
-	<meta charset="utf-8">
-	<title>Bonenode</title>
-	<meta name="viewport" content="initial-scale=1">
+	<title>BoneApp</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-	<meta name="apple-touch-fullscreen" content="yes" />
-	<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144x144-precomposed.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114-precomposed.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72-precomposed.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57-precomposed.png" />
-    <link rel="apple-touch-startup-image" href="images/startscreen-320x460.png">
-    
-    <!-- jQuery classes -->
-    <link rel="stylesheet" href="styles/jqx.base.css" type="text/css" />
-    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/page_item.js"></script>
-    <script src="js/window_pref.js"></script>
-    <script src="js/window_bmv.js"></script>
-    <script src="js/window_temp.js"></script>
-    <script src="js/window_input_key.js"></script>
-    <script src="js/window_log.js"></script>
-    <script src="js/window_actions.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon-72x72-.png" />
+	<meta name="description" content="BoneApp an BBB NodeJS experiment." />
+	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
     <script src="js/tools.js"></script>
 	<script src="js/index.js"></script>
-    <script src="js/alert_view.min.js"></script>
-    
+	<script type="text/javascript" src="js/modernizr.js"></script>
+	<script type="text/javascript" src="js/fix-and-clock.js"></script>
+    <script type="text/javascript" src="js/highcharts.js"></script>
+    <script type="text/javascript" src="js/exporting.js"></script>
     <script src="js/raphael.2.1.0.min.js"></script>
     <script src="js/justgage.1.0.1.min.js"></script>
-    
-    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxchart.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxgauge.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxslider.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxcalendar.js"></script>
-    <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxswitchbutton.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
-    <script type="text/javascript" src="jqwidgets/jqxdatatable.js"></script>
-
-	<link rel="stylesheet" href="css/clock.css">
-    <link rel="stylesheet" href="jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
-	<link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/alert_view.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/dock.css">
-    <link rel="stylesheet" href="css/dock-style.css">
-    
-    
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
 </head>
-<body >
-	<div class="header">
-	    <h1 class="logo"><a href="." >-</a></h1>
-        <a href="#menu" class="menu-trigger ss-icon"><img style="height:57px;width:57px;" src="css/images/nav_transp.png"></a>
+
+<body>
+
+<!-- BOOT -->
+<div id="pageLoading">
+	<div class="loading">
+		<div class="apple-logo" id="apple-logo"></div>
+        <div class="spinner" id="spinner"></div>
 	</div>
-    
-	<div style="left: 0px;" id="ControlPage" class="itemswrap" ondrop="drop(event)" ondragover="drag_over(event)">
-		<section id="page1" class="section" style="background: transparent url('css/images/blue_stripe_pattern-wallpaper.jpg') 0 0 no-repeat;left:0px;">
-			<div >
-                <div class="alert_view_center offset1 span10"></div>
-			</div>
-		</section>
-	
-		<section id="page2"  class="section" style="top:-10px;background: transparent url('css/images/wood_wall_2-wallpaper.jpg') 0 0 no-repeat;left:0px;">
-			<div id="clockbkgnd">
-				<h2 id="clocktime"><a href="#clocktime"></a></h2>
-				<div class="itemswrap" id="_clocktime"></div>
-				 <div id="clock">
-					 <div class="mechanics">
-						<div id="hour"></div>
-						<div id="min"></div>
-						<div id="sec"></div>
-						<div id="button"></div>
-					 </div>
-				  </div>
-			</div>
-		</section>
-	
-		<section id="page3"  class="section" style="top:-10px;background: transparent url('css/images/light_gray-wallpaper.jpg') 0 0 no-repeat;left:0px;">
-		</section>
-        
-        <section id="page4"  class="section" style="top:-10px;background: transparent url('css/images/wood_background.jpg') 0 0 no-repeat;left:0px;">
-		</section>
-        
-        <section id="page5"  class="section" style="top:-10px;background: transparent url('css/images/bkg_water.jpg') 0 0 no-repeat;left:0px;">
-    	</section>
-        
-        <section id="page6"  class="section" style="top:-10px;background: transparent url('css/images/wood panels_50.jpg') 0 0 no-repeat;left:0px;">
-        </section>
-      
-        
-        
-        <div class="dockwrap">
-        <div class="dock">
-    			<ul>
-					<li id="mail">
-						<a href="#ControlPage">
-							<em><span>Home</span></em>
-							<img src="css/images/applications-engineering.png" alt="Mail">
-						</a>
-					</li>
-					<li id="ical">
-						<a href="#page2">
-							<em><span>Clock</span></em>
-							<img src="css/images/chronometer.png" alt="Clock">
-						</a>
-					</li>
-					<li id="Accu">
-						<a href="#page3">
-							<em><span>Accu</span></em>
-							<img src="css/images/battery-caution.png" alt="Accu">
-						</a>
-					</li>
-					<li id="preferences">
-						<a href="#page4">
-							<em><span>iDisk</span></em>
-							<img src="css/images/system-config-boot.png" alt="preferences">
-						</a>
-					</li>
-                    <li id="links">
-						<a href="#page5">
-							<em><span>iDisk</span></em>
-							<img src="css/images/bookmarks_list_add.png" alt="links">
-						</a>
-					</li>
-            		<li id="settings">
-						<a href="#page6">
-							<em><span>iDisk</span></em>
-							<img src="css/images/preferences-system.png" alt="settings">
-						</a>
-					</li>
+</div>
+
+
+<!-- PAGE -->
+<div id="page">
+	<header id="head">
+		<div id='widgetid240'>00</div><div id='mbarDot1'>:</div><div id='widgetid241'>00</div>
+		<div id='mbarDot2'>:</div><div id='widgetid242'>00</div>
+		<div id='mbarBattery'></div><div id='widgetid243'>00</div>
+		<nav id="menu">
+			<ul>
+			<li class="apple">
+				<a href="#all">Apple</a>
+				<ul class="sublist">
+					<li onclick="menuWindow_openOne(50);">About This Mac</li>
+					<li onclick="menuClicked('File','Updates')">Software Updates...</li>
+					<li>App Store...</li>
+					<li class="divider"></li>
+					<li>System Preferences...</li>
+					<li class="divider"></li>
+					<li>Force Quit...</li>
+					<li class="divider"></li>
+					<li>Sleep</li>
+					<li>Restart...</li>
+					<li>Shut Down...</li>
+					<li class="divider"></li>
+					<li>Log Out...</li>
 				</ul>
-			</div>
-		    </div>
+			</li>
+			<li class="here">
+				<a href="#all">Finder</a>
+				<ul class="sublist">
+					<li onclick="menuWindow_openOne(51);">About Finder</li>
+					<li class="divider"></li>
+					<li onclick="menuWindow_openOne(97);">Preferences...</li>
+					<li class="divider"></li>
+					<li>Secure Empty Trash...</li>
+					<li class="divider"></li>
+					<li>Services
+						<span class="arrow"></span>
+						<ul class="sublist-menu">
+						<li class="disable">No Services Apply</li>
+						<li>Services Preferences...</li>
+						</ul>
+					</li>
+					<li class="divider"></li>
+					<li>Hide Finder</li>
+					<li>Hide Others</li>
+					<li class="disable">Show All</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#all">File</a>   
+				<ul class="sublist">
+					<li>New Finder Window</li>
+					<li>New Folder</li>
+					<li class="disable">New Folder with Selection</li>
+					<li>New Smart Folder</li>
+					<li>New Burn Folder</li>
+					<li class="disable">Open</li>
+					<li class="disable">Open With
+						<span class="arrow"></span>
+					</li>
+					<li class="disable">Print</li>
+					<li class="disable">Close Window</li>
+				</ul> 
+			</li>
+			<li>
+				<a href="#all">Edit</a>
+				<ul class="sublist">
+					<li class="disable">Undo</li>
+					<li class="disable">Redo</li>
+					<li class="divider"></li>
+					<li class="disable">Cut</li>
+					<li class="disable">Copy</li>
+					<li class="disable">Paste</li>
+					<li>Select All</li>
+					<li class="divider"></li>
+					<li>Show Clipboard</li>
+					<li class="divider"></li>
+					<li>Special Characters...</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#all">Go</a>
+				<ul class="sublist">
+					<li onclick="menuWindow_openOne(96);">Log</li>
+					<li onclick="menuWindow_openOne(60);">Serial monitor</li>
+				</ul>    
+			</li>
+			<li>
+				<a href="#all">Window</a>
+				<ul class="sublist">
+					<li onclick="menuClicked('Window','closeAll')">Close All</li>
+					<li onclick="menuClicked('Window','bringFront')">Bring All to Front</li>
+					<li class="divider"></li>
+					<li onclick="openWindowInfo('windoweventtarget')">Edit Window</li></li>
+					<li onclick="newItemMenu('itemeventtarget')">New Item</li></li>
+					<li onclick="openItemInfo('itemeventtarget')">Edit Item</li></li>
+					<li onclick="menuClicked('Edit','editItems')">Move Items</li>
+					<li class="divider"></li>
+					<li onclick="menuWindow_openOne(2);">Info</li>
+					<li onclick="menuWindow_openOne(1);">Floorplan</li>
+					<li onclick="menuWindow_openOne(6);">BMV-600</li>
+					<li onclick="menuWindow_openOne(7);">Temperaturen</li>
+					<li onclick="menuWindow_openOne(90);">Action</li>
+					<li onclick="menuWindow_openOne(88);">Timer</li>
+					<li onclick="menuWindow_openOne(94);">Chart current (A)</li>
+					<li onclick="menuWindow_openOne(93);">Chart temperatures (°C)</li>
+				</ul>    
+			</li>
+			</ul>
+		</nav>
+	</header>
+
+
+
+
+
         
-            
+	
+	<div id="warning" class="window warning">
+		<div class="tab"></div>
+		<div class="container">
+			<div class="container-alert">
+			<img src="img/Alert.png" alt="alert"/>
+			<div class="about-alert">
+			<h2>Alert</h2>
+			<p>This application cannot be used in this version</p>
+			<a href="#warning" class="button blink" data-rel="close">Close</a>
+			</div>
+			</div>
+		</div>
 	</div>
+	
+	
+	<!-- DOCK -->
+	<div class="dock" id="dock">
+		<ul>
+			<li id="finderr">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Finder</span></em>
+					<img src="img/FinderIcon.png" alt="Finder"/>
+				</a>
+			</li>
+			<li id="launchPad">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Launchpad</span></em>
+					<img src="img/launchPad.png" alt="Launchpad"/>
+				</a>
+			</li>
+			<li id="expose">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Mission Control</span></em>
+					<img src="img/expose.png" alt="Mission Control"/>
+				</a>
+			</li>
+			<li id="appStore">
+				<a href="#warning" data-rel="showOp">
+					<em><span>App Store</span></em>
+					<img src="img/appstore.png" alt="App Store"/>
+				</a>
+			</li>
+			<li id="safari">
+				<a href="#warning" data-rel="showSafari">
+					<em><span>Safari</span></em>
+					<img src="img/Safari.png" alt="Safari"/>
+				</a>
+			</li>
+
+			<li id="floorplan">
+				<a href="#warning" data-rel="showFloorplan">
+					<em><span>Floorplan</span></em>
+					<img src="img/Floorplan_icon.png" alt="Floorplan"/>
+				</a>
+			</li>
+			<li id="iChat">
+				<a href="#warning" data-rel="showOp">
+					<em><span>iChat</span></em>
+					<img src="img/voltage_icon.png" alt="iChat"/>
+				</a>
+			</li>
+			<li id="iChat">
+				<a href="#warning" data-rel="showOp">
+					<em><span>iChat</span></em>
+					<img src="img/temp_icon.png" alt="iChat"/>
+				</a>
+			</li>
+			<li id="clock">
+				<a href="#warning" data-rel="showClock">
+					<em><span>Clock</span></em>
+					<img src="img/clock-icon.png" alt="Clock"/>
+				</a>
+			</li>
+			<li id="temperatures">
+				<a href="#warning" data-rel="showTemperatures">
+					<em><span>Temperatures</span></em>
+					<img src="img/temp_icon.png" alt="Temperatures"/>
+				</a>
+			</li>
+			<li id="graphPower">
+				<a href="#warning" data-rel="showGraphPower">
+					<em><span>Graph (power)</span></em>
+					<img src="img/graph-icon.png" alt="Graph (power)"/>
+				</a>
+			</li>
+			<li id="graphTemp">
+				<a href="#warning" data-rel="showGraphTemp">
+					<em><span>Graph (temp)</span></em>
+					<img src="img/graph-icon.png" alt="Graph (temp)"/>
+				</a>
+			</li>
+			<li id="bmv600">
+				<a href="#warning" data-rel="showbmv600">
+					<em><span>BMV-600</span></em>
+					<img src="img/bmv-600_icon.png" alt="bmv-600"/>
+				</a>
+			</li>
+			<li id="addressBook">
+				<a href="#warning" data-rel="showOp">
+					<em><span>Address Book</span></em>
+					<img src="img/address.png" alt="Address Book"/>
+				</a>
+			</li>
+			<li id="preferences">
+				<a href="#" data-rel="showPreferences">
+					<em><span>Preferences</span></em>
+					<img src="img/preferences.png" alt="System Preferences"/>
+				</a>
+			</li>
+			<li id="trash">
+				<a href="#trash" data-rel="showOpTrash">
+					<em><span>Trash</span></em>
+					<img src="img/trash.png" alt="Trash"/>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+</div> <!-- PAGE end -->
+
+
+
 </body>
 </html>

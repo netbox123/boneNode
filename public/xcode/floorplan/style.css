@@ -1,0 +1,10 @@
+body {
+	background-color: #EEEEEE;
+    background-image: url("images/floorplan85.png");
+    background-repeat: no-repeat;
+}
+
+.lampclass{
+	display:none;
+	cursor:pointer;
+}

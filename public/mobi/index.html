@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>TouchNode</title>
+        <link rel="stylesheet" href="css/jqtouch.css" data-jqt-theme>
+        <link rel="stylesheet" href="css/mobi.css" >
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <script src="js/jquery-1.7.min.js" type="application/x-javascript" charset="utf-8"></script>
+        <script src="src/jqt.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="src/jqtouch-jquery.min.js" type="application/x-javascript" charset="utf-8"></script>
+        <script src="js/extensions/jqt.themeswitcher.min.js" type="application/x-javascript" charset="utf-8"></script>
+        <script src="js/extensions/jqt.actionsheet.min.js" type="application/x-javascript" charset="utf-8"></script>
+        <script src="js/extensions/jqt.menusheet.min.js" type="application/x-javascript" charset="utf-8"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/index.js"></script>
+        
+        <script type="text/javascript" charset="utf-8">
+            var jQT = new $.jQT({
+                icon: 'jqtouch.png',
+                icon4: 'jqtouch4.png',
+                addGlossToIcon: false,
+                startupScreen: 'jqt_startup.png',
+                statusBar: 'black-translucent',
+                preloadImages: []
+            });
+
+            // Some sample Javascript functions:
+            $(function(){
+
+                // Show a swipe event on swipe test
+                $('#swipeme').swipe(function(evt, data) {
+                    var details = !data ? '': '<strong>' + data.direction + '/' + data.deltaX +':' + data.deltaY + '</strong>!';
+                    $(this).html('You swiped ' + details );
+                    $(this).parent().after('<li>swiped!</li>')
+                });
+
+                $('#tapme').tap(function(){
+                    $(this).parent().after('<li>tapped!</li>')
+                });
+
+                $('a[target="_blank"]').bind('click', function() {
+                    if (confirm('This link opens in a new window.')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+
+                // Page animation callback events
+                $('#pageevents').
+                    bind('pageAnimationStart', function(e, info){ 
+                        $(this).find('.info').append('Started animating ' + info.direction + '&hellip;  And the link ' +
+                            'had this custom data: ' + $(this).data('referrer').data('custom') + '<br>');
+                    }).
+                    bind('pageAnimationEnd', function(e, info){
+                        $(this).find('.info').append('Finished animating ' + info.direction + '.<br><br>');
+
+                    });
+                
+                // Page animations end with AJAX callback event, example 1 (load remote HTML only first time)
+                $('#callback').bind('pageAnimationEnd', function(e, info){
+
+                    // Make sure the data hasn't already been loaded (we'll set 'loaded' to true a couple lines further down)
+                    if (!$(this).data('loaded')) {
+                        
+                        // Append a placeholder in case the remote HTML takes its sweet time making it back
+                        // Then, overwrite the "Loading" placeholder text with the remote HTML
+                        $(this).append($('<div>Loading</div>').load('ajax.html .info', function() {        
+                            // Set the 'loaded' var to true so we know not to reload
+                            // the HTML next time the #callback div animation ends
+                            $(this).parent().data('loaded', true);  
+                        }));
+                    }
+                });
+                // Orientation callback event
+                $('#jqt').bind('turn', function(e, data){
+                    $('#orient').html('Orientation: ' + data.orientation);
+                });
+                
+            });
+        </script>
+        <style type="text/css" media="screen">
+            #jqt.fullscreen #home .info {
+                display: none;
+            }
+            div#jqt #about {
+                padding: 100px 10px 40px;
+                text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
+                color: #999;
+                font-size: 13px;
+                text-align: center;
+                background: #161618;
+            }
+            div#jqt #about p {
+                margin-bottom: 8px;
+            }
+            div#jqt #about a {
+                color: #fff;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="jqt" class="">
+   
+            
+            <div id="actionList">
+                <div class="toolbar">
+                    <h1>Action</h1>
+                    <a href="#" class="back">Back</a>
+                </div>
+                <ul class="edgetoedge scroll">
+                    <div id="actionListUL"></div>
+                </ul>
+            </div>
+            
+            <div id="deviceList">
+                <div class="toolbar">
+                    <h1>Device</h1>
+                    <a href="#" class="back">Back</a>
+                </div>
+                <ul class="edgetoedge scroll">
+                    <div id="deviceListUL"></div>
+                </ul>
+            </div>
+            
+            <div id="tempList">
+                <div class="toolbar">
+                    <h1>Temp</h1>
+                    <a href="#" class="back">Back</a>
+                </div>
+                <ul class="edgetoedge scroll">
+                    <div id="tempListUL"></div>
+                </ul>
+            </div>
+
+            <div id="linkList">
+                <div class="toolbar">
+                    <h1>Link</h1>
+                    <a href="#" class="back">Back</a>
+                </div>
+                <ul class="edgetoedge scroll">
+                    <div id="linkListUL"></div>
+                </ul>
+            </div>
+
+            <div id="timerList">
+                <div class="toolbar">
+                    <h1>Timer</h1>
+                    <a href="#" class="back">Back</a>
+                </div>
+                <ul class="edgetoedge scroll">
+                    <div id="timerListUL"></div>
+                </ul>
+            </div>
+            
+            <div id="powerList">
+                <div class="toolbar">
+                    <h1>Power</h1>
+                    <a href="#" class="back">Back</a>
+                </div>
+                <ul class="edgetoedge scroll">
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3001'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Voltage</a></li>
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3002'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current</a></li>
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3008'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Power</a></li>
+                    
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3003'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CE</a></li>
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3004'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOC</a></li>
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3005'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TTG</a></li>
+                    
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3006'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alarm</a></li>
+                    <li><div class='listIconOn'><img src='img/power_icon.png'></img></div><div class='listPowerVal' id='listPowerVal3007'>-</div><a href='#' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Relay</a></li>
+                </ul>
+            </div>
+
+            <div id="home" class="current">
+                <div class="toolbar">
+                    <small class="counter"><div id="ahCounter">0</div></small>
+                    <h1>jQTouch</h1>
+                    <a class="button about" id="infoButton" href="#about">About</a>
+                </div>
+                <div class="scroll">
+                    <ul class="rounded">
+                        <li class="arrow"><div class='listIconOn '><img src='img/action_icon.png'></img></div><a href="#actionList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action <small class="counter"><div id="actionCounter">0</div></small></a> </li>
+                        <li class="arrow"><div class='listIconOn '><img src='img/bulb_on.png'></img></div><a href="#deviceList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Device <small class="counter"><div id="deviceCounter">0</div></small></a></li>
+                        <li class="arrow"><div class='listIconOn '><img src='img/temp_icon.png'></img></div><a href="#tempList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Temp <small class="counter"><div id="tempCounter">0</div></small></a> </li>
+                        <li class="arrow"><div class='listIconOn '><img src='img/url_icon.png'></img></div><a href="#linkList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Link <small class="counter"><div id="linkCounter">0</div></small></a></li>
+                        <li class="arrow"><div class='listIconOn '><img src='img/timer_icon.png'></img></div><a href="#timerList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Timer <small class="counter"><div id="timerCounter">0</div></small></a> </li>
+                        <li class="arrow"><div class='listIconOn '><img src='img/power_icon.png'></img></div><a href="#powerList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Power <small class="counter"><div id="powerCounter">0</div></small></a> </li>
+                        <li class="arrow"><div class='listIconOn '><img src='img/setting_icon.png'></img></div><a href="#settingList">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Settings </a> </li>
+
+                    </ul>
+                    <h2>External Links</h2>
+                    <ul class="rounded">
+                        <li class="forward"><a target="_blank" href="https://github.com/netbox123/boneNode">GitHub</a></li>
+                        <li class="forward"><a target="_blank" href="http://www.jqtouch.com/">JQTouch</a></li>
+                        <li class="forward"><a href="mailto:martijnheeroma@me.com">mailto:martijnheeroma@me.com</a></li>
+                    </ul>
+                </div>
+            </div>
+           
+        </div>
+    </body>
+    <script>
+      if (window.navigator.standalone) {
+        $("meta[name='apple-mobile-web-app-status-bar-style']").remove();
+      }
+    </script>
+</html>

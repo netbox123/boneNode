@@ -1,0 +1,36 @@
+.listImgOff {
+  
+}
+
+.listIconOff {
+  visibility:hidden;
+  float:left;
+	position:absolute;
+  left: 6px;
+  bottom: 3px;
+  z-index: 15;
+}
+
+.listIconOn {
+  float:left;
+	position:absolute;
+  left: 6px;
+  bottom: 3px;
+  z-index: 15;
+}
+
+.listTempVal {
+  float:left;
+	position:absolute;
+  right: 20px;
+  bottom: 10px;
+  z-index: 15;
+}
+
+.listPowerVal {
+  float:left;
+	position:absolute;
+  right: 20px;
+  bottom: 10px;
+  z-index: 15;
+}
