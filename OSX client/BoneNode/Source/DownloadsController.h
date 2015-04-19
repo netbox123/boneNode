@@ -14,6 +14,6 @@
 // Added some other things to the example
 @property (assign) IBOutlet NSTextField *textField;
 
-- (IBAction)changeText:(id)sender;
+
 
 @end

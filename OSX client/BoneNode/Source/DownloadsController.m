@@ -23,10 +23,7 @@
     return self;
 }
 
-- (IBAction)changeText:(id)sender {
-    NSString *text = [NSString stringWithFormat:@"Num: %ld", arc4random()%10+1];
-    [[self textField] setStringValue:text];
-}
+
 
 - (void)dealloc
 {

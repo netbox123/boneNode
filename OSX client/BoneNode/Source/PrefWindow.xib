@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="101000" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PrefWindow">
+            <connections>
+                <outlet property="myTargetView" destination="9Y1-n7-3LN" id="yEO-L0-4nr"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <customView id="9Y1-n7-3LN">
+                        <rect key="frame" x="-2" y="-5" width="489" height="277"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="7F3E2F0C-276D-49D1-8E41-67251357AEA1" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="Bvh-rw-iHd">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="etk-rY-fRt"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="GvL-LP-ex6"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="jXY-ea-bhy"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="GXp-xL-Zy8"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="CPo-9d-ZGe"/>
+                    <toolbarItem implicitItemIdentifier="DCABB9F9-8977-411A-BF5A-DC09F4E0E472" label="General" paletteLabel="General" tag="-1" image="System Prefs" id="Uqm-en-fVl">
+                        <connections>
+                            <action selector="showGeneral:" target="-2" id="xY6-55-ywG"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="CCC60745-2A20-4377-B20B-F497A54B4B60" label="Clock" paletteLabel="Clock" tag="-1" image="iphone-clock" id="2dl-L7-SKS">
+                        <connections>
+                            <action selector="showClock:" target="-2" id="yKt-LK-1xb"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="Uqm-en-fVl"/>
+                    <toolbarItem reference="2dl-L7-SKS"/>
+                    <toolbarItem reference="etk-rY-fRt"/>
+                    <toolbarItem reference="CPo-9d-ZGe"/>
+                    <toolbarItem reference="jXY-ea-bhy"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <point key="canvasLocation" x="54" y="42"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="System Prefs" width="512" height="512"/>
+        <image name="iphone-clock" width="128" height="128"/>
+    </resources>
+</document>

@@ -7,10 +7,15 @@
 //
 
 #import "FloorplanWindow.h"
+#import "PrefClockView.h"
 
 @interface FloorplanWindow ()
 
 
+@end
+
+@interface NSUserNotification (CFIPrivate)
+- (void)set_identityImage:(NSImage *)image;
 @end
 
 @implementation FloorplanWindow
@@ -18,8 +23,11 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     [self.webView  setMainFrameURL:[self appURL]];
-
     [[self.webView windowScriptObject] setValue:self forKey:@"app"];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivesetBBBNotification:)
+                                                 name:@"setBBBNotification"
+                                               object:nil];
 }
 
 - (NSString *)appURL {
@@ -33,14 +41,87 @@
     NSRunAlertPanel(@"Message from JavaScript", message, nil, nil, nil);
 }
 
+- (void) receivesetBBBNotification:(NSNotification *) notification
+{
+    if ([[notification name] isEqualToString:@"setBBBNotification"])
+    {
+        id win = [self.webView windowScriptObject];
+        if ([[notification object] isEqualToString:@"setTimeDate"])
+            [win evaluateWebScript:@"setBBBtime()"];
+    }
+    NSLog(@"%@", [notification object]);
+}
+
+- (void)showNotification:(NSString *)message
+{
+    NSString *nickSub = [[message componentsSeparatedByString:@";"] objectAtIndex:0];
+    //NSString *titleSub = [[message componentsSeparatedByString:@";"] objectAtIndex:1];
+    NSString *msgSub = [[message componentsSeparatedByString:@";"] objectAtIndex:2];
+    //NSString *InfoSub = [titleSub stringByAppendingString:msgSub];
+    
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    [notification setTitle:nickSub];
+    [notification setInformativeText:msgSub];
+    [notification set_identityImageHasBorder:NO];
+    [notification set_identityImage:[NSImage imageNamed:@"icon_32x32@2x.png"]];
+    //[notification setSoundName:NSUserNotificationDefaultSoundName];
+    
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+    [center setDelegate:self];
+    [center deliverNotification:notification];
+}
+
+- (void)pushAllValues:(NSString *)message
+{
+    NSString *timedateString = @"";
+    NSArray * words = [message componentsSeparatedByString:@"*"];
+    for (NSString * word in words){
+        NSString *varid = [[word componentsSeparatedByString:@"#"] objectAtIndex:0];
+        if ([varid  isEqual: @"1003"]){
+            timedateString = [[word componentsSeparatedByString:@"#"] objectAtIndex:1];
+        }
+        if ([varid  isEqual: @"1004"]){
+            timedateString = [timedateString stringByAppendingString: @"*"];
+            timedateString = [timedateString stringByAppendingString: [[word componentsSeparatedByString:@"#"] objectAtIndex:1]];
+        }
+    }
+    //NSLog(@"%@", timedateString);
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"timedateNotification" object:timedateString];
+}
+
 - (void)MAction01:(id)sender {
     id win = [self.webView windowScriptObject];
-    [win evaluateWebScript:@"SendDueSerial('37-off-0;36-off-0;24-off-0;30-off-0;25-off-0;23-off-0;31-off-0;26-off-0;28-off-0;33-off-0;35-off-0;27-off-0;39-off-0;32-off-0;34-off-0;29-off-0;')"];
+    [win evaluateWebScript:@"runActionID('1')"];
 }
 
 - (void)MAction02:(id)sender {
     id win = [self.webView windowScriptObject];
-    [win evaluateWebScript:@"SendDueSerial('37-on-100;36-on-100;23-on-100;31-on-100;')"];
+    [win evaluateWebScript:@"runActionID('2')"];
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
+{
+    return YES;
+}
+
+- (void)MenuUpdateDevices:(id)sender {
+    id win = [self.webView windowScriptObject];
+    [win evaluateWebScript:@"updateDevicesLayout()"];
+    
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    [notification setTitle:@"Hello Panda"];
+    [notification setInformativeText:@"I love PandaBar!"];
+    //[notification setSoundName:NSUserNotificationDefaultSoundName];
+    
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+    [center setDelegate:self];
+    [center deliverNotification:notification];
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
 }
 
 @end

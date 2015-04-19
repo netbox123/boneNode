@@ -21,6 +21,16 @@
 		2F5098A51ACDD95B00F195ED /* FloorplanWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */; };
 		2F5098A61ACDD95B00F195ED /* FloorplanWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */; };
 		2F5098A81ACF5B6700F195ED /* Remote.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A71ACF5B6700F195ED /* Remote.png */; };
+		2F5098AA1ADA65EC00F195ED /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A91ADA65EC00F195ED /* icon.icns */; };
+		2F5098AC1ADA675D00F195ED /* icon_32x32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098AB1ADA675D00F195ED /* icon_32x32@2x.png */; };
+		2F5098B71ADA9F7E00F195ED /* PrefWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098B51ADA9F7E00F195ED /* PrefWindow.m */; };
+		2F5098B81ADA9F7E00F195ED /* PrefWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098B61ADA9F7E00F195ED /* PrefWindow.xib */; };
+		2F5098BA1ADAA17B00F195ED /* iphone-clock.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098B91ADAA17B00F195ED /* iphone-clock.icns */; };
+		2F5098BC1ADAA31D00F195ED /* System Prefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098BB1ADAA31D00F195ED /* System Prefs.icns */; };
+		2F5098C21ADDC80000F195ED /* PrefGeneralView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098C01ADDC80000F195ED /* PrefGeneralView.m */; };
+		2F5098C31ADDC80000F195ED /* PrefGeneralView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098C11ADDC80000F195ED /* PrefGeneralView.xib */; };
+		2F5098CC1ADDD79100F195ED /* PrefClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098CA1ADDD79100F195ED /* PrefClockView.m */; };
+		2F5098CD1ADDD79100F195ED /* PrefClockView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098CB1ADDD79100F195ED /* PrefClockView.xib */; };
 		2FB80FE81AA348E30027BE18 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB80FE71AA348E30027BE18 /* WebKit.framework */; };
 		2FB80FEA1AA34DD70027BE18 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FB80FE91AA34DD70027BE18 /* About.xib */; };
 		2FB80FED1AA34EEA0027BE18 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB80FEC1AA34EEA0027BE18 /* AboutController.m */; };
@@ -54,6 +64,19 @@
 		2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FloorplanWindow.m; path = ../FloorplanWindow.m; sourceTree = "<group>"; };
 		2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FloorplanWindow.xib; path = ../FloorplanWindow.xib; sourceTree = "<group>"; };
 		2F5098A71ACF5B6700F195ED /* Remote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Remote.png; sourceTree = "<group>"; };
+		2F5098A91ADA65EC00F195ED /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		2F5098AB1ADA675D00F195ED /* icon_32x32@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_32x32@2x.png"; sourceTree = "<group>"; };
+		2F5098B41ADA9F7E00F195ED /* PrefWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefWindow.h; sourceTree = "<group>"; };
+		2F5098B51ADA9F7E00F195ED /* PrefWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefWindow.m; sourceTree = "<group>"; };
+		2F5098B61ADA9F7E00F195ED /* PrefWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefWindow.xib; sourceTree = "<group>"; };
+		2F5098B91ADAA17B00F195ED /* iphone-clock.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "iphone-clock.icns"; path = "../../../Downloads/iphone-clock.icns"; sourceTree = "<group>"; };
+		2F5098BB1ADAA31D00F195ED /* System Prefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "System Prefs.icns"; path = "../../../Downloads/System Prefs/System Prefs.icns"; sourceTree = "<group>"; };
+		2F5098BF1ADDC80000F195ED /* PrefGeneralView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefGeneralView.h; sourceTree = "<group>"; };
+		2F5098C01ADDC80000F195ED /* PrefGeneralView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefGeneralView.m; sourceTree = "<group>"; };
+		2F5098C11ADDC80000F195ED /* PrefGeneralView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefGeneralView.xib; sourceTree = "<group>"; };
+		2F5098C91ADDD79100F195ED /* PrefClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefClockView.h; sourceTree = "<group>"; };
+		2F5098CA1ADDD79100F195ED /* PrefClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefClockView.m; sourceTree = "<group>"; };
+		2F5098CB1ADDD79100F195ED /* PrefClockView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefClockView.xib; sourceTree = "<group>"; };
 		2FB80FE71AA348E30027BE18 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2FB80FE91AA34DD70027BE18 /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = About.xib; sourceTree = "<group>"; };
 		2FB80FEB1AA34EEA0027BE18 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
@@ -121,6 +144,15 @@
 				1DA9465D13E8B56A0089C368 /* AppController.h */,
 				1DA9465E13E8B56A0089C368 /* AppController.m */,
 				1DAA989C13E1BE260040BCB7 /* MainMenu.xib */,
+				2F5098B41ADA9F7E00F195ED /* PrefWindow.h */,
+				2F5098B51ADA9F7E00F195ED /* PrefWindow.m */,
+				2F5098B61ADA9F7E00F195ED /* PrefWindow.xib */,
+				2F5098BF1ADDC80000F195ED /* PrefGeneralView.h */,
+				2F5098C01ADDC80000F195ED /* PrefGeneralView.m */,
+				2F5098C11ADDC80000F195ED /* PrefGeneralView.xib */,
+				2F5098C91ADDD79100F195ED /* PrefClockView.h */,
+				2F5098CA1ADDD79100F195ED /* PrefClockView.m */,
+				2F5098CB1ADDD79100F195ED /* PrefClockView.xib */,
 				2F5098A21ACDD95B00F195ED /* FloorplanWindow.h */,
 				2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */,
 				2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */,
@@ -144,10 +176,14 @@
 		1DAA988E13E1BE260040BCB7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F5098B91ADAA17B00F195ED /* iphone-clock.icns */,
 				2F5098A71ACF5B6700F195ED /* Remote.png */,
+				2F5098A91ADA65EC00F195ED /* icon.icns */,
+				2F5098BB1ADAA31D00F195ED /* System Prefs.icns */,
 				1DAA988F13E1BE260040BCB7 /* Info.plist */,
 				1DAA989013E1BE260040BCB7 /* InfoPlist.strings */,
 				1DAA989313E1BE260040BCB7 /* Prefix.pch */,
+				2F5098AB1ADA675D00F195ED /* icon_32x32@2x.png */,
 				1DAA989413E1BE260040BCB7 /* main.m */,
 				1DAA989613E1BE260040BCB7 /* Credits.rtf */,
 			);
@@ -204,15 +240,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F5098B81ADA9F7E00F195ED /* PrefWindow.xib in Resources */,
 				1DAA989213E1BE260040BCB7 /* InfoPlist.strings in Resources */,
+				2F5098BA1ADAA17B00F195ED /* iphone-clock.icns in Resources */,
 				2F5098A61ACDD95B00F195ED /* FloorplanWindow.xib in Resources */,
 				2F5098A81ACF5B6700F195ED /* Remote.png in Resources */,
+				2F5098BC1ADAA31D00F195ED /* System Prefs.icns in Resources */,
+				2F5098CD1ADDD79100F195ED /* PrefClockView.xib in Resources */,
 				2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */,
 				1DAA989813E1BE260040BCB7 /* Credits.rtf in Resources */,
+				2F5098AA1ADA65EC00F195ED /* icon.icns in Resources */,
 				1DAA989E13E1BE260040BCB7 /* MainMenu.xib in Resources */,
 				2FB80FEF1AA358910027BE18 /* DeviceList.xib in Resources */,
 				2FB80FEA1AA34DD70027BE18 /* About.xib in Resources */,
+				2F5098AC1ADA675D00F195ED /* icon_32x32@2x.png in Resources */,
 				1D79703713E9B6C60006AEEA /* Downloads.xib in Resources */,
+				2F5098C31ADDC80000F195ED /* PrefGeneralView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,10 +270,13 @@
 				2F5098A51ACDD95B00F195ED /* FloorplanWindow.m in Sources */,
 				1DAA989B13E1BE260040BCB7 /* AppDelegate.m in Sources */,
 				2F5098A01ACDD09400F195ED /* ActionListWindow.m in Sources */,
+				2F5098C21ADDC80000F195ED /* PrefGeneralView.m in Sources */,
 				1DA9465F13E8B56A0089C368 /* AppController.m in Sources */,
 				2FB80FED1AA34EEA0027BE18 /* AboutController.m in Sources */,
+				2F5098B71ADA9F7E00F195ED /* PrefWindow.m in Sources */,
 				1D79703B13E9B73D0006AEEA /* DownloadsController.m in Sources */,
 				2FB80FF21AA358DD0027BE18 /* DeviceListWindow.m in Sources */,
+				2F5098CC1ADDD79100F195ED /* PrefClockView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

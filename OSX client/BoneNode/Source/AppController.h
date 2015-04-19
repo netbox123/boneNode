@@ -12,6 +12,8 @@
 @class DeviceListWindow;
 @class ActionListWindow;
 @class FloorplanWindow;
+@class PrefWindow;
+@class PrefClockView;
 
 @interface AppController : NSObject {
 @private
@@ -20,7 +22,11 @@
     DeviceListWindow *devicelistWindow;
     ActionListWindow *actionlistWindow;
     FloorplanWindow *floorplanWindow;
+    PrefWindow *prefwindow;
+    PrefClockView *prefclockView;
 }
+
+
 
 
 - (IBAction)showDownloads:(id)sender;
@@ -28,8 +34,10 @@
 - (IBAction)showDeviceList:(id)sender;
 - (IBAction)showActionList:(id)sender;
 - (IBAction)showFloorplanWindow:(id)sender;
-
+- (IBAction)showPreferences:(id)sender;
 - (IBAction)MenuAction01:(id)sender;
 - (IBAction)MenuAction02:(id)sender;
+- (IBAction)MenuUpdateDevices:(id)sender;
+
 
 @end
