@@ -15,6 +15,7 @@
 #import "PrefWindow.h"
 #import "PrefClockView.h"
 #import "PrefGeneralView.h"
+#import "MainWindow.h"
 
 @implementation AppController
 
@@ -60,6 +61,11 @@
 - (IBAction)showPreferences:(id)sender {
     if (!prefwindow) {prefwindow = [[PrefWindow alloc] initWithWindowNibName:@"PrefWindow"];}
     [prefwindow showWindow:self];
+}
+
+- (IBAction)showMainWindow:(id)sender {
+    if (!mainwindow) {mainwindow = [[MainWindow alloc] initWithWindowNibName:@"MainWindow"];}
+    [mainwindow showWindow:self];
 }
 
 - (IBAction)MenuAction01:(id)sender {[floorplanWindow MAction01:self];}

@@ -287,6 +287,8 @@ jQuery(function($){
             if (OneValueA[0]==4007){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
             if (OneValueA[0]==4008){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
             if (OneValueA[0]==4009){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4020){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
+            if (OneValueA[0]==4021){$("#listTempVal"+OneValueA[0]).html(OneValueA[1]);}
 
 			if (OneValueA[0]==3002){$("#powerCounter").html(Number(OneValueA[1]).toFixed(1)+' A');}
 			if (OneValueA[0]==3003){$("#ahCounter").html(OneValueA[1]);}

@@ -13,6 +13,7 @@
 @class ActionListWindow;
 @class FloorplanWindow;
 @class PrefWindow;
+@class MainWindow;
 @class PrefClockView;
 
 @interface AppController : NSObject {
@@ -23,6 +24,7 @@
     ActionListWindow *actionlistWindow;
     FloorplanWindow *floorplanWindow;
     PrefWindow *prefwindow;
+    MainWindow *mainwindow;
     PrefClockView *prefclockView;
 }
 
@@ -35,6 +37,7 @@
 - (IBAction)showActionList:(id)sender;
 - (IBAction)showFloorplanWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
+- (IBAction)showMainWindow:(id)sender;
 - (IBAction)MenuAction01:(id)sender;
 - (IBAction)MenuAction02:(id)sender;
 - (IBAction)MenuUpdateDevices:(id)sender;

@@ -40,6 +40,8 @@ due_step = '365597765';
 due_pins = '';
 
 t_BU = '';
+t_KEL= '';
+h_KEL= '';
 t_WK = '';
 t_K1 = '';
 t_K2 = '';
@@ -88,7 +90,7 @@ io.sockets.on('connection', function(socket){
 			socket.nickname = data;
             socket.address =  socket.handshake.address;
             console.log(data+' connected from '+socket.address + ':' + socket.address.port);
-    		io.sockets.emit('new message', {msg: '', nick: timeText + socket.address + " " + socket.nickname, title: 'Client connected', address: socket.address});
+    		io.sockets.emit('new message', {msg: 'Client connected ('+socket.address+')', nick: socket.nickname, title: 'Client connected', address: socket.address});
 			node_names.push(socket.nickname);
 			node_addresses.push(socket.handshake.address);
 			sendAllArrays();
@@ -495,11 +497,16 @@ io.sockets.on('connection', function(socket){
         }   
 	});
 	
-	//  -- Action received from client --
-	socket.on('send action', function(data){
-        runRawAction(data)
-        //console.log('data '+data);
-    });
+	//  -- Runactionid received from client --
+	socket.on('runactionid', function(data){
+        for(j=0; j < actionsArray.length; j++){
+            if(actionsArray[j].id == data.id){
+                b.serialWrite(serialPortDue, actionsArray[j].events + '\n');
+                io.sockets.emit('new message', {msg: 'Action: '+ actionsArray[j].name, nick: socket.address, title: 'Action runned', address: socket.address});
+            }
+        }
+        console.log('data '+data);
+	});
 	
 	//  -- Client disconnected --
 	socket.on('disconnect', function(data){
@@ -569,6 +576,8 @@ function onSerial(x) {
 				t_G2 = data_json.due.t_G2;
 				t_WK = data_json.due.t_WK;
 				t_BU = data_json.due.t_BU;
+				t_KEL = data_json.due.t_KEL;
+				h_KEL = data_json.due.h_KEL;
 				SyncDevicesArrayFromSerial();
 			} catch (e) {
 				console.log('Serial parse error ' + e);
@@ -617,7 +626,7 @@ function UpdateDevicesArray() {
         if (devicesArray[i].id == 1012){devicesArray[i].val = datetime.getHours()}
         
         if (devicesArray[i].id == 3001){devicesArray[i].val = Number(bmv_v/1000).toFixed(2)+' V';}
-        if (devicesArray[i].id == 3002){devicesArray[i].val = Number(bmv_i/1000).toFixed(2);}
+        if (devicesArray[i].id == 3002){devicesArray[i].val = Number(bmv_i/1000).toFixed(2)+' A';}
         if (devicesArray[i].id == 3003){devicesArray[i].val = Number(bmv_ce/1000).toFixed(2)+' Ah';}
         if (devicesArray[i].id == 3004){devicesArray[i].val = Number(bmv_soc/10).toFixed(1)+' %';}
         if (devicesArray[i].id == 3005){devicesArray[i].val = Number(bmv_ttg).toFixed(0)+' m.';}
@@ -635,6 +644,9 @@ function UpdateDevicesArray() {
         if (devicesArray[i].id == 4008){devicesArray[i].val = Number(t_BU).toFixed(1)+'&deg;C';}
         if (devicesArray[i].id == 4007){devicesArray[i].val = Number(t_G1).toFixed(1)+'&deg;C';}
         if (devicesArray[i].id == 4001){devicesArray[i].val = Number(t_WK).toFixed(1)+'&deg;C';}
+        
+        if (devicesArray[i].id == 4020){devicesArray[i].val = Number(t_KEL).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4021){devicesArray[i].val = Number(h_KEL).toFixed(1)+'&deg;RF';}
         
         if ((devicesArray[i].toff>0) & (devicesArray[i].toff<timenow)){
             devicesArray[i].toff=0;

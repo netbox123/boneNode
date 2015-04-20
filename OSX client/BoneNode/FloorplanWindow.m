@@ -87,6 +87,7 @@
     }
     //NSLog(@"%@", timedateString);
     [[NSNotificationCenter defaultCenter]postNotificationName:@"timedateNotification" object:timedateString];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"MainNotification" object:message];
 }
 
 - (void)MAction01:(id)sender {

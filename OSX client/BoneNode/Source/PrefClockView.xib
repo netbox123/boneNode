@@ -21,7 +21,7 @@
                 <button verticalHuggingPriority="750" id="xPL-wJ-DFQ">
                     <rect key="frame" x="200" y="177" width="122" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="roundRect" title="Set time" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oqs-xC-cbS">
+                    <buttonCell key="cell" type="roundRect" title="Set BBB time" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oqs-xC-cbS">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="cellTitle"/>
                     </buttonCell>

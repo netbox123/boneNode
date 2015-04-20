@@ -17,6 +17,6 @@
 - (IBAction)setTimeDateBut:(id)sender;
 
 - (void) receivetimedateNotification:(NSNotification *) notification;
-
+ 
 
 @end

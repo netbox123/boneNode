@@ -16,6 +16,9 @@
 		1DAA989813E1BE260040BCB7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1DAA989613E1BE260040BCB7 /* Credits.rtf */; };
 		1DAA989B13E1BE260040BCB7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAA989A13E1BE260040BCB7 /* AppDelegate.m */; };
 		1DAA989E13E1BE260040BCB7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DAA989C13E1BE260040BCB7 /* MainMenu.xib */; };
+		2F39AFA91AE4515500E3FB96 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F39AFA71AE4515500E3FB96 /* MainWindow.m */; };
+		2F39AFAA1AE4515500E3FB96 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F39AFA81AE4515500E3FB96 /* MainWindow.xib */; };
+		2F39AFAC1AE5860B00E3FB96 /* bmv-600.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F39AFAB1AE5860B00E3FB96 /* bmv-600.png */; };
 		2F5098A01ACDD09400F195ED /* ActionListWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F50989E1ACDD09400F195ED /* ActionListWindow.m */; };
 		2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F50989F1ACDD09400F195ED /* ActionListWindow.xib */; };
 		2F5098A51ACDD95B00F195ED /* FloorplanWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */; };
@@ -57,6 +60,10 @@
 		1DAA989913E1BE260040BCB7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1DAA989A13E1BE260040BCB7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1DAA989D13E1BE260040BCB7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2F39AFA61AE4515500E3FB96 /* MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
+		2F39AFA71AE4515500E3FB96 /* MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
+		2F39AFA81AE4515500E3FB96 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		2F39AFAB1AE5860B00E3FB96 /* bmv-600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bmv-600.png"; sourceTree = "<group>"; };
 		2F50989D1ACDD09400F195ED /* ActionListWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionListWindow.h; sourceTree = "<group>"; };
 		2F50989E1ACDD09400F195ED /* ActionListWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionListWindow.m; sourceTree = "<group>"; };
 		2F50989F1ACDD09400F195ED /* ActionListWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionListWindow.xib; sourceTree = "<group>"; };
@@ -144,6 +151,9 @@
 				1DA9465D13E8B56A0089C368 /* AppController.h */,
 				1DA9465E13E8B56A0089C368 /* AppController.m */,
 				1DAA989C13E1BE260040BCB7 /* MainMenu.xib */,
+				2F39AFA61AE4515500E3FB96 /* MainWindow.h */,
+				2F39AFA71AE4515500E3FB96 /* MainWindow.m */,
+				2F39AFA81AE4515500E3FB96 /* MainWindow.xib */,
 				2F5098B41ADA9F7E00F195ED /* PrefWindow.h */,
 				2F5098B51ADA9F7E00F195ED /* PrefWindow.m */,
 				2F5098B61ADA9F7E00F195ED /* PrefWindow.xib */,
@@ -176,6 +186,7 @@
 		1DAA988E13E1BE260040BCB7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F39AFAB1AE5860B00E3FB96 /* bmv-600.png */,
 				2F5098B91ADAA17B00F195ED /* iphone-clock.icns */,
 				2F5098A71ACF5B6700F195ED /* Remote.png */,
 				2F5098A91ADA65EC00F195ED /* icon.icns */,
@@ -256,6 +267,8 @@
 				2F5098AC1ADA675D00F195ED /* icon_32x32@2x.png in Resources */,
 				1D79703713E9B6C60006AEEA /* Downloads.xib in Resources */,
 				2F5098C31ADDC80000F195ED /* PrefGeneralView.xib in Resources */,
+				2F39AFAC1AE5860B00E3FB96 /* bmv-600.png in Resources */,
+				2F39AFAA1AE4515500E3FB96 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +287,7 @@
 				1DA9465F13E8B56A0089C368 /* AppController.m in Sources */,
 				2FB80FED1AA34EEA0027BE18 /* AboutController.m in Sources */,
 				2F5098B71ADA9F7E00F195ED /* PrefWindow.m in Sources */,
+				2F39AFA91AE4515500E3FB96 /* MainWindow.m in Sources */,
 				1D79703B13E9B73D0006AEEA /* DownloadsController.m in Sources */,
 				2FB80FF21AA358DD0027BE18 /* DeviceListWindow.m in Sources */,
 				2F5098CC1ADDD79100F195ED /* PrefClockView.m in Sources */,

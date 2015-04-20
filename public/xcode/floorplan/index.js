@@ -26,21 +26,27 @@ function initWindows() {
 	updateDevicesLayout();
 }
 
-function updateDevicesLayout() {
-	for(j=0; j < devicesArray.length; j++){
-		if(devicesArray[j].mobi==1){
-			if (devicesArray[j].val==100){
-				$("#listVal"+devicesArray[j].id).html("100");
-			} else if (devicesArray[j].val==0){
-				$("#listVal"+devicesArray[j].id).html("0");
-			}
-		}
+window.updateDevicesLayout = function(){
+	for(j=0; j < pageItemsArray.length; j++){
+		
+			for(k=0; k < devicesArray.length; k++){	
+				if( devicesArray[k].id == pageItemsArray[j].device_id) {
+					if(devicesArray[k].val == 0){
+						$("#lampid"+pageItemsArray[j].id).fadeOut();
+					}else{
+						$("#lampid"+pageItemsArray[j].id).fadeIn();
+					}
+				}
+			} 
+		
 	}
+
 }
 
 jQuery(function($){
 	var socket = io.connect();
     SendFirst();   
+    setInterval(function() {getAllValues();}, 1000);
     
     function SendFirst(){
     	socket.emit('getDevices');
@@ -50,7 +56,11 @@ jQuery(function($){
     	})	
     };
 	
-	window.SendDueSerial = function (serialText){
+    function getAllValues(){
+        socket.emit('getallvalues', function(){	})	
+    };
+    
+    window.SendDueSerial = function (serialText){
         socket.emit('senddueserial', serialText , function(data){})	
     };
 	
@@ -105,20 +115,34 @@ jQuery(function($){
 		}
 	});
 	
+	
+	//  -- Receiving allvalues from server --
+	socket.on('sendallvalues', function(data){
+	var ValuesA = [];
+        var OneValueA = [];
+        window.app.pushAllValues_(data.msg);
+	//console.log('data'+data.msg);
+	ValuesA  = data.msg.split('*');
+        var datetime = new Date();
+        for(j=0; j < ValuesA.length; j++){
+            OneValueA  = ValuesA[j].split('#');
+            //devicesValArray[OneValueA[0]] = OneValueA[1];
+            for(xcount=0; xcount < devicesArray.length; xcount++){
+            	if (devicesArray[xcount].id == OneValueA[0]){
+            		devicesArray[xcount].val = OneValueA[1];
+            	}
+            }
+        }
+     
+	});
+	
 	//  -- Receiving message from server --
 	socket.on('new message', function(data){
         //console.log('data'+data.msg);
         if (window.app) {
-        	window.app.showMessage_(data.nick, data.title + " " + data.msg);
+        	window.app.showNotification_(data.nick + ";" + data.title + ";" + data.msg);
       	}
-        
-        //$.av.pop({
-            //title: data.title,
-            //message: data.address +'<br>'+data.msg+' '
-        //});
-        //var box = $("#TextArea410");
-        //box.val(data.nick + " " + data.title + " " + data.msg + "\n" + box.val());
-        console.log(data.nick + " " + data.title + " " + data.msg);
+        //console.log(data.nick + " " + data.title + " " + data.msg);
 	});
 	
 	//  -- LampClicked --
@@ -137,19 +161,31 @@ jQuery(function($){
 	}
 	
 	window.deviceToggle = function (itemID) { 
-        console.log('deviceClicked ' + itemID);
+        //console.log('deviceClicked ' + itemID);
         SendDueSerial(itemID+'-toggle-0;');
 	}
 
 	window.deviceTurnOn = function (itemID) { 
-        console.log('deviceClicked ' + itemID);
+        //console.log('deviceClicked ' + itemID);
         SendDueSerial(itemID+'-on-100;');
 	}
 
 	window.deviceTurnOff = function (itemID) { 
-        console.log('deviceClicked ' + itemID);
+        //console.log('deviceClicked ' + itemID);
         SendDueSerial(itemID+'-off-0;');
 	}
+	
+	window.runActionID = function (itemID) { 
+	//console.log('runActionID ' + itemID);
+	socket.emit('runactionid', {id: itemID} , function(data){})
+	}
+
+	window.setBBBtime = function () { 
+	var milliseconds = new Date().getTime();
+    	milliseconds += 2*3600000;
+    	socket.emit('sendservercommand', 'settime-'+milliseconds , function(data){})
+    	}
+	
 	
 });
 
