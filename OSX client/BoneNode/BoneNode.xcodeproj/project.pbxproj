@@ -19,10 +19,10 @@
 		2F39AFA91AE4515500E3FB96 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F39AFA71AE4515500E3FB96 /* MainWindow.m */; };
 		2F39AFAA1AE4515500E3FB96 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F39AFA81AE4515500E3FB96 /* MainWindow.xib */; };
 		2F39AFAC1AE5860B00E3FB96 /* bmv-600.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F39AFAB1AE5860B00E3FB96 /* bmv-600.png */; };
+		2F39AFB01AE5A45100E3FB96 /* FloorplanWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F39AFAE1AE5A45100E3FB96 /* FloorplanWindow.m */; };
+		2F39AFB11AE5A45100E3FB96 /* FloorplanWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F39AFAF1AE5A45100E3FB96 /* FloorplanWindow.xib */; };
 		2F5098A01ACDD09400F195ED /* ActionListWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F50989E1ACDD09400F195ED /* ActionListWindow.m */; };
 		2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F50989F1ACDD09400F195ED /* ActionListWindow.xib */; };
-		2F5098A51ACDD95B00F195ED /* FloorplanWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */; };
-		2F5098A61ACDD95B00F195ED /* FloorplanWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */; };
 		2F5098A81ACF5B6700F195ED /* Remote.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A71ACF5B6700F195ED /* Remote.png */; };
 		2F5098AA1ADA65EC00F195ED /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098A91ADA65EC00F195ED /* icon.icns */; };
 		2F5098AC1ADA675D00F195ED /* icon_32x32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098AB1ADA675D00F195ED /* icon_32x32@2x.png */; };
@@ -64,12 +64,12 @@
 		2F39AFA71AE4515500E3FB96 /* MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
 		2F39AFA81AE4515500E3FB96 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		2F39AFAB1AE5860B00E3FB96 /* bmv-600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bmv-600.png"; sourceTree = "<group>"; };
+		2F39AFAD1AE5A45100E3FB96 /* FloorplanWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloorplanWindow.h; sourceTree = "<group>"; };
+		2F39AFAE1AE5A45100E3FB96 /* FloorplanWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloorplanWindow.m; sourceTree = "<group>"; };
+		2F39AFAF1AE5A45100E3FB96 /* FloorplanWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloorplanWindow.xib; sourceTree = "<group>"; };
 		2F50989D1ACDD09400F195ED /* ActionListWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionListWindow.h; sourceTree = "<group>"; };
 		2F50989E1ACDD09400F195ED /* ActionListWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionListWindow.m; sourceTree = "<group>"; };
 		2F50989F1ACDD09400F195ED /* ActionListWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionListWindow.xib; sourceTree = "<group>"; };
-		2F5098A21ACDD95B00F195ED /* FloorplanWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FloorplanWindow.h; path = ../FloorplanWindow.h; sourceTree = "<group>"; };
-		2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FloorplanWindow.m; path = ../FloorplanWindow.m; sourceTree = "<group>"; };
-		2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FloorplanWindow.xib; path = ../FloorplanWindow.xib; sourceTree = "<group>"; };
 		2F5098A71ACF5B6700F195ED /* Remote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Remote.png; sourceTree = "<group>"; };
 		2F5098A91ADA65EC00F195ED /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		2F5098AB1ADA675D00F195ED /* icon_32x32@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_32x32@2x.png"; sourceTree = "<group>"; };
@@ -163,9 +163,9 @@
 				2F5098C91ADDD79100F195ED /* PrefClockView.h */,
 				2F5098CA1ADDD79100F195ED /* PrefClockView.m */,
 				2F5098CB1ADDD79100F195ED /* PrefClockView.xib */,
-				2F5098A21ACDD95B00F195ED /* FloorplanWindow.h */,
-				2F5098A31ACDD95B00F195ED /* FloorplanWindow.m */,
-				2F5098A41ACDD95B00F195ED /* FloorplanWindow.xib */,
+				2F39AFAD1AE5A45100E3FB96 /* FloorplanWindow.h */,
+				2F39AFAE1AE5A45100E3FB96 /* FloorplanWindow.m */,
+				2F39AFAF1AE5A45100E3FB96 /* FloorplanWindow.xib */,
 				2F50989D1ACDD09400F195ED /* ActionListWindow.h */,
 				2F50989E1ACDD09400F195ED /* ActionListWindow.m */,
 				2F50989F1ACDD09400F195ED /* ActionListWindow.xib */,
@@ -254,7 +254,7 @@
 				2F5098B81ADA9F7E00F195ED /* PrefWindow.xib in Resources */,
 				1DAA989213E1BE260040BCB7 /* InfoPlist.strings in Resources */,
 				2F5098BA1ADAA17B00F195ED /* iphone-clock.icns in Resources */,
-				2F5098A61ACDD95B00F195ED /* FloorplanWindow.xib in Resources */,
+				2F39AFB11AE5A45100E3FB96 /* FloorplanWindow.xib in Resources */,
 				2F5098A81ACF5B6700F195ED /* Remote.png in Resources */,
 				2F5098BC1ADAA31D00F195ED /* System Prefs.icns in Resources */,
 				2F5098CD1ADDD79100F195ED /* PrefClockView.xib in Resources */,
@@ -280,7 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DAA989513E1BE260040BCB7 /* main.m in Sources */,
-				2F5098A51ACDD95B00F195ED /* FloorplanWindow.m in Sources */,
+				2F39AFB01AE5A45100E3FB96 /* FloorplanWindow.m in Sources */,
 				1DAA989B13E1BE260040BCB7 /* AppDelegate.m in Sources */,
 				2F5098A01ACDD09400F195ED /* ActionListWindow.m in Sources */,
 				2F5098C21ADDC80000F195ED /* PrefGeneralView.m in Sources */,
