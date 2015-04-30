@@ -17,7 +17,7 @@ Mobile client
 HTML client<br>
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/ScreenshotHtml.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/ScreenshotHtml.png)
 
-OSX client (before beta version)<br>
+OSX client (pre beta version)<br>
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/Screenshot7.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/Screenshot7.png)
 ## INSTALLATION
 

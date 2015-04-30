@@ -17,7 +17,6 @@
 - (void) receivesetBBBNotification:(NSNotification *) notification;
 
 // This method is called from JavaScript on the web page.
-- (void)showMessage:(NSString *)message;
 - (void)showNotification:(NSString *)message;
 - (void)pushAllValues:(NSString *)message;
 

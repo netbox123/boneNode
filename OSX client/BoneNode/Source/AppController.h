@@ -28,9 +28,6 @@
     PrefClockView *prefclockView;
 }
 
-
-
-
 - (IBAction)showDownloads:(id)sender;
 - (IBAction)showAbout:(id)sender;
 - (IBAction)showDeviceList:(id)sender;
@@ -41,6 +38,5 @@
 - (IBAction)MenuAction01:(id)sender;
 - (IBAction)MenuAction02:(id)sender;
 - (IBAction)MenuUpdateDevices:(id)sender;
-
 
 @end

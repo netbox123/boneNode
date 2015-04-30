@@ -28,6 +28,11 @@
                                              selector:@selector(receivesetBBBNotification:)
                                                  name:@"setBBBNotification"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivesendserialNotification:)
+                                                 name:@"sendserialNotification"
+                                               object:nil];
 }
 
 - (NSString *)appURL {
@@ -36,9 +41,19 @@
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector { return NO; }
 
-- (void)showMessage:(NSString *)message
+- (void) receivesendserialNotification:(NSNotification *) notification
 {
-    NSRunAlertPanel(@"Message from JavaScript", message, nil, nil, nil);
+    if ([[notification name] isEqualToString:@"sendserialNotification"])
+    {
+        id win = [self.webView windowScriptObject];
+        NSString* str = [notification object];
+        NSString* startstr = @"SendDueSerial('";
+        NSString* endstr = @"')";
+        NSString* strRR = [NSString stringWithFormat:@"%@%@%@", startstr, str, endstr];
+        [win evaluateWebScript:strRR ];
+        NSLog(strRR);
+    }
+    
 }
 
 - (void) receivesetBBBNotification:(NSNotification *) notification
