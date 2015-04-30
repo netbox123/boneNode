@@ -2,13 +2,15 @@
 //  AppDelegate.m
 //  BoneNode
 //
-//  Created by Martijn Heeroma on 28-02-15.
-//  Copyright (c) 2015 ___FULLUSERNAME___. All rights reserved.
+//  Created by Martijn Heeroma on 02-04-15.
+//
 //
 
 #import "AppDelegate.h"
 
 @implementation AppDelegate
+
+@synthesize window;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {

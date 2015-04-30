@@ -17,6 +17,8 @@ Mobile client
 HTML client<br>
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/ScreenshotHtml.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/ScreenshotHtml.png)
 
+HTML client<br>
+[![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/Screenshot7.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/Screenshot7.png)
 ## INSTALLATION
 
 Set these vars in app.js
@@ -49,6 +51,13 @@ login with youre browser 192.168.7.2:4000
 Have fun!
 
 ### Version history
+
+**0.2.3**
+- Loading JSon into NSTableView finally works
+
+**0.2.2**
+- Birth of OSX Client
+
 **0.2.1**
 - Touch client Devices and Actions work now.
 - You can reach the touch client with: 192.168.7.2:4000/mobi
