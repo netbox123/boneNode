@@ -72,12 +72,17 @@ function InitApp() {
     b.serialOpen(serialPortDue, optionsPort, onSerial);
     console.log('serialPortDue opened...');
     setInterval(function() {UpdateDevicesArray();}, 1000);
-    setInterval(function() {onDemoMode();}, 1000);
+    setInterval(function() {logDatabase();}, 1000*60*30);
+    
     var port = process.env.PORT || CONFIG.port;
     server.listen(4000); // listen on port 
     app.get('/', function(req, res){res.sendFile(__dirname + '/index.html');});
     app.get('/mobi', function(req, res){res.sendFile(__dirname + '/mobi/index.html');});
-    console.log('Server listening on port process.env.PORT');
+    app.get('/deviceJSON', function(req, res){res.send(JSON.stringify(devicesArray, null, 4));});
+    app.get('/actionJSON', function(req, res){res.send(JSON.stringify(actionsArray, null, 4));});
+    app.get('/linkJSON', function(req, res){res.send(JSON.stringify(linksArray, null, 4));});
+    app.get('/timerJSON', function(req, res){res.send(JSON.stringify(timersArray, null, 4));});
+    console.log('Server listening on port ' + port);
 }
 
 io.sockets.on('connection', function(socket){
@@ -93,23 +98,9 @@ io.sockets.on('connection', function(socket){
     		io.sockets.emit('new message', {msg: 'Client connected ('+socket.address+')', nick: socket.nickname, title: 'Client connected', address: socket.address});
 			node_names.push(socket.nickname);
 			node_addresses.push(socket.handshake.address);
-			sendAllArrays();
 		}
 	});
-    
-	//  -- sendAllArrays to client --
-	function sendAllArrays(){
-	    //socket.emit('config', configArray);
-		//socket.emit('usernames', node_names);
-		//socket.emit('devices', devicesArray);
-        //socket.emit('inputs', inputsArray);
-        //socket.emit('actions', actionsArray);
-		//socket.emit('pages', pagesArray);
-		//socket.emit('timers', timersArray);
-		//socket.emit('item_types', itemTypesArray);
-		//socket.emit('links', linksArray);
-		//socket.emit('pageitems', pageItemsArray);
-	}
+
 	
 	//  -- getData received from client --
 	socket.on('getConfig', function(data){socket.emit('config', configArray);});
@@ -519,31 +510,6 @@ io.sockets.on('connection', function(socket){
 
 //  ------------------------------------------------------------------------------------------------------------------------
 
-function onDemoMode() {
-	if (runMode){
-	    due_step = parseInt(due_step) + 1;
-        t_K1 = t_K1+(Math.random()/10)-.05;if(t_K1<70){t_K1=70};if(t_K1>82){t_K1=82};
-		t_K2 = t_K2+(Math.random()/10)-.05;if(t_K2<54){t_K2=54};if(t_K2>65){t_K2=65};
-		t_B1 = t_B1+(Math.random()/10)-.05;if(t_B1<63.3){t_B1=63.3};if(t_B1>65){t_B1=65};
-		t_B2 = t_B2+(Math.random()/10)-.05;if(t_B2<45){t_B2=45.6};if(t_B2>49.8){t_B2=49.8};
-		t_B3 = t_B3+(Math.random()/10)-.05;if(t_B3<12){t_B3=12};if(t_B3>17.3){t_B3=17.3};
-		t_G1 = t_G1+(Math.random()/10)-.05;if(t_G1<17.5){t_G1=17.5};if(t_G1>21.2){t_G1=21.2};
-		t_G2 = t_G2+(Math.random()/10)-.05;if(t_G2<18){t_G2=18};if(t_G2>23.4){t_G2=23.4};
-		t_WK = t_WK+(Math.random()/10)-.05;if(t_WK<19.3){t_WK=19.3};if(t_WK>25){t_WK=25};
-		t_BU = t_BU+(Math.random()/10)-.05;if(t_BU<8.4){t_BU=8.4};if(t_BU>15.1){t_BU=15.1};
-		
-	    bmv_v = bmv_v-(Math.random()*4)+1;if(bmv_v<23800){bmv_v=26200};if(bmv_v>27000){bmv_v=26200};
-		bmv_i = bmv_i+(Math.random()*15)-5;if(bmv_i>-4500){bmv_i=-4500};if(bmv_i<-4700){bmv_i=-4600};
-		bmv_ce = bmv_ce-(Math.random()*5);if(bmv_ce>-72300){bmv_ce=-93400};if(bmv_ce<-76000){bmv_ce=-74000};
-		bmv_soc = bmv_soc-(Math.random()/5);if(bmv_soc<720){bmv_soc=800};if(bmv_soc>815){bmv_soc=812};
-		bmv_ttg = bmv_ttg+(Math.random()*10)-5;if(bmv_ttg<2234){bmv_ttg=2234};if(bmv_ttg>2478){bmv_ttg=2478};
-		bmv_alarm = 'OFF';
-		bmv_relay = 'OFF';
-		serialPortData ='{"simulated-due":{"step":'+due_step+',"t_BU":'+t_BU.toFixed(2)+',"t_WK":'+t_WK.toFixed(2)+',"t_K1":'+t_K1.toFixed(2)+',"t_K2":'+t_K2.toFixed(2)+',"t_B1":'+t_B1.toFixed(2)+',"t_B2":'+t_B2.toFixed(2)+',"t_B3":'+t_B3.toFixed(2)+',"t_G1":'+t_G1.toFixed(2)+',"t_G2":'+t_G2.toFixed(2)+',"bmv_V":'+bmv_v.toFixed(0)+',"bmv_I":'+bmv_i.toFixed(0)+',"bmv_CE":'+bmv_ce.toFixed(0)+',"bmv_SOC":'+bmv_soc.toFixed(0)+',"bmv_TTG":'+bmv_ttg.toFixed(0)+',"bmv_Alarm":"'+bmv_alarm+'","bmv_Relay":"'+bmv_relay+'","pins":"0001101000010001011010000000000100"}}\n';
-
-		
-	}
-}
 
 function onSerial(x) {
 	if (runMode == 0){
@@ -635,18 +601,18 @@ function UpdateDevicesArray() {
         if (devicesArray[i].id == 3008){devicesArray[i].val = Number(bmv_v*bmv_i/1000000).toFixed(2)+' W';}
         if (devicesArray[i].id == 3009){devicesArray[i].val = Number(bmv_soc/10).toFixed(0)+'%';}
         
-        if (devicesArray[i].id == 4002){devicesArray[i].val = Number(t_K1).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4003){devicesArray[i].val = Number(t_K2).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4004){devicesArray[i].val = Number(t_B1).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4005){devicesArray[i].val = Number(t_B2).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4006){devicesArray[i].val = Number(t_B3).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4009){devicesArray[i].val = Number(t_G2).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4008){devicesArray[i].val = Number(t_BU).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4007){devicesArray[i].val = Number(t_G1).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4001){devicesArray[i].val = Number(t_WK).toFixed(1)+'&deg;C';}
+        if (devicesArray[i].id == 4002){devicesArray[i].val = Number(t_K1).toFixed(1);}
+        if (devicesArray[i].id == 4003){devicesArray[i].val = Number(t_K2).toFixed(1);}
+        if (devicesArray[i].id == 4004){devicesArray[i].val = Number(t_B1).toFixed(1);}
+        if (devicesArray[i].id == 4005){devicesArray[i].val = Number(t_B2).toFixed(1);}
+        if (devicesArray[i].id == 4006){devicesArray[i].val = Number(t_B3).toFixed(1);}
+        if (devicesArray[i].id == 4009){devicesArray[i].val = Number(t_G2).toFixed(1);}
+        if (devicesArray[i].id == 4008){devicesArray[i].val = Number(t_BU).toFixed(1);}
+        if (devicesArray[i].id == 4007){devicesArray[i].val = Number(t_G1).toFixed(1);}
+        if (devicesArray[i].id == 4001){devicesArray[i].val = Number(t_WK).toFixed(1);}
         
-        if (devicesArray[i].id == 4020){devicesArray[i].val = Number(t_KEL).toFixed(1)+'&deg;C';}
-        if (devicesArray[i].id == 4021){devicesArray[i].val = Number(h_KEL).toFixed(1)+'&deg;RF';}
+        if (devicesArray[i].id == 4020){devicesArray[i].val = Number(t_KEL).toFixed(1);}
+        if (devicesArray[i].id == 4021){devicesArray[i].val = Number(h_KEL).toFixed(1);}
         
         if ((devicesArray[i].toff>0) & (devicesArray[i].toff<timenow)){
             devicesArray[i].toff=0;
@@ -711,14 +677,9 @@ Number.prototype.padLeft = function(base,chr){
 }
 
 function logDatabase() {
-    var connection = mysql.createConnection({host: 'localhost',user: 'root',password: 'pipo',database: 'nodesql'});
-    var querystring = "INSERT INTO `nodesql`.`log` (`t_WK`, `t_K1`, `t_K2`, `t_B1`, `t_B2`, `t_B3`, `t_G1`, `t_G2`, `t_BU`, `b_V`, `b_I`, `b_CE`, `b_SOC`) VALUES ("+t_WK+", "+t_K1+", "+t_K2+", "+t_B1+", "+t_B2+", "+t_B3+", "+t_G1+", "+t_G2+", "+t_BU+", "+bmv_v+", "+bmv_i+", "+bmv_ce+", "+bmv_soc+");"
-    //console.log(querystring);
-    connection.connect();
-   // connection.query(querystring, function(err, result) {
-   // 	if (err) throw err;
-//	});
-	
+    var querystring = "INSERT INTO `nodesql`.`log` (`t_WK`, `t_K1`, `t_K2`, `t_B1`, `t_B2`, `t_B3`, `t_G1`, `t_G2`, `t_BU`, `t_KEL`, `h_KEL`, `b_V`, `b_I`, `b_CE`, `b_SOC`) VALUES ("+t_WK+", "+t_K1+", "+t_K2+", "+t_B1+", "+t_B2+", "+t_B3+", "+t_G1+", "+t_G2+", "+t_BU+", "+t_KEL+","+h_KEL+", "+bmv_v+", "+bmv_i+", "+bmv_ce+", "+bmv_soc+");"
+    console.log(querystring);
+    sendSqlQuery(querystring);
 }
   
 function writeToFiles(){

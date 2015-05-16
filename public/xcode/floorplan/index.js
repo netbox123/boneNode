@@ -100,6 +100,7 @@ jQuery(function($){
 	
 	//  -- Receiving device change from server --
 	socket.on('device change', function(data){
+		window.app.deviceChange_(data);
 		var ActionA = [];
 		var pageItemA = [];
 		//console.log('data'+data);
