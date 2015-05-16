@@ -24,6 +24,18 @@
     IBOutlet NSTextField *bmv_relay;
     IBOutlet NSTextField *bmv_display;
     
+    IBOutlet NSTextField *t_BU;
+    IBOutlet NSTextField *t_KEL;
+    IBOutlet NSTextField *h_KEL;
+    IBOutlet NSTextField *t_WK;
+    IBOutlet NSTextField *t_K1;
+    IBOutlet NSTextField *t_K2;
+    IBOutlet NSTextField *t_B1;
+    IBOutlet NSTextField *t_B2;
+    IBOutlet NSTextField *t_B3;
+    IBOutlet NSTextField *t_G1;
+    IBOutlet NSTextField *t_G2;
+    
     IBOutlet NSTextField *d_id;
     IBOutlet NSTextField *d_name;
     IBOutlet NSTextField *d_type;
@@ -42,8 +54,8 @@
 @property (assign) IBOutlet NSTableView *deviceTableView;
 @property (assign) IBOutlet NSTableView *actionTableView;
 
-@property (nonatomic, strong) NSArray *deviceArray;
-@property (nonatomic, strong) NSArray *actionArray;
+@property (nonatomic, strong) NSMutableArray *deviceArray;
+@property (nonatomic, strong) NSMutableArray *actionArray;
 
 - (void) receiveMainNotification:(NSNotification *) notification;
 

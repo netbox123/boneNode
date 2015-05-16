@@ -105,6 +105,11 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:@"MainNotification" object:message];
 }
 
+- (void)deviceChange:(NSString *)message
+{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"deviceChangeNotification" object:message];
+}
+
 - (void)MAction01:(id)sender {
     id win = [self.webView windowScriptObject];
     [win evaluateWebScript:@"runActionID('1')"];

@@ -35,11 +35,24 @@
 		2F5098C31ADDC80000F195ED /* PrefGeneralView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098C11ADDC80000F195ED /* PrefGeneralView.xib */; };
 		2F5098CC1ADDD79100F195ED /* PrefClockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5098CA1ADDD79100F195ED /* PrefClockView.m */; };
 		2F5098CD1ADDD79100F195ED /* PrefClockView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5098CB1ADDD79100F195ED /* PrefClockView.xib */; };
+		2F864D7F1B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D741B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png */; };
+		2F864D801B06E35300A2BA36 /* IDPNG_Battery_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D751B06E35300A2BA36 /* IDPNG_Battery_0@2x.png */; };
+		2F864D811B06E35300A2BA36 /* IDPNG_Battery_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D761B06E35300A2BA36 /* IDPNG_Battery_1@2x.png */; };
+		2F864D821B06E35300A2BA36 /* IDPNG_Battery_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D771B06E35300A2BA36 /* IDPNG_Battery_2@2x.png */; };
+		2F864D831B06E35300A2BA36 /* IDPNG_Battery_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D781B06E35300A2BA36 /* IDPNG_Battery_3@2x.png */; };
+		2F864D841B06E35300A2BA36 /* IDPNG_Battery_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D791B06E35300A2BA36 /* IDPNG_Battery_4@2x.png */; };
+		2F864D851B06E35300A2BA36 /* IDPNG_Device_Off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7A1B06E35300A2BA36 /* IDPNG_Device_Off@2x.png */; };
+		2F864D861B06E35300A2BA36 /* IDPNG_Device_On@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7B1B06E35300A2BA36 /* IDPNG_Device_On@2x.png */; };
+		2F864D871B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7C1B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png */; };
+		2F864D881B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7D1B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png */; };
+		2F864D891B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7E1B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png */; };
 		2FB80FE81AA348E30027BE18 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB80FE71AA348E30027BE18 /* WebKit.framework */; };
 		2FB80FEA1AA34DD70027BE18 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FB80FE91AA34DD70027BE18 /* About.xib */; };
 		2FB80FED1AA34EEA0027BE18 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB80FEC1AA34EEA0027BE18 /* AboutController.m */; };
 		2FB80FEF1AA358910027BE18 /* DeviceList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FB80FEE1AA358910027BE18 /* DeviceList.xib */; };
 		2FB80FF21AA358DD0027BE18 /* DeviceListWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB80FF11AA358DD0027BE18 /* DeviceListWindow.m */; };
+		2FE693DD1AF4FCFA0081821F /* IDPNG_Light_Off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE693DB1AF4FCFA0081821F /* IDPNG_Light_Off@2x.png */; };
+		2FE693DE1AF4FCFA0081821F /* IDPNG_Light_On@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FE693DC1AF4FCFA0081821F /* IDPNG_Light_On@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +98,17 @@
 		2F5098C91ADDD79100F195ED /* PrefClockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefClockView.h; sourceTree = "<group>"; };
 		2F5098CA1ADDD79100F195ED /* PrefClockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefClockView.m; sourceTree = "<group>"; };
 		2F5098CB1ADDD79100F195ED /* PrefClockView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrefClockView.xib; sourceTree = "<group>"; };
+		2F864D741B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_AV_Stopped@2x.png"; sourceTree = "<group>"; };
+		2F864D751B06E35300A2BA36 /* IDPNG_Battery_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Battery_0@2x.png"; sourceTree = "<group>"; };
+		2F864D761B06E35300A2BA36 /* IDPNG_Battery_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Battery_1@2x.png"; sourceTree = "<group>"; };
+		2F864D771B06E35300A2BA36 /* IDPNG_Battery_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Battery_2@2x.png"; sourceTree = "<group>"; };
+		2F864D781B06E35300A2BA36 /* IDPNG_Battery_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Battery_3@2x.png"; sourceTree = "<group>"; };
+		2F864D791B06E35300A2BA36 /* IDPNG_Battery_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Battery_4@2x.png"; sourceTree = "<group>"; };
+		2F864D7A1B06E35300A2BA36 /* IDPNG_Device_Off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Device_Off@2x.png"; sourceTree = "<group>"; };
+		2F864D7B1B06E35300A2BA36 /* IDPNG_Device_On@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Device_On@2x.png"; sourceTree = "<group>"; };
+		2F864D7C1B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Dot_Gray@2x.png"; sourceTree = "<group>"; };
+		2F864D7D1B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Dot_Green@2x.png"; sourceTree = "<group>"; };
+		2F864D7E1B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Dot_Red@2x.png"; sourceTree = "<group>"; };
 		2FB80FE71AA348E30027BE18 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2FB80FE91AA34DD70027BE18 /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = About.xib; sourceTree = "<group>"; };
 		2FB80FEB1AA34EEA0027BE18 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
@@ -92,6 +116,8 @@
 		2FB80FEE1AA358910027BE18 /* DeviceList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceList.xib; sourceTree = "<group>"; };
 		2FB80FF01AA358DD0027BE18 /* DeviceListWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceListWindow.h; sourceTree = "<group>"; };
 		2FB80FF11AA358DD0027BE18 /* DeviceListWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceListWindow.m; sourceTree = "<group>"; };
+		2FE693DB1AF4FCFA0081821F /* IDPNG_Light_Off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Light_Off@2x.png"; sourceTree = "<group>"; };
+		2FE693DC1AF4FCFA0081821F /* IDPNG_Light_On@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Light_On@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +214,19 @@
 		1DAA988E13E1BE260040BCB7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F864D741B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png */,
+				2F864D751B06E35300A2BA36 /* IDPNG_Battery_0@2x.png */,
+				2F864D761B06E35300A2BA36 /* IDPNG_Battery_1@2x.png */,
+				2F864D771B06E35300A2BA36 /* IDPNG_Battery_2@2x.png */,
+				2F864D781B06E35300A2BA36 /* IDPNG_Battery_3@2x.png */,
+				2F864D791B06E35300A2BA36 /* IDPNG_Battery_4@2x.png */,
+				2F864D7A1B06E35300A2BA36 /* IDPNG_Device_Off@2x.png */,
+				2F864D7B1B06E35300A2BA36 /* IDPNG_Device_On@2x.png */,
+				2F864D7C1B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png */,
+				2F864D7D1B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png */,
+				2F864D7E1B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png */,
+				2FE693DB1AF4FCFA0081821F /* IDPNG_Light_Off@2x.png */,
+				2FE693DC1AF4FCFA0081821F /* IDPNG_Light_On@2x.png */,
 				2F39AFAB1AE5860B00E3FB96 /* bmv-600.png */,
 				2F5098B91ADAA17B00F195ED /* iphone-clock.icns */,
 				2F5098A71ACF5B6700F195ED /* Remote.png */,
@@ -254,21 +293,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F5098B81ADA9F7E00F195ED /* PrefWindow.xib in Resources */,
+				2F864D7F1B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png in Resources */,
 				1DAA989213E1BE260040BCB7 /* InfoPlist.strings in Resources */,
 				2F5098BA1ADAA17B00F195ED /* iphone-clock.icns in Resources */,
 				2F39AFB11AE5A45100E3FB96 /* FloorplanWindow.xib in Resources */,
 				2F5098A81ACF5B6700F195ED /* Remote.png in Resources */,
 				2F5098BC1ADAA31D00F195ED /* System Prefs.icns in Resources */,
 				2F5098CD1ADDD79100F195ED /* PrefClockView.xib in Resources */,
+				2FE693DE1AF4FCFA0081821F /* IDPNG_Light_On@2x.png in Resources */,
 				2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */,
+				2FE693DD1AF4FCFA0081821F /* IDPNG_Light_Off@2x.png in Resources */,
+				2F864D881B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png in Resources */,
 				1DAA989813E1BE260040BCB7 /* Credits.rtf in Resources */,
+				2F864D861B06E35300A2BA36 /* IDPNG_Device_On@2x.png in Resources */,
+				2F864D841B06E35300A2BA36 /* IDPNG_Battery_4@2x.png in Resources */,
 				2F5098AA1ADA65EC00F195ED /* icon.icns in Resources */,
+				2F864D871B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png in Resources */,
+				2F864D811B06E35300A2BA36 /* IDPNG_Battery_1@2x.png in Resources */,
 				1DAA989E13E1BE260040BCB7 /* MainMenu.xib in Resources */,
+				2F864D801B06E35300A2BA36 /* IDPNG_Battery_0@2x.png in Resources */,
+				2F864D891B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png in Resources */,
+				2F864D831B06E35300A2BA36 /* IDPNG_Battery_3@2x.png in Resources */,
+				2F864D821B06E35300A2BA36 /* IDPNG_Battery_2@2x.png in Resources */,
 				2FB80FEF1AA358910027BE18 /* DeviceList.xib in Resources */,
 				2FB80FEA1AA34DD70027BE18 /* About.xib in Resources */,
 				2F5098AC1ADA675D00F195ED /* icon_32x32@2x.png in Resources */,
 				1D79703713E9B6C60006AEEA /* Downloads.xib in Resources */,
 				2F5098C31ADDC80000F195ED /* PrefGeneralView.xib in Resources */,
+				2F864D851B06E35300A2BA36 /* IDPNG_Device_Off@2x.png in Resources */,
 				2F39AFAC1AE5860B00E3FB96 /* bmv-600.png in Resources */,
 				2F39AFAA1AE4515500E3FB96 /* MainWindow.xib in Resources */,
 			);

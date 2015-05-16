@@ -26,6 +26,9 @@
         if (!floorplanWindow) {
             floorplanWindow = [[FloorplanWindow alloc] initWithWindowNibName:@"FloorplanWindow"];}
         [floorplanWindow showWindow:self];}
+    
+        if (!mainwindow) {mainwindow = [[MainWindow alloc] initWithWindowNibName:@"MainWindow"];}
+        [mainwindow showWindow:self];
     return self;
 }
 
