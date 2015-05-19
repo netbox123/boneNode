@@ -46,6 +46,13 @@
 		2F864D871B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7C1B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png */; };
 		2F864D881B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7D1B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png */; };
 		2F864D891B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D7E1B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png */; };
+		2F864D8B1B075D9C00A2BA36 /* IDPNG_Kachel.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D8A1B075D9C00A2BA36 /* IDPNG_Kachel.png */; };
+		2F864D8D1B07619100A2BA36 /* IDPNG_Buffer.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D8C1B07619100A2BA36 /* IDPNG_Buffer.png */; };
+		2F864D901B0762D500A2BA36 /* IDPNG_Trojan.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D8E1B0762D500A2BA36 /* IDPNG_Trojan.png */; };
+		2F864D911B0762D500A2BA36 /* IDPNG_Yanmar.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D8F1B0762D500A2BA36 /* IDPNG_Yanmar.png */; };
+		2F864D941B077A4400A2BA36 /* IDPNG_TinyMoon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D921B077A4400A2BA36 /* IDPNG_TinyMoon.png */; };
+		2F864D951B077A4400A2BA36 /* IDPNG_TinySun.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D931B077A4400A2BA36 /* IDPNG_TinySun.png */; };
+		2F864D971B07804700A2BA36 /* IDPNG_home.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F864D961B07804700A2BA36 /* IDPNG_home.png */; };
 		2FB80FE81AA348E30027BE18 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB80FE71AA348E30027BE18 /* WebKit.framework */; };
 		2FB80FEA1AA34DD70027BE18 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FB80FE91AA34DD70027BE18 /* About.xib */; };
 		2FB80FED1AA34EEA0027BE18 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB80FEC1AA34EEA0027BE18 /* AboutController.m */; };
@@ -109,6 +116,13 @@
 		2F864D7C1B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Dot_Gray@2x.png"; sourceTree = "<group>"; };
 		2F864D7D1B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Dot_Green@2x.png"; sourceTree = "<group>"; };
 		2F864D7E1B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IDPNG_Dot_Red@2x.png"; sourceTree = "<group>"; };
+		2F864D8A1B075D9C00A2BA36 /* IDPNG_Kachel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_Kachel.png; sourceTree = "<group>"; };
+		2F864D8C1B07619100A2BA36 /* IDPNG_Buffer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_Buffer.png; sourceTree = "<group>"; };
+		2F864D8E1B0762D500A2BA36 /* IDPNG_Trojan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_Trojan.png; sourceTree = "<group>"; };
+		2F864D8F1B0762D500A2BA36 /* IDPNG_Yanmar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_Yanmar.png; sourceTree = "<group>"; };
+		2F864D921B077A4400A2BA36 /* IDPNG_TinyMoon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_TinyMoon.png; sourceTree = "<group>"; };
+		2F864D931B077A4400A2BA36 /* IDPNG_TinySun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_TinySun.png; sourceTree = "<group>"; };
+		2F864D961B07804700A2BA36 /* IDPNG_home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IDPNG_home.png; sourceTree = "<group>"; };
 		2FB80FE71AA348E30027BE18 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2FB80FE91AA34DD70027BE18 /* About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = About.xib; sourceTree = "<group>"; };
 		2FB80FEB1AA34EEA0027BE18 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
@@ -182,6 +196,7 @@
 				2F39AFA61AE4515500E3FB96 /* MainWindow.h */,
 				2F39AFA71AE4515500E3FB96 /* MainWindow.m */,
 				2F39AFA81AE4515500E3FB96 /* MainWindow.xib */,
+				2F864D961B07804700A2BA36 /* IDPNG_home.png */,
 				2F5098B41ADA9F7E00F195ED /* PrefWindow.h */,
 				2F5098B51ADA9F7E00F195ED /* PrefWindow.m */,
 				2F5098B61ADA9F7E00F195ED /* PrefWindow.xib */,
@@ -214,6 +229,12 @@
 		1DAA988E13E1BE260040BCB7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2F864D921B077A4400A2BA36 /* IDPNG_TinyMoon.png */,
+				2F864D931B077A4400A2BA36 /* IDPNG_TinySun.png */,
+				2F864D8A1B075D9C00A2BA36 /* IDPNG_Kachel.png */,
+				2F864D8E1B0762D500A2BA36 /* IDPNG_Trojan.png */,
+				2F864D8F1B0762D500A2BA36 /* IDPNG_Yanmar.png */,
+				2F864D8C1B07619100A2BA36 /* IDPNG_Buffer.png */,
 				2F864D741B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png */,
 				2F864D751B06E35300A2BA36 /* IDPNG_Battery_0@2x.png */,
 				2F864D761B06E35300A2BA36 /* IDPNG_Battery_1@2x.png */,
@@ -293,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F5098B81ADA9F7E00F195ED /* PrefWindow.xib in Resources */,
+				2F864D8D1B07619100A2BA36 /* IDPNG_Buffer.png in Resources */,
 				2F864D7F1B06E35300A2BA36 /* IDPNG_AV_Stopped@2x.png in Resources */,
 				1DAA989213E1BE260040BCB7 /* InfoPlist.strings in Resources */,
 				2F5098BA1ADAA17B00F195ED /* iphone-clock.icns in Resources */,
@@ -303,15 +325,20 @@
 				2FE693DE1AF4FCFA0081821F /* IDPNG_Light_On@2x.png in Resources */,
 				2F5098A11ACDD09400F195ED /* ActionListWindow.xib in Resources */,
 				2FE693DD1AF4FCFA0081821F /* IDPNG_Light_Off@2x.png in Resources */,
+				2F864D911B0762D500A2BA36 /* IDPNG_Yanmar.png in Resources */,
+				2F864D971B07804700A2BA36 /* IDPNG_home.png in Resources */,
 				2F864D881B06E35300A2BA36 /* IDPNG_Dot_Green@2x.png in Resources */,
 				1DAA989813E1BE260040BCB7 /* Credits.rtf in Resources */,
 				2F864D861B06E35300A2BA36 /* IDPNG_Device_On@2x.png in Resources */,
 				2F864D841B06E35300A2BA36 /* IDPNG_Battery_4@2x.png in Resources */,
 				2F5098AA1ADA65EC00F195ED /* icon.icns in Resources */,
+				2F864D951B077A4400A2BA36 /* IDPNG_TinySun.png in Resources */,
 				2F864D871B06E35300A2BA36 /* IDPNG_Dot_Gray@2x.png in Resources */,
+				2F864D901B0762D500A2BA36 /* IDPNG_Trojan.png in Resources */,
 				2F864D811B06E35300A2BA36 /* IDPNG_Battery_1@2x.png in Resources */,
 				1DAA989E13E1BE260040BCB7 /* MainMenu.xib in Resources */,
 				2F864D801B06E35300A2BA36 /* IDPNG_Battery_0@2x.png in Resources */,
+				2F864D941B077A4400A2BA36 /* IDPNG_TinyMoon.png in Resources */,
 				2F864D891B06E35300A2BA36 /* IDPNG_Dot_Red@2x.png in Resources */,
 				2F864D831B06E35300A2BA36 /* IDPNG_Battery_3@2x.png in Resources */,
 				2F864D821B06E35300A2BA36 /* IDPNG_Battery_2@2x.png in Resources */,
@@ -320,6 +347,7 @@
 				2F5098AC1ADA675D00F195ED /* icon_32x32@2x.png in Resources */,
 				1D79703713E9B6C60006AEEA /* Downloads.xib in Resources */,
 				2F5098C31ADDC80000F195ED /* PrefGeneralView.xib in Resources */,
+				2F864D8B1B075D9C00A2BA36 /* IDPNG_Kachel.png in Resources */,
 				2F864D851B06E35300A2BA36 /* IDPNG_Device_Off@2x.png in Resources */,
 				2F39AFAC1AE5860B00E3FB96 /* bmv-600.png in Resources */,
 				2F39AFAA1AE4515500E3FB96 /* MainWindow.xib in Resources */,

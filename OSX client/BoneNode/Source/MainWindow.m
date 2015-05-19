@@ -25,7 +25,7 @@
     NSData *data=[NSData dataWithContentsOfURL:url];
     NSError *jsonError = nil;
     NSMutableArray *devArray = [[NSMutableArray alloc] init];
-    NSArray *JSONarray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &jsonError];
+    NSMutableArray *JSONarray = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &jsonError];
     
     for(int i=0;i<[JSONarray count];i++)
     {
@@ -107,26 +107,32 @@
         NSString *varvalue = [[word componentsSeparatedByString:@"#"] objectAtIndex:1];
         if ([varid  isEqual: @"1003"]){[timeString setStringValue:varvalue];}
         if ([varid  isEqual: @"1004"]){[dateString setStringValue:varvalue];}
-        if ([varid  isEqual: @"3001"]){[bmv_v setStringValue:varvalue];}
-        if ([varid  isEqual: @"3002"]){[bmv_i setStringValue:varvalue];[bmv_display setStringValue:varvalue];}
-        if ([varid  isEqual: @"3003"]){[bmv_ce setStringValue:varvalue];}
-        if ([varid  isEqual: @"3004"]){[bmv_soc setStringValue:varvalue];}
+        NSString* displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" V"];
+        if ([varid  isEqual: @"3001"]){[bmv_v setStringValue:displStr];[mbmv_v setStringValue:displStr];}
+        displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" A"];
+        if ([varid  isEqual: @"3002"]){[bmv_i setStringValue:displStr];[mbmv_i setStringValue:displStr];[bmv_display setStringValue:displStr];}
+        displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" Ah"];
+        if ([varid  isEqual: @"3003"]){[bmv_ce setStringValue:displStr];[mbmv_ce setStringValue:displStr];}
+        displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" %"];
+        if ([varid  isEqual: @"3004"]){[bmv_soc setStringValue:displStr];[mbmv_soc setStringValue:displStr];[powerSlider setFloatValue: [varvalue intValue]];}
         if ([varid  isEqual: @"3005"]){[bmv_ttg setStringValue:varvalue];}
         if ([varid  isEqual: @"3006"]){[bmv_alarm setStringValue:varvalue];}
         if ([varid  isEqual: @"3007"]){[bmv_relay setStringValue:varvalue];}
-        if ([varid  isEqual: @"3008"]){[bmv_p setStringValue:varvalue];}
-        
-        if ([varid  isEqual: @"4020"]){[t_KEL setStringValue:varvalue];}
-        if ([varid  isEqual: @"4021"]){[h_KEL setStringValue:varvalue];}
-        if ([varid  isEqual: @"4002"]){[t_K1 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4003"]){[t_K2 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4004"]){[t_B1 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4005"]){[t_B2 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4006"]){[t_B3 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4009"]){[t_G2 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4008"]){[t_BU setStringValue:varvalue];}
-        if ([varid  isEqual: @"4007"]){[t_G1 setStringValue:varvalue];}
-        if ([varid  isEqual: @"4001"]){[t_WK setStringValue:varvalue];}
+        displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" W"];
+        if ([varid  isEqual: @"3008"]){[bmv_p setStringValue:displStr];[mbmv_p setStringValue:displStr];}
+        displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" ˚RF"];
+        if ([varid  isEqual: @"4021"]){[h_KEL setStringValue:displStr];[mh_KEL setStringValue:displStr];}
+        displStr = [NSString stringWithFormat:@"%@%@", varvalue, @" ˚C"];
+        if ([varid  isEqual: @"4020"]){[t_KEL setStringValue:displStr];[mt_KEL setStringValue:displStr];}
+        if ([varid  isEqual: @"4002"]){[t_K1 setStringValue:displStr];[mt_K1 setStringValue:displStr];[kachelSlider setFloatValue: [varvalue intValue]];}
+        if ([varid  isEqual: @"4003"]){[t_K2 setStringValue:displStr];[mt_K2 setStringValue:displStr];}
+        if ([varid  isEqual: @"4004"]){[t_B1 setStringValue:displStr];[mt_B1 setStringValue:displStr];[bufferSlider setFloatValue: [varvalue intValue]];}
+        if ([varid  isEqual: @"4005"]){[t_B2 setStringValue:displStr];[mt_B2 setStringValue:displStr];}
+        if ([varid  isEqual: @"4006"]){[t_B3 setStringValue:displStr];[mt_B3 setStringValue:displStr];}
+        if ([varid  isEqual: @"4009"]){[t_G2 setStringValue:displStr];[mt_G2 setStringValue:displStr];}
+        if ([varid  isEqual: @"4008"]){[t_BU setStringValue:displStr];[mt_BU setStringValue:displStr];}
+        if ([varid  isEqual: @"4007"]){[t_G1 setStringValue:displStr];[mt_G1 setStringValue:displStr];[generatorSlider setFloatValue: [varvalue intValue]];}
+        if ([varid  isEqual: @"4001"]){[t_WK setStringValue:displStr];[mt_WK setStringValue:displStr];}
     }
     //NSLog(@"%@", [notification object]);
 }

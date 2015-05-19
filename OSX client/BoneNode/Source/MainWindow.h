@@ -36,6 +36,24 @@
     IBOutlet NSTextField *t_G1;
     IBOutlet NSTextField *t_G2;
     
+    
+    IBOutlet NSTextField *mt_BU;
+    IBOutlet NSTextField *mt_KEL;
+    IBOutlet NSTextField *mh_KEL;
+    IBOutlet NSTextField *mt_WK;
+    IBOutlet NSTextField *mt_K1;
+    IBOutlet NSTextField *mt_K2;
+    IBOutlet NSTextField *mt_B1;
+    IBOutlet NSTextField *mt_B2;
+    IBOutlet NSTextField *mt_B3;
+    IBOutlet NSTextField *mt_G1;
+    IBOutlet NSTextField *mt_G2;
+    IBOutlet NSTextField *mbmv_v;
+    IBOutlet NSTextField *mbmv_i;
+    IBOutlet NSTextField *mbmv_p;
+    IBOutlet NSTextField *mbmv_ce;
+    IBOutlet NSTextField *mbmv_soc;
+    
     IBOutlet NSTextField *d_id;
     IBOutlet NSTextField *d_name;
     IBOutlet NSTextField *d_type;
@@ -45,6 +63,11 @@
     IBOutlet NSTextField *d_re;
     IBOutlet NSTextField *d_dim;
     IBOutlet NSTextField *d_rgb;
+    
+    IBOutlet NSSlider *powerSlider;
+    IBOutlet NSSlider *bufferSlider;
+    IBOutlet NSSlider *kachelSlider;
+    IBOutlet NSSlider *generatorSlider;
 }
 
 - (IBAction)d_on:(id)sender;
