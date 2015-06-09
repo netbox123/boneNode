@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MS_LinkNew">
+            <connections>
+                <outlet property="Cat" destination="I6Y-Dv-a0b" id="1m1-52-50H"/>
+                <outlet property="Link" destination="0ML-vU-7y8" id="apP-A0-BO8"/>
+                <outlet property="Name" destination="Nk6-GN-dia" id="C3k-gk-cdQ"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="300" height="147"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="300" height="147"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i0k-mK-f66">
+                        <rect key="frame" x="135" y="13" width="83" height="32"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sLP-9b-Kn3">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="didTapCancelButton:" target="-2" id="HWi-x7-61b"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sWj-Gb-4cY">
+                        <rect key="frame" x="218" y="13" width="68" height="32"/>
+                        <buttonCell key="cell" type="push" title="New" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ykx-h3-Edn">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="didTapDoneButton:" target="-2" id="tAc-Ug-cii"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LaW-8S-M8B">
+                        <rect key="frame" x="23" y="114" width="59" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Name" id="Tbd-g8-csG">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5b2-5o-mOl">
+                        <rect key="frame" x="23" y="86" width="59" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Cat" id="4bc-fl-uJe">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rhw-4p-ENU">
+                        <rect key="frame" x="23" y="58" width="59" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Url" id="wHK-pl-mfW">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I6Y-Dv-a0b">
+                        <rect key="frame" x="96" y="81" width="187" height="26"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="6" id="YF6-Is-RnT">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                        <connections>
+                            <action selector="catMenu:" target="-2" id="rDo-Pq-0qB"/>
+                        </connections>
+                    </comboBox>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0ML-vU-7y8">
+                        <rect key="frame" x="96" y="56" width="184" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="184" id="hVw-BS-WOP"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="FyW-Vr-8Tr">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nk6-GN-dia">
+                        <rect key="frame" x="96" y="112" width="184" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="JAG-WW-91O">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="trailing" secondItem="Nk6-GN-dia" secondAttribute="trailing" id="0Hd-zd-z1G"/>
+                    <constraint firstItem="LaW-8S-M8B" firstAttribute="leading" secondItem="5b2-5o-mOl" secondAttribute="leading" id="0T1-Zy-GrO"/>
+                    <constraint firstItem="i0k-mK-f66" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="141" id="1pb-Ul-xYa"/>
+                    <constraint firstItem="sWj-Gb-4cY" firstAttribute="top" secondItem="0ML-vU-7y8" secondAttribute="bottom" constant="15" id="7lb-YZ-a7c"/>
+                    <constraint firstItem="rhw-4p-ENU" firstAttribute="baseline" secondItem="0ML-vU-7y8" secondAttribute="baseline" id="A1J-wk-wIC"/>
+                    <constraint firstItem="5b2-5o-mOl" firstAttribute="top" secondItem="LaW-8S-M8B" secondAttribute="bottom" constant="11" id="NGS-M5-rNf"/>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="top" secondItem="I6Y-Dv-a0b" secondAttribute="bottom" constant="7" id="Npg-qd-5bD"/>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="leading" secondItem="rhw-4p-ENU" secondAttribute="trailing" constant="16" id="bam-5d-uMg"/>
+                    <constraint firstItem="sWj-Gb-4cY" firstAttribute="leading" secondItem="i0k-mK-f66" secondAttribute="trailing" constant="12" symbolic="YES" id="bhS-eJ-mE4"/>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="leading" secondItem="I6Y-Dv-a0b" secondAttribute="leading" id="cow-vh-0YL"/>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="trailing" secondItem="sWj-Gb-4cY" secondAttribute="trailing" id="fbR-bZ-L6d"/>
+                    <constraint firstAttribute="bottom" secondItem="i0k-mK-f66" secondAttribute="bottom" constant="20" symbolic="YES" id="g6O-fz-m4V"/>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="leading" secondItem="Nk6-GN-dia" secondAttribute="leading" id="h0u-Wf-reg"/>
+                    <constraint firstItem="rhw-4p-ENU" firstAttribute="top" secondItem="5b2-5o-mOl" secondAttribute="bottom" constant="11" id="hse-Tg-lfH"/>
+                    <constraint firstItem="i0k-mK-f66" firstAttribute="baseline" secondItem="sWj-Gb-4cY" secondAttribute="baseline" id="lSI-7U-WUj"/>
+                    <constraint firstItem="0ML-vU-7y8" firstAttribute="trailing" secondItem="I6Y-Dv-a0b" secondAttribute="trailing" id="lWk-J3-r67"/>
+                    <constraint firstItem="LaW-8S-M8B" firstAttribute="baseline" secondItem="Nk6-GN-dia" secondAttribute="baseline" id="mqY-pm-fLg"/>
+                    <constraint firstItem="rhw-4p-ENU" firstAttribute="leading" secondItem="5b2-5o-mOl" secondAttribute="leading" id="o3h-g0-1xG"/>
+                    <constraint firstItem="LaW-8S-M8B" firstAttribute="trailing" secondItem="5b2-5o-mOl" secondAttribute="trailing" id="wIx-Pl-r9r"/>
+                    <constraint firstItem="rhw-4p-ENU" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="25" id="wif-vp-8Kx"/>
+                    <constraint firstItem="rhw-4p-ENU" firstAttribute="trailing" secondItem="5b2-5o-mOl" secondAttribute="trailing" id="xBF-Qs-uZ5"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+        </window>
+    </objects>
+</document>

@@ -16,10 +16,10 @@
 
 - (void) receivesetBBBNotification:(NSNotification *) notification;
 
-// This method is called from JavaScript on the web page.
 - (void)showNotification:(NSString *)message;
 - (void)pushAllValues:(NSString *)message;
 - (void)deviceChange:(NSString *)message;
+- (void)serverUpdate:(NSString *)message;
 
 - (void)MAction01:(id)sender;
 - (void)MAction02:(id)sender;

@@ -7,15 +7,14 @@
 //
 
 #import "AppController.h"
-#import "DownloadsController.h"
 #import "AboutController.h"
-#import "DeviceListWindow.h"
-#import "ActionListWindow.h"
 #import "FloorplanWindow.h"
 #import "PrefWindow.h"
 #import "PrefClockView.h"
 #import "PrefGeneralView.h"
 #import "MainWindow.h"
+#import "BrowserWindow.h"
+
 
 @implementation AppController
 
@@ -30,12 +29,12 @@
         if (!mainwindow) {mainwindow = [[MainWindow alloc] initWithWindowNibName:@"MainWindow"];}
         [mainwindow showWindow:self];
     return self;
+    
 }
 
-- (IBAction)showDownloads:(id)sender {
-    if (!downloadsController) {
-        downloadsController = [[DownloadsController alloc] initWithWindowNibName:@"Downloads"];}
-    [downloadsController showWindow:self];
+- (IBAction)showBrowserWindow:(id)sender {
+    browserWindow = [[BrowserWindow alloc] initWithWindowNibName:@"BrowserWindow"];
+    [browserWindow showWindow:self];
 }
 
 - (IBAction)showAbout:(id)sender {
@@ -44,17 +43,6 @@
     [aboutController showWindow:self];
 }
 
-- (IBAction)showDeviceList:(id)sender {
-    if (!devicelistWindow) {
-        devicelistWindow = [[DeviceListWindow alloc] initWithWindowNibName:@"DeviceList"];}
-    [devicelistWindow showWindow:self];
-}
-
-- (IBAction)showActionList:(id)sender {
-    if (!actionlistWindow) {
-        actionlistWindow = [[ActionListWindow alloc] initWithWindowNibName:@"ActionListWindow"];}
-    [actionlistWindow showWindow:self];
-}
 
 - (IBAction)showFloorplanWindow:(id)sender {
     if (!floorplanWindow) {floorplanWindow = [[FloorplanWindow alloc] initWithWindowNibName:@"FloorplanWindow"];}

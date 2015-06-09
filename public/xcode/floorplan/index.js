@@ -1,4 +1,5 @@
 var	devicesArray 	= [];
+var	devicesValArray	= [];
 var	pageItemsArray 	= [];
 var 	bootlog 	= "";
 
@@ -127,7 +128,7 @@ jQuery(function($){
         var datetime = new Date();
         for(j=0; j < ValuesA.length; j++){
             OneValueA  = ValuesA[j].split('#');
-            //devicesValArray[OneValueA[0]] = OneValueA[1];
+            devicesValArray[OneValueA[0]] = OneValueA[1];
             for(xcount=0; xcount < devicesArray.length; xcount++){
             	if (devicesArray[xcount].id == OneValueA[0]){
             		devicesArray[xcount].val = OneValueA[1];
@@ -135,6 +136,15 @@ jQuery(function($){
             }
         }
      
+	});
+	
+	//  -- Receiving xcodeUpdate from server --
+	socket.on('serverUpdate', function(data){
+        //console.log('data'+data.msg);
+        if (window.app) {
+        	window.app.serverUpdate_(data);
+      	}
+        //console.log(data.nick + " " + data.title + " " + data.msg);
 	});
 	
 	//  -- Receiving message from server --
@@ -145,6 +155,20 @@ jQuery(function($){
       	}
         //console.log(data.nick + " " + data.title + " " + data.msg);
 	});
+	
+	//  -- Receiving message from server --
+	socket.on('ServerUpdateMessage', function(data){
+        if (window.app) {
+        	window.app.showNotification_(data);
+      	}
+        //console.log(data.nick + " " + data.title + " " + data.msg);
+	}); 
+	//  -- Client connected --
+    	socket.on('connect', function(data){
+      	updateLayoutAllDelayed();	
+        console.log('socket re-connected '); 
+	});
+	 
 	
 	//  -- LampClicked --
     	window.LampClicked = function (item_id) { 
@@ -186,6 +210,25 @@ jQuery(function($){
     	milliseconds += 2*3600000;
     	socket.emit('sendservercommand', 'settime-'+milliseconds , function(data){})
     	}
+    	
+    	function updateLayoutAllDelayed() {
+	//	if(configArray.length>0){
+			console.log('updateLayoutAllDelayed');
+			setTimeout(function(){ updateLayoutAll(); },1500); // wait for fresh data.
+	//	}
+	}
+	
+	window.updateLayoutAll = function () {
+	    	for(j=0; j < pageItemsArray.length; j++){
+			if(devicesValArray[pageItemsArray[j].device_id] == 0){
+				$("#lampid"+pageItemsArray[j].id).fadeOut();
+				window.app.deviceChange_(pageItemsArray[j].device_id+"-off-0");
+			}else{
+				$("#lampid"+pageItemsArray[j].id).fadeIn();
+				window.app.deviceChange_(pageItemsArray[j].device_id+"-on-100");
+			}
+		}
+	}
 	
 	
 });

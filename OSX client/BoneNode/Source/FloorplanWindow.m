@@ -51,7 +51,6 @@
         NSString* endstr = @"')";
         NSString* strRR = [NSString stringWithFormat:@"%@%@%@", startstr, str, endstr];
         [win evaluateWebScript:strRR ];
-        NSLog(strRR);
     }
     
 }
@@ -64,23 +63,17 @@
         if ([[notification object] isEqualToString:@"setTimeDate"])
             [win evaluateWebScript:@"setBBBtime()"];
     }
-    NSLog(@"%@", [notification object]);
+    //NSLog(@"%@", [notification object]);
 }
 
 - (void)showNotification:(NSString *)message
 {
-    NSString *nickSub = [[message componentsSeparatedByString:@";"] objectAtIndex:0];
-    //NSString *titleSub = [[message componentsSeparatedByString:@";"] objectAtIndex:1];
-    NSString *msgSub = [[message componentsSeparatedByString:@";"] objectAtIndex:2];
-    //NSString *InfoSub = [titleSub stringByAppendingString:msgSub];
-    
+    NSString *msgTitle = [[message componentsSeparatedByString:@";"] objectAtIndex:0];
+    NSString *msgInfo = [[message componentsSeparatedByString:@";"] objectAtIndex:1];
     NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:nickSub];
-    [notification setInformativeText:msgSub];
+    [notification setTitle:msgTitle];
+    [notification setInformativeText:msgInfo];
     [notification set_identityImageHasBorder:NO];
-    [notification set_identityImage:[NSImage imageNamed:@"icon_32x32@2x.png"]];
-    //[notification setSoundName:NSUserNotificationDefaultSoundName];
-    
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
     [center setDelegate:self];
     [center deliverNotification:notification];
@@ -108,6 +101,13 @@
 - (void)deviceChange:(NSString *)message
 {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"deviceChangeNotification" object:message];
+    //NSLog(@"%@", message);
+}
+
+- (void)serverUpdate:(NSString *)message 
+{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"serverUpdateNotification" object:message];
+    //NSLog(@"%@", message);
 }
 
 - (void)MAction01:(id)sender {
@@ -127,16 +127,7 @@
 
 - (void)MenuUpdateDevices:(id)sender {
     id win = [self.webView windowScriptObject];
-    [win evaluateWebScript:@"updateDevicesLayout()"];
-    
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:@"Hello Panda"];
-    [notification setInformativeText:@"I love PandaBar!"];
-    //[notification setSoundName:NSUserNotificationDefaultSoundName];
-    
-    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-    [center setDelegate:self];
-    [center deliverNotification:notification];
+    [win evaluateWebScript:@"updateLayoutAll()"];
 }
 
 - (void) dealloc

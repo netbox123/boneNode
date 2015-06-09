@@ -7,9 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Reachability.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate>{
+@private
+  
+    
+    Reachability* internetReach;
+}
 
 @property (assign) IBOutlet NSWindow *window;
+
 
 @end

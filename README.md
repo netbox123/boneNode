@@ -17,7 +17,7 @@ Mobile client
 HTML client<br>
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/ScreenshotHtml.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/ScreenshotHtml.png)
 
-OSX client (pre beta version)<br>
+OSX client (workable beta version)<br>
 [![Screen Shot](https://raw.githubusercontent.com/netbox123/boneNode/master/Screenshots/Screenshot7.png)](https://github.com/netbox123/boneNode/blob/master/Screenshots/Screenshot7.png)
 ## INSTALLATION
 
@@ -51,6 +51,13 @@ login with youre browser 192.168.7.2:4000
 Have fun!
 
 ### Version history
+
+**0.3.1**
+- URL encoding added 
+
+**0.3.0**
+- OSX client workable.
+- Changed editing the server from socket to URL
 
 **0.2.3**
 - Loading JSon into NSTableView finally works

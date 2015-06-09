@@ -7,35 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Reachability.h"
 
-
+@class BrowserWindow;
 
 @interface MainWindow : NSWindowController
 {
+    Reachability* internetReach;
+    BrowserWindow *browserWindow;
+    
+    IBOutlet NSImageView* status;
     IBOutlet NSTextField *timeString;
     IBOutlet NSTextField *dateString;
-    IBOutlet NSTextField *bmv_v;
-    IBOutlet NSTextField *bmv_i;
-    IBOutlet NSTextField *bmv_p;
-    IBOutlet NSTextField *bmv_ce;
-    IBOutlet NSTextField *bmv_soc;
-    IBOutlet NSTextField *bmv_ttg;
-    IBOutlet NSTextField *bmv_alarm;
-    IBOutlet NSTextField *bmv_relay;
     IBOutlet NSTextField *bmv_display;
-    
-    IBOutlet NSTextField *t_BU;
-    IBOutlet NSTextField *t_KEL;
-    IBOutlet NSTextField *h_KEL;
-    IBOutlet NSTextField *t_WK;
-    IBOutlet NSTextField *t_K1;
-    IBOutlet NSTextField *t_K2;
-    IBOutlet NSTextField *t_B1;
-    IBOutlet NSTextField *t_B2;
-    IBOutlet NSTextField *t_B3;
-    IBOutlet NSTextField *t_G1;
-    IBOutlet NSTextField *t_G2;
-    
     
     IBOutlet NSTextField *mt_BU;
     IBOutlet NSTextField *mt_KEL;
@@ -74,13 +58,51 @@
 - (IBAction)d_off:(id)sender;
 - (IBAction)d_toggle:(id)sender;
 
+- (IBAction)action_new:(id)sender;
+- (IBAction)action_edit:(id)sender;
+- (IBAction)action_delete:(id)sender;
+
+- (IBAction)event_new:(id)sender;
+- (IBAction)event_edit:(id)sender;
+- (IBAction)event_delete:(id)sender;
+
+- (IBAction)timer_new:(id)sender;
+- (IBAction)timer_edit:(id)sender;
+- (IBAction)timer_delete:(id)sender;
+
 @property (assign) IBOutlet NSTableView *deviceTableView;
 @property (assign) IBOutlet NSTableView *actionTableView;
+@property (assign) IBOutlet NSTableView *eventTableView;
+@property (assign) IBOutlet NSTableView *timerTableView;
+@property (assign) IBOutlet NSTableView *triggerTableView;
+@property (assign) IBOutlet NSTableView *lcatTableView;
+@property (assign) IBOutlet NSTableView *linkTableView;
 
 @property (nonatomic, strong) NSMutableArray *deviceArray;
 @property (nonatomic, strong) NSMutableArray *actionArray;
+@property (nonatomic, strong) NSMutableArray *eventArray;
+@property (nonatomic, strong) NSMutableArray *eventAllArray;
+@property (nonatomic, strong) NSMutableArray *timerArray;
+@property (nonatomic, strong) NSMutableArray *triggerArray;
+@property (nonatomic, strong) NSMutableArray *lcatArray;
+@property (nonatomic, strong) NSMutableArray *linkArray;
+@property (nonatomic, strong) NSMutableArray *linkAllArray;
+
+@property (nonatomic, strong) NSNumber *selectedActionId;
+@property (nonatomic, strong) NSString *selectedActionName;
+@property (nonatomic, strong) NSNumber *selectedEventId;
+@property (nonatomic, strong) NSString *selectedEventName;
+@property (nonatomic, strong) NSNumber *selectedTimerId;
+@property (nonatomic, strong) NSString *selectedTimerName;
+@property (nonatomic, strong) NSNumber *selectedTriggerId;
+@property (nonatomic, strong) NSString *selectedTriggerName;
+@property (nonatomic, strong) NSNumber *selectedLcatId;
+@property (nonatomic, strong) NSString *selectedLcatName;
+@property (nonatomic, strong) NSNumber *selectedLinkId;
+@property (nonatomic, strong) NSString *selectedLinkName;
 
 - (void) receiveMainNotification:(NSNotification *) notification;
+- (void) loadActionsFromJS;
 
 @end
 
