@@ -26,7 +26,6 @@
 
 - (void)awakeFromNib
 {
-    // start by displaying the CustomImageViewController
     [self showGeneral:self];
 }
 

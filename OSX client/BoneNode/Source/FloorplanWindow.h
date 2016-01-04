@@ -14,15 +14,11 @@
 @property(nonatomic, readonly, strong) WebScriptObject *windowScriptObject;
 - (NSString *)appURL;
 
-- (void) receivesetBBBNotification:(NSNotification *) notification;
-
 - (void)showNotification:(NSString *)message;
 - (void)pushAllValues:(NSString *)message;
 - (void)deviceChange:(NSString *)message;
 - (void)serverUpdate:(NSString *)message;
 
-- (void)MAction01:(id)sender;
-- (void)MAction02:(id)sender;
 
 - (void)MenuUpdateDevices:(id)sender;
 

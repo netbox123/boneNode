@@ -21,6 +21,9 @@
     IBOutlet NSTextField *dateString;
     IBOutlet NSTextField *bmv_display;
     
+    IBOutlet NSTextField *timeSunrise;
+    IBOutlet NSTextField *timeSunset;
+    
     IBOutlet NSTextField *mt_BU;
     IBOutlet NSTextField *mt_KEL;
     IBOutlet NSTextField *mh_KEL;
@@ -101,8 +104,12 @@
 @property (nonatomic, strong) NSNumber *selectedLinkId;
 @property (nonatomic, strong) NSString *selectedLinkName;
 
+
+@property (assign) NSNumber *netReach;
+
 - (void) receiveMainNotification:(NSNotification *) notification;
 - (void) loadActionsFromJS;
+- (void) setSunriseSunset;
 
 @end
 

@@ -41,4 +41,10 @@
     NSLog(@"self.catID%@",self.catID);
 }
 
+- (IBAction)goURLbutt:(id)sender{
+    [self.webView  setMainFrameURL:[[self Link] stringValue]];
+    NSLog(@"goURLbutt");
+}
+
+
 @end

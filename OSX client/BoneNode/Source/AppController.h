@@ -13,6 +13,7 @@
 @class MainWindow;
 @class PrefClockView;
 @class BrowserWindow;
+@class LogWindow;
 
 @interface AppController : NSObject {
 @private
@@ -22,15 +23,15 @@
     MainWindow *mainwindow;
     PrefClockView *prefclockView;
     BrowserWindow *browserWindow;
+    LogWindow *logWindow;
 }
 
 - (IBAction)showAbout:(id)sender;
-- (IBAction)MenuAction01:(id)sender;
-- (IBAction)MenuAction02:(id)sender;
 - (IBAction)showFloorplanWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 - (IBAction)showMainWindow:(id)sender;
 - (IBAction)showBrowserWindow:(id)sender;
+- (IBAction)showLogWindow:(id)sender;
 
 
 @end

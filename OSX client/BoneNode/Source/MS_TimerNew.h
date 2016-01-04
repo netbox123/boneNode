@@ -15,6 +15,14 @@
     @property (assign) IBOutlet NSComboBox *Action;
     @property (assign) IBOutlet NSButton *TimerEnable;
 
+@property (assign) IBOutlet NSButton *TimerEnMon;
+@property (assign) IBOutlet NSButton *TimerEnTue;
+@property (assign) IBOutlet NSButton *TimerEnWed;
+@property (assign) IBOutlet NSButton *TimerEnThu;
+@property (assign) IBOutlet NSButton *TimerEnFri;
+@property (assign) IBOutlet NSButton *TimerEnSat;
+@property (assign) IBOutlet NSButton *TimerEnSun;
+
 
 @property (nonatomic, strong) NSNumber *varActionId;
 @property (nonatomic, strong) NSArray *actionArray;

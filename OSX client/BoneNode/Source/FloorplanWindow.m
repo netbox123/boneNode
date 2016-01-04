@@ -8,6 +8,7 @@
 
 #import "FloorplanWindow.h"
 #import "PrefClockView.h"
+#import "EDSunriseSet.h"
 
 @interface FloorplanWindow ()
 
@@ -24,15 +25,20 @@
     [super windowDidLoad];
     [self.webView  setMainFrameURL:[self appURL]];
     [[self.webView windowScriptObject] setValue:self forKey:@"app"];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receivesetBBBNotification:)
-                                                 name:@"setBBBNotification"
-                                               object:nil];
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivesendserialNotification:)
                                                  name:@"sendserialNotification"
                                                object:nil];
+    
+    
+    
+    NSString *tzStr = @"GMT02:00";
+    NSTimeZone *tz = [[NSTimeZone alloc] initWithName:tzStr];
+    EDSunriseSet *edSunriseSet = [EDSunriseSet sunrisesetWithTimezone:tz latitude:52.5078031 longitude:6.0561491 ];
+    [edSunriseSet calculateSunriseSunset:[NSDate date]];
+    //NSLog(@"%@, %@", edSunriseSet.localSunrise, edSunriseSet.localSunset);
 }
 
 - (NSString *)appURL {
@@ -55,47 +61,36 @@
     
 }
 
-- (void) receivesetBBBNotification:(NSNotification *) notification
-{
-    if ([[notification name] isEqualToString:@"setBBBNotification"])
-    {
-        id win = [self.webView windowScriptObject];
-        if ([[notification object] isEqualToString:@"setTimeDate"])
-            [win evaluateWebScript:@"setBBBtime()"];
-    }
-    //NSLog(@"%@", [notification object]);
-}
 
 - (void)showNotification:(NSString *)message
 {
     NSString *msgTitle = [[message componentsSeparatedByString:@";"] objectAtIndex:0];
     NSString *msgInfo = [[message componentsSeparatedByString:@";"] objectAtIndex:1];
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:msgTitle];
-    [notification setInformativeText:msgInfo];
-    [notification set_identityImageHasBorder:NO];
-    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-    [center setDelegate:self];
-    [center deliverNotification:notification];
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    NSString *messagesEnabled =[defaults valueForKey:@"messagesEnabled"];
+    if ([messagesEnabled isEqualToString:@"1"]){
+        NSUserNotification *notification = [[NSUserNotification alloc] init];
+        [notification setTitle:msgTitle];
+        [notification setInformativeText:msgInfo];
+        [notification set_identityImageHasBorder:NO];
+        NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+        [center setDelegate:self];
+        [center deliverNotification:notification];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"LogNotification" object:message];
+    }
 }
 
 - (void)pushAllValues:(NSString *)message
 {
-    NSString *timedateString = @"";
-    NSArray * words = [message componentsSeparatedByString:@"*"];
-    for (NSString * word in words){
-        NSString *varid = [[word componentsSeparatedByString:@"#"] objectAtIndex:0];
-        if ([varid  isEqual: @"1003"]){
-            timedateString = [[word componentsSeparatedByString:@"#"] objectAtIndex:1];
-        }
-        if ([varid  isEqual: @"1004"]){
-            timedateString = [timedateString stringByAppendingString: @"*"];
-            timedateString = [timedateString stringByAppendingString: [[word componentsSeparatedByString:@"#"] objectAtIndex:1]];
-        }
-    }
-    //NSLog(@"%@", timedateString);
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"timedateNotification" object:timedateString];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"timedateNotification" object:message];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"MainNotification" object:message];
+    
+}
+
+- (void)pushAllValues2:(NSString *)message
+{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"MemuletNotification" object:message];
+    
 }
 
 - (void)deviceChange:(NSString *)message
@@ -110,15 +105,6 @@
     //NSLog(@"%@", message);
 }
 
-- (void)MAction01:(id)sender {
-    id win = [self.webView windowScriptObject];
-    [win evaluateWebScript:@"runActionID('1')"];
-}
-
-- (void)MAction02:(id)sender {
-    id win = [self.webView windowScriptObject];
-    [win evaluateWebScript:@"runActionID('2')"];
-}
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
 {

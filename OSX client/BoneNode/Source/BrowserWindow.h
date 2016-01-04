@@ -25,4 +25,7 @@
 
 @property (assign) NSNumber *linkID;
 @property (assign) NSNumber *catID;
+
+- (IBAction)goURLbutt:(id)sender;
+
 @end

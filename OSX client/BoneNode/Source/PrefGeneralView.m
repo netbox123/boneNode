@@ -19,4 +19,12 @@
     // Do view setup here.
 }
 
+- (IBAction)setGeneralButt:(id)sender {
+    NSString *enabletext = @"";
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([[self MessagesEnable]state]){enabletext=@"1";}else{enabletext=@"0";}
+    [defaults setObject:enabletext forKey:@"messagesEnabled"];
+    [defaults synchronize]; 
+}
+
 @end

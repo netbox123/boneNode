@@ -9,7 +9,22 @@ function initWindows() {
 	var listCount = 0;
 	// ------------ pageItems ------------ //
 	for(j=0; j < pageItemsArray.length; j++){
-		if (pageItemsArray[j].type == 17) {
+		
+		
+	 	if (pageItemsArray[j].type == 10) {
+			$("#page").append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[j].id+"' onclick='LampClicked("+pageItemsArray[j].id+");' style='cursor:pointer;background:url(images/checkbox_off.png);position:absolute;left:"+pageItemsArray[j].xpos+"px;top:"+pageItemsArray[j].ypos+"px;width:14px;height:14px;'><div id='lampid"+pageItemsArray[j].id+"'><img width='14' height='14' src='images/checkbox_on.png'></img></div><div style='cursor:pointer;position:absolute;left:20px;top:-2px;width:200px'>"+pageItemsArray[j].name+"</div></div>");
+			for(k=0; k < devicesArray.length; k++){	
+				if( devicesArray[k].id == pageItemsArray[j].device_id) {
+					if(devicesArray[k].val == 0){
+						//$("#lampid"+devicesArray[k].id).fadeOut();
+					}else{
+						//console.log('lamp aan'+devicesArray[k].id);
+						$("#lampid"+pageItemsArray[j].id).css({"display": "inline"});
+					}
+				}
+			}					
+
+		} else if (pageItemsArray[j].type == 17) {
 			$("#page").append("<div class='hmi-wrap' id='wrapid"+pageItemsArray[j].id+"' onclick='LampClicked("+pageItemsArray[j].id+");' style='cursor:pointer;background:url(images/IDPNG_Light_Off@2x.png);position:absolute;left:"+pageItemsArray[j].xpos+"px;top:"+pageItemsArray[j].ypos+"px;width:"+pageItemsArray[j].width+"px;height:"+pageItemsArray[j].height+"px;'><div class='lampclass' id='lampid"+pageItemsArray[j].id+"'><img src='/images/IDPNG_Light_On@2x.png'></img></div></div>");
 			for(k=0; k < devicesArray.length; k++){	
 				if( devicesArray[k].id == pageItemsArray[j].device_id) {
@@ -44,10 +59,14 @@ window.updateDevicesLayout = function(){
 
 }
 
+
+
+
 jQuery(function($){
 	var socket = io.connect();
     SendFirst();   
     setInterval(function() {getAllValues();}, 1000);
+    setInterval(function() {triggerCientSunsetTime();}, 1000*60*30);
     
     function SendFirst(){
     	socket.emit('getDevices');
@@ -55,6 +74,12 @@ jQuery(function($){
         var randomnumber=100+Math.floor(Math.random()*901)
         socket.emit('new user', 'WebClient' + randomnumber , function(data){
     	})	
+    };
+    
+    function triggerCientSunsetTime(){
+        if (window.app) {
+        	window.app.serverUpdate_('sunTimeSet');
+      	}	
     };
 	
     function getAllValues(){
@@ -81,7 +106,7 @@ jQuery(function($){
 	socket.on('pageitems', function(data){
 		pageItemsArray = [];
 		for(i=0; i < data.length; i++){
-			if (data[i].type==17){
+			if (data[i].type==10 | data[i].type==17){
 				pageItemsArray.push(data[i]);
 			}
             
@@ -123,6 +148,7 @@ jQuery(function($){
 	var ValuesA = [];
         var OneValueA = [];
         window.app.pushAllValues_(data.msg);
+        window.app.pushAllValues2_(data.msg);
 	//console.log('data'+data.msg);
 	ValuesA  = data.msg.split('*');
         var datetime = new Date();
@@ -144,7 +170,6 @@ jQuery(function($){
         if (window.app) {
         	window.app.serverUpdate_(data);
       	}
-        //console.log(data.nick + " " + data.title + " " + data.msg);
 	});
 	
 	//  -- Receiving message from server --
@@ -163,12 +188,24 @@ jQuery(function($){
       	}
         //console.log(data.nick + " " + data.title + " " + data.msg);
 	}); 
+	
 	//  -- Client connected --
     	socket.on('connect', function(data){
-      	updateLayoutAllDelayed();	
+      	updateLayoutAllDelayed();
+      	if (window.app) {
+        	window.app.serverUpdate_('onconnect');
+      	}
         console.log('socket re-connected '); 
 	});
 	 
+	//  -- Client disconnected --
+    	socket.on('disconnect', function(data){
+      	updateLayoutAllDelayed();
+      	if (window.app) {
+        	window.app.serverUpdate_('ondisconnect');
+      	}
+        console.log('socket disconnected '); 
+	});
 	
 	//  -- LampClicked --
     	window.LampClicked = function (item_id) { 
@@ -207,7 +244,7 @@ jQuery(function($){
 
 	window.setBBBtime = function () { 
 	var milliseconds = new Date().getTime();
-    	milliseconds += 2*3600000;
+    	milliseconds += 1*3600000;
     	socket.emit('sendservercommand', 'settime-'+milliseconds , function(data){})
     	}
     	

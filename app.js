@@ -28,6 +28,7 @@ var timersArray     = [];
 var itemTypesArray  = [];
 var linksArray      = [];
 var lcatsArray      = [];
+var logArray        = [];
 
 bmv_v = '';
 bmv_i = '';
@@ -56,14 +57,17 @@ var path = require('path');
 var express = require('express'),app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 var server = require('http').createServer(app),io = require('socket.io').listen(server);
-
-//setPins();
+var timeText = getDateTime();
+console.log('')
+addLogArray('Bonenode 0.31 started: '+timeText);
+addLogArray('BeagleBoneBlack revC Debian GNU/Linux 7.5');
+ 
 
 if (hasMySQL){
-    console.log('Loading database...');
+    addLogArray('Loading from database...');
     loadDatbase();
 } else {
-    console.log('Loading files...');
+    addLogArray('Loading from files...');
     LoadFromFile();
 }
 
@@ -71,7 +75,7 @@ setTimeout(function(){ InitApp(); },500); // relax a bit, waiting for DB.
 
 function InitApp() {
     b.serialOpen(serialPortDue, optionsPort, onSerial);
-    console.log('serialPortDue opened...');
+    addLogArray('SerialPort /dev/ttyO4 opened...');
     setInterval(function() {UpdateDevicesArray();}, 1000);
     //setInterval(function() {logDatabase();}, 1000*60*30);
     
@@ -87,15 +91,17 @@ function InitApp() {
     app.get('/lcatJSON', function(req, res){res.send(JSON.stringify(lcatsArray, null, 4));});
     app.get('/timerJSON', function(req, res){res.send(JSON.stringify(timersArray, null, 4));});
     app.get('/triggerJSON', function(req, res){res.send(JSON.stringify(triggersArray, null, 4));});
+    app.get('/logJSON', function(req, res){res.send(JSON.stringify(logArray, null, 4));});
     
-    
+    app.get('/api/server', function(req, res){ChangeServer (req.param('client_type'), req.ip, req.param('action'),req.param('var1'),req.param('var2'));res.send('ok ');});
     app.get('/api/action', function(req, res){ChangeAction (req.param('client_type'), req.ip, req.param('action'),req.param('id'),req.param('name'));res.send('ok ');});
     app.get('/api/lcat', function(req, res){ChangeLcat (req.param('client_type'), req.ip,req.param('action'),req.param('id'),req.param('name'));res.send('ok ');});
     app.get('/api/event', function(req, res){ChangeEvent (req.param('client_type'), req.ip,req.param('action'),req.param('id'),req.param('action_id'),req.param('device_id'),req.param('event'),req.param('val'));res.send('ok ');});
-    app.get('/api/timer', function(req, res){ChangeTimer (req.param('client_type'), req.ip,req.param('action'),req.param('id'),req.param('name'),req.param('action_id'),req.param('time'),req.param('enable'));res.send('ok ');});
+    app.get('/api/timer', function(req, res){ChangeTimer (req.param('client_type'), req.ip,req.param('action'),req.param('id'),req.param('name'),req.param('action_id'),req.param('time'),req.param('enable'),req.param('day'));res.send('ok ');});
     app.get('/api/trigger', function(req, res){ChangeTrigger (req.param('client_type'), req.ip,req.param('action'),req.param('id'),req.param('name'));res.send('ok ');});
     app.get('/api/link', function(req, res){ChangeLink (req.param('client_type'), req.ip,req.param('action'),req.param('id'),req.param('name'),req.param('link'),req.param('cat_id'));res.send('ok ');});
-    console.log('Server listening on port ' + port);
+    addLogArray('Server 192.168.7.2 listening on port 4000');
+    addLogArray('');
 }
 
 io.sockets.on('connection', function(socket){
@@ -158,6 +164,7 @@ io.sockets.on('connection', function(socket){
             var datetime = new Date();
             var b = require('bonescript');
             io.sockets.emit('ServerUpdateMessage', 'Time is set to ;'+datetime);
+            console.log('settime to temparray[1] '+temparray[1]);
             datetime.setTime(temparray[1]);
             console.log('settime to '+datetime);
             b.setDate(datetime.toString());
@@ -270,18 +277,25 @@ function setDeviceVal(deviceid, val) {
 }
 
 function loadDatbase() {
-    lib_database.loadConfig('SELECT * FROM config', function(result) {configArray = lib_database._configArray;console.log('Config: '+configArray.length);});
-    lib_database.loadDevices('SELECT * FROM device', function(result) {devicesArray = lib_database._devicesArray;console.log('Devices: '+devicesArray.length);});
-    lib_database.loadPages('SELECT * FROM page', function(result) {pagesArray = lib_database._pagesArray;console.log('Pages: '+pagesArray.length);});   
-    lib_database.loadPageItems('SELECT * FROM page_items order by type DESC', function(result) {pageItemsArray = lib_database._pageItemsArray;console.log('PageItems: '+pageItemsArray.length);});
-    lib_database.loadActions('SELECT * FROM action', function(result) {actionsArray = lib_database._actionsArray;console.log('Actions: '+actionsArray.length);});  
-    lib_database.loadEvents('SELECT * FROM event', function(result) {eventsArray = lib_database._eventsArray;console.log('Events: '+eventsArray.length);});  
-    lib_database.loadTriggers('SELECT * FROM triggert', function(result) {triggersArray = lib_database._triggersArray;console.log('Triggers: '+triggersArray.length);});  
-    lib_database.loadInputs('SELECT * FROM device WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;console.log('Inputs: '+inputsArray.length);});
-    lib_database.loadTimers('SELECT * FROM timer', function(result) {timersArray = lib_database._timersArray;console.log('Timers: '+timersArray.length);});
-    lib_database.loadLinks('SELECT * FROM link', function(result) {linksArray = lib_database._linksArray;console.log('Links: '+linksArray.length);});
-    lib_database.loadLcats('SELECT * FROM lcat', function(result) {lcatsArray = lib_database._lcatsArray;console.log('Links cat: '+lcatsArray.length);});
+    lib_database.loadConfig('SELECT * FROM config', function(result) {configArray = lib_database._configArray;addLogArray('Config: '+configArray.length);});
+    lib_database.loadDevices('SELECT * FROM device', function(result) {devicesArray = lib_database._devicesArray;addLogArray('Devices: '+devicesArray.length);});
+    lib_database.loadPages('SELECT * FROM page', function(result) {pagesArray = lib_database._pagesArray;addLogArray('Pages: '+pagesArray.length);});   
+    lib_database.loadPageItems('SELECT * FROM page_items order by type DESC', function(result) {pageItemsArray = lib_database._pageItemsArray;addLogArray('PageItems: '+pageItemsArray.length);});
+    lib_database.loadActions('SELECT * FROM action', function(result) {actionsArray = lib_database._actionsArray;addLogArray('Actions: '+actionsArray.length);});  
+    lib_database.loadEvents('SELECT * FROM event', function(result) {eventsArray = lib_database._eventsArray;addLogArray('Events: '+eventsArray.length);});  
+    lib_database.loadTriggers('SELECT * FROM triggert', function(result) {triggersArray = lib_database._triggersArray;addLogArray('Triggers: '+triggersArray.length);});  
+    lib_database.loadInputs('SELECT * FROM device WHERE type=3', function(result) {inputsArray = lib_database._inputsArray;addLogArray('Inputs: '+inputsArray.length);});
+    lib_database.loadTimers('SELECT * FROM timer', function(result) {timersArray = lib_database._timersArray;addLogArray('Timers: '+timersArray.length);});
+    lib_database.loadLinks('SELECT * FROM link', function(result) {linksArray = lib_database._linksArray;addLogArray('Links: '+linksArray.length);});
+    lib_database.loadLcats('SELECT * FROM lcat', function(result) {lcatsArray = lib_database._lcatsArray;addLogArray('Links cat: '+lcatsArray.length);});
     lib_database.connectionEnd();
+}
+
+function addLogArray(logmsg) {
+    var newLog = {};
+    newLog.msg = logmsg;
+	logArray.push(newLog); 
+    console.log(logmsg);
 }
 
 function UpdateDevicesArray() {
@@ -335,10 +349,12 @@ function UpdateDevicesArray() {
     
     }
     
-    varTimeSec = datetime.getHours()*3600 + datetime.getMinutes()*60 + datetime.getSeconds();
+    var varTimeSec = datetime.getHours()*3600 + datetime.getMinutes()*60 + datetime.getSeconds();
+    var varTimeDay = datetime.getDay();
+    //console.log(varTimeDay);
     //console.log("varTimeSec " + varTimeSec);
     for (var i in timersArray) {
-        if(timersArray[i].time == varTimeSec){
+        if(timersArray[i].time == varTimeSec & timersArray[i].enable == 1){
             run_Action(timersArray[i].action_id);
         }
     }
@@ -424,7 +440,7 @@ function getDateTime () {
 // ---------------------------------------- Action --------------------------------- //
 
 function ChangeAction (client_type,client_ip,action_action,action_id,action_name) {
-    console.log('actionchange '+action_action+'-'+action_id+'-'+action_name+'-'+client_type+'-'+client_ip);
+    console.log('actionchange '+action_action+'-'+action_id+'-'+action_name+'-'+decodeURIComponent(client_type)+'-'+client_ip);
 	var timeText = getDateTime();
 	if(action_action == 'run'){
 	    var actionString ='';
@@ -435,7 +451,7 @@ function ChangeAction (client_type,client_ip,action_action,action_id,action_name
 	    }
 	    b.serialWrite(serialPortDue, actionString + '\n');
 	    console.log('serialWrite '+ actionString);
-	    io.sockets.emit('ServerUpdateMessage', 'Run Action '+action_name+';'+client_type+' from '+client_ip);
+	    io.sockets.emit('ServerUpdateMessage', 'Run Action '+action_name+';'+decodeURIComponent(client_type)+' from '+client_ip);
 	}else if(action_action == 'new'){
 	    var idmax = 0;
 	    for (var i in actionsArray) {
@@ -450,7 +466,7 @@ function ChangeAction (client_type,client_ip,action_action,action_id,action_name
 		query_str +="(`id`, `name`) ";
 		query_str +="VALUES ('"+idmax+"','"+action_name+"')";
 		sendSqlQuery(query_str);
-		io.sockets.emit('ServerUpdateMessage', 'Action '+action_name+' added. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Action '+action_name+' added. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(action_action == 'edit'){
 		var newEventString ='';
 		for(j=0; j < actionsArray.length; j++){
@@ -474,7 +490,7 @@ function ChangeAction (client_type,client_ip,action_action,action_id,action_name
 				var query_str = "DELETE FROM `nodesql`.`event` ";
 				query_str += " WHERE  `event`.`action_id` ="+ action_id;
 				sendSqlQuery(query_str);
-				io.sockets.emit('ServerUpdateMessage', 'Action '+action_name+' deleted. ;'+client_type+' from '+client_ip);
+				io.sockets.emit('ServerUpdateMessage', 'Action '+action_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 
 			}
 		}
@@ -504,7 +520,7 @@ function ChangeEvent (client_type,client_ip,event_action,event_id,action_id,devi
 		query_str +="(`id`, `action_id`, `device_id`, `action`, `value`) ";
 		query_str +="VALUES ('"+idmax+"','"+action_id+"','"+device_id+"','"+event+"','"+value+"')";
 		sendSqlQuery(query_str); 
-		io.sockets.emit('ServerUpdateMessage', 'Event '+device_name+' added. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Event '+device_name+' added. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(event_action == 'edit'){
 		var newEventString ='';
 		for(j=0; j < eventsArray.length; j++){
@@ -520,7 +536,7 @@ function ChangeEvent (client_type,client_ip,event_action,event_id,action_id,devi
 				query_str += "`value` =  '"+eventsArray[j].value+"'  ";
 				query_str += " WHERE  `event`.`id` ="+ event_id;
 				sendSqlQuery(query_str); 
-				io.sockets.emit('ServerUpdateMessage', 'Event '+device_name+' edited. ;'+client_type+' from '+client_ip);
+				io.sockets.emit('ServerUpdateMessage', 'Event '+device_name+' edited. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 			}
 		}
 	} else if(event_action == 'delete'){
@@ -533,14 +549,14 @@ function ChangeEvent (client_type,client_ip,event_action,event_id,action_id,devi
 				sendSqlQuery(query_str);  
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Event '+device_name+' deleted. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Event '+device_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	}
 	io.sockets.emit('serverUpdate', 'event');
 }
 
 // ---------------------------------------- Timer --------------------------------- //
 
-function ChangeTimer (client_type,client_ip,timer_action,timer_id,timer_name,timer_action_id,timer_time,timer_enable) {
+function ChangeTimer (client_type,client_ip,timer_action,timer_id,timer_name,timer_action_id,timer_time,timer_enable,timer_day) {
     console.log('timerchange '+timer_action+'-'+timer_id+'-'+timer_name+'-'+timer_action_id+'-'+timer_time+'-'+timer_enable);
 	var timeText = getDateTime();
 	if(timer_action == 'new'){
@@ -555,12 +571,13 @@ function ChangeTimer (client_type,client_ip,timer_action,timer_id,timer_name,tim
 		newTimer.action_id = timer_action_id;
 		newTimer.time = timer_time;
 		newTimer.enable = timer_enable;
+		newTimer.day = timer_day;
 		timersArray.push(newTimer); 
 		var query_str = "INSERT INTO `nodesql`.`timer` ";
-		query_str +="(`id`, `name`, `action_id`, `time`, `enable`) ";
-		query_str +="VALUES ('"+idmax+"','"+timer_name+"','"+timer_action_id+"','"+timer_time+"','"+timer_enable+"')";
+		query_str +="(`id`, `name`, `action_id`, `time`, `enable`, `day`) ";
+		query_str +="VALUES ('"+idmax+"','"+timer_name+"','"+timer_action_id+"','"+timer_time+"','"+timer_enable+"','"+timer_day+"')";
 		sendSqlQuery(query_str); 
-		io.sockets.emit('ServerUpdateMessage', 'TimeDate '+timer_name+' added. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'TimeDate '+timer_name+' added. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(timer_action == 'edit'){
 		var newTimerString ='';
 		for(j=0; j < timersArray.length; j++){
@@ -569,14 +586,16 @@ function ChangeTimer (client_type,client_ip,timer_action,timer_id,timer_name,tim
 				timersArray[j].action_id = parseInt(timer_action_id);
 		        timersArray[j].time = parseInt(timer_time);
 		        timersArray[j].enable = parseInt(timer_enable);
+		        timersArray[j].day = timer_day;
 				var query_str = "UPDATE  `nodesql`.`timer` SET  ";
 				query_str += "`name` =  '"+timersArray[j].name+"'  ,";
 				query_str += "`action_id` =  '"+timersArray[j].action_id+"' , ";
 				query_str += "`time` =  '"+timersArray[j].time+"'  ,";
-				query_str += "`enable` =  '"+timersArray[j].enable+"'  ";
+				query_str += "`enable` =  '"+timersArray[j].enable+"'  ,";
+				query_str += "`day` =  '"+timersArray[j].day+"'  ";
 				query_str += " WHERE  `timer`.`id` ="+ timer_id;
 				sendSqlQuery(query_str); 
-				io.sockets.emit('ServerUpdateMessage', 'TimeDate '+timer_name+' edited. ;'+client_type+' from '+client_ip);
+				io.sockets.emit('ServerUpdateMessage', 'TimeDate '+timer_name+' edited. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 			}
 		}
 	} else if(timer_action == 'delete'){
@@ -589,7 +608,7 @@ function ChangeTimer (client_type,client_ip,timer_action,timer_id,timer_name,tim
 				sendSqlQuery(query_str);  
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'TimeDate '+timer_name+' deleted. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'TimeDate '+timer_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	}
 	io.sockets.emit('serverUpdate', 'timer');
 }
@@ -613,7 +632,7 @@ function ChangeTrigger (client_type,client_ip,trigger_action,trigger_id,trigger_
 		query_str +="(`id`, `name`) ";
 		query_str +="VALUES ('"+idmax+"','"+trigger_name+"')";
 		sendSqlQuery(query_str); 
-		io.sockets.emit('ServerUpdateMessage', 'Trigger '+trigger_name+' added. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Trigger '+trigger_name+' added. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(trigger_action == 'edit'){
 		var newTriggerString ='';
 		for(j=0; j < triggersArray.length; j++){
@@ -625,7 +644,7 @@ function ChangeTrigger (client_type,client_ip,trigger_action,trigger_id,trigger_
 				sendSqlQuery(query_str);    
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Trigger '+trigger_name+' edited. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Trigger '+trigger_name+' edited. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(trigger_action == 'delete'){
 		var newTriggerString ='';
 		for(j=0; j < triggersArray.length; j++){
@@ -636,7 +655,7 @@ function ChangeTrigger (client_type,client_ip,trigger_action,trigger_id,trigger_
 				sendSqlQuery(query_str);  
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Trigger '+trigger_name+' deleted. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Trigger '+trigger_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	}
 	io.sockets.emit('serverUpdate', 'trigger');
 }
@@ -662,7 +681,7 @@ function ChangeLink (client_type,client_ip,link_action,link_id,link_name,link_ur
 		query_str +="(`id`, `name`, `url`, `cat`) ";
 		query_str +="VALUES ('"+idmax+"','"+link_name+"','"+link_url+"','"+link_catid+"')";
 		sendSqlQuery(query_str); 
-		io.sockets.emit('ServerUpdateMessage', 'Link '+link_name+' added. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Link '+link_name+' added. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(link_action == 'edit'){
 		var newLinkString ='';
 		for(j=0; j < linksArray.length; j++){
@@ -678,7 +697,7 @@ function ChangeLink (client_type,client_ip,link_action,link_id,link_name,link_ur
 				sendSqlQuery(query_str);    
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Link '+link_name+' edited. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Link '+link_name+' edited. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(link_action == 'delete'){
 		var newLinkString ='';
 		for(j=0; j < linksArray.length; j++){
@@ -689,7 +708,7 @@ function ChangeLink (client_type,client_ip,link_action,link_id,link_name,link_ur
 				sendSqlQuery(query_str);  
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Link '+link_name+' deleted. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Link '+link_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	}
 	io.sockets.emit('serverUpdate', 'link');
 }
@@ -713,7 +732,7 @@ function ChangeLcat (client_type,client_ip,lcat_action,lcat_id,lcat_name) {
 		query_str +="(`id`, `name`) ";
 		query_str +="VALUES ('"+idmax+"','"+lcat_name+"')";
 		sendSqlQuery(query_str); 
-		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' added. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' added. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(lcat_action == 'edit'){
 		var newLcatString ='';
 		for(j=0; j < lcatsArray.length; j++){
@@ -725,7 +744,7 @@ function ChangeLcat (client_type,client_ip,lcat_action,lcat_id,lcat_name) {
 				sendSqlQuery(query_str);    
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' edited. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' edited. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	} else if(lcat_action == 'delete'){
 		var newLcatString ='';
 		for(j=0; j < lcatsArray.length; j++){
@@ -740,11 +759,30 @@ function ChangeLcat (client_type,client_ip,lcat_action,lcat_id,lcat_name) {
 				io.sockets.emit('ServerUpdateMessage', 'text1;text2;text3');
 			}
 		}
-		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' deleted. ;'+client_type+' from '+client_ip);
+		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
 	}
 	io.sockets.emit('serverUpdate', 'lcat');
 }
 
+// ---------------------------------------- Server --------------------------------- //
+
+function ChangeServer (client_type,client_ip,server_action,server_var1,server_var2) {
+    //console.log('serverchange '+server_action+'-'+server_var1+'-'+server_var2);
+	if(server_action == 'settime'){
+		var datetime = new Date();
+        var b = require('bonescript');
+        datetime.setTime(server_var1*1000);
+        b.setDate(datetime.toString());
+        console.log('settime to '+datetime);
+        io.sockets.emit('ServerUpdateMessage', 'Time is set to ;'+datetime);
+	} else if(server_action == 'delete'){
+		
+		io.sockets.emit('ServerUpdateMessage', 'Link category '+lcat_name+' deleted. ;'+decodeURIComponent(client_type)+' from '+client_ip);
+	}
+	io.sockets.emit('serverUpdate', 'lcat');
+}
+
+// ----------------------------------------  --------------------------------- //
 
 function run_Action(action_id){
     var actionString ='';

@@ -10,4 +10,7 @@
 
 @interface PrefGeneralView : NSViewController
 
+@property (assign) IBOutlet NSButton *MessagesEnable;
+- (IBAction)setGeneralButt:(id)sender;
+
 @end

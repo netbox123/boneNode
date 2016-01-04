@@ -12,9 +12,14 @@
 {
     IBOutlet NSTextField *timeString;
     IBOutlet NSTextField *dateString;
+    
+    IBOutlet NSTextField *lonString;
+    IBOutlet NSTextField *latString;
+    IBOutlet NSTextField *tzoneString;
 }
 
 - (IBAction)setTimeDateBut:(id)sender;
+- (IBAction)setLonLatBut:(id)sender;
 
 - (void) receivetimedateNotification:(NSNotification *) notification;
  

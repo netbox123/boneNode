@@ -30,6 +30,7 @@
 #import "MS_LinkEdit.h"
 #import "MS_LinkDelete.h"
 #import "BrowserWindow.h"
+#import "EDSunriseSet.h"
 
 @interface MainWindow ()
 
@@ -82,7 +83,7 @@
     self.selectedActionId = [[self.actionArray objectAtIndex:0]objectForKey:@"id"];
     self.selectedLcatId = [[self.lcatArray objectAtIndex:0]objectForKey:@"id"];
     [self loadLinksFromJS];
-    NSLog(@"selectedLcatId%@", self.selectedLcatId);
+    //NSLog(@"selectedLcatId%@", self.selectedLcatId);
 }
 
 - (void)windowDidLoad {
@@ -116,6 +117,39 @@
     [d_re  setStringValue:[[self.deviceArray objectAtIndex:0]objectForKey:@"re"]];
     [d_dim setStringValue:[[self.deviceArray objectAtIndex:0]objectForKey:@"isdim"]];
     [d_rgb setStringValue:[[self.deviceArray objectAtIndex:0]objectForKey:@"rgb"]];
+    [self setSunriseSunset];
+
+}
+
+- (void) setSunriseSunset
+{
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    NSString *tzStr =[defaults valueForKey:@"tzone"];
+    double latNr = [[defaults valueForKey:@"lat"] doubleValue];
+    double lonNr = [[defaults valueForKey:@"lon"] doubleValue];
+    // NSString *tzStr = @"GMT02:00";
+    NSTimeZone *tz = [[NSTimeZone alloc] initWithName:tzStr];
+    EDSunriseSet *edSunriseSet = [EDSunriseSet sunrisesetWithTimezone:tz latitude:latNr longitude:lonNr];
+    [edSunriseSet calculateSunriseSunset:[NSDate date]];
+    
+    NSString *sunriseMin = @"";
+    if ([edSunriseSet.localSunrise minute]<10) {
+        sunriseMin = [NSString stringWithFormat:@"0%ld",(long)[edSunriseSet.localSunrise minute]];
+    } else {
+        sunriseMin = [NSString stringWithFormat:@"%ld",(long)[edSunriseSet.localSunrise minute]];
+    }
+    
+    NSString *sunriseString = [NSString stringWithFormat:@"0%ld:%@",(long)[edSunriseSet.localSunrise hour], sunriseMin];
+    [timeSunrise setStringValue:sunriseString];
+    
+    NSString *sunsetMin = @"";
+    if ([edSunriseSet.localSunset minute]<10) {
+        sunsetMin = [NSString stringWithFormat:@"0%ld",(long)[edSunriseSet.localSunset minute]];
+    } else {
+        sunsetMin = [NSString stringWithFormat:@"%ld",(long)[edSunriseSet.localSunset minute]];
+    }
+    NSString *sunsetString = [NSString stringWithFormat:@"%ld:%@",(long)[edSunriseSet.localSunset hour], sunsetMin];
+    [timeSunset setStringValue:sunsetString];
 }
 
 - (void) receiveserverUpdateNotification:(NSNotification *) notification
@@ -147,6 +181,18 @@
         NSLog(@"update link from server");
         [self loadLinksFromJS];
         [self.linkTableView reloadData];
+    } else if ([dbTable isEqualTo: @"onconnect"]){
+        NSLog(@"socket onConnect");
+        status.image = [NSImage imageNamed: @"Airport.png"];
+    } else if ([dbTable isEqualTo: @"sunTimeSet"]){
+        //NSLog(@"setSunriseSunset");
+        [self setSunriseSunset];
+    } else if ([dbTable isEqualTo: @"ondisconnect"]){
+        NSLog(@"usocket ondisConnect");
+        if (self.netReach){
+            status.image = [NSImage imageNamed: @"Airport_grey.png"];
+        }
+            
     }
 
 }
@@ -182,7 +228,7 @@
 
 - (void) receiveMainNotification:(NSNotification *) notification
 {
-
+    
     NSArray * words = [[notification object] componentsSeparatedByString:@"*"];
     for (NSString * word in words){
         NSString *varid = [[word componentsSeparatedByString:@"#"] objectAtIndex:0];
@@ -213,7 +259,6 @@
         if ([varid  isEqual: @"4007"]){[mt_G1 setStringValue:displStr];[generatorSlider setFloatValue: [varvalue intValue]];}
         if ([varid  isEqual: @"4001"]){[mt_WK setStringValue:displStr];}
     }
-    //NSLog(@"%@", [notification object]);
 }
 
 - (void) updateInterfaceWithReachability: (Reachability*) curReach
@@ -226,7 +271,8 @@
         {
             NSLog(@"No net access!!");
             //statusString = @"No internet access!!";
-            status.image = [NSImage imageNamed: @"stop-32.png"] ;
+            self.netReach = (NSNumber *)0;
+            status.image = [NSImage imageNamed: @"Airport_red.png"] ;
             break;
         }
             
@@ -234,7 +280,8 @@
         {
             NSLog(@"Internet net available!!");
             //statusString= @"Internet connection available!";
-            status.image = [NSImage imageNamed: @"Airport.png"];
+            self.netReach = (NSNumber *)1;
+            status.image = [NSImage imageNamed: @"Airport_grey.png"];
             break;
         }
     }
@@ -303,7 +350,7 @@
         if ([tableColumn.identifier isEqualToString:@"id"]) {  // first colum (id)
             return [[self.actionArray objectAtIndex:row]objectForKey:@"id"];
         } else if ([tableColumn.identifier isEqualToString:@"img"]) {  //  column (img)
-            NSImage* img=[NSImage imageNamed:@"IDPNG_Light_Off@2x.png"];
+            NSImage* img=[NSImage imageNamed:@"Scenario.png"];
             return img;
         } else if ([tableColumn.identifier isEqualToString:@"name"]) {  //  column (name)
             return [[self.actionArray objectAtIndex:row]objectForKey:@"name"];
@@ -315,7 +362,7 @@
         if ([tableColumn.identifier isEqualToString:@"id"]) {  // first colum (id)
             return [[self.eventArray objectAtIndex:row]objectForKey:@"id"];
         } else if ([tableColumn.identifier isEqualToString:@"img"]) {  //  column (img)
-            NSImage* img=[NSImage imageNamed:@"IDPNG_Light_Off@2x.png"];
+            NSImage* img=[NSImage imageNamed:@"Script.png"];
             return img;
         } else if ([tableColumn.identifier isEqualToString:@"name"]) {  //  column (name)
             for(int i=0;i<[self.deviceArray count];i++)
@@ -341,7 +388,7 @@
             }
             
         } else if ([tableColumn.identifier isEqualToString:@"img"]) {  //  column (img)
-            NSImage* img=[NSImage imageNamed:@"IDPNG_Light_Off@2x.png"];
+            NSImage* img=[NSImage imageNamed:@"Time.png"];
             return img;
         } else if ([tableColumn.identifier isEqualToString:@"name"]) {  //  column (name)
             return [[self.timerArray objectAtIndex:row]objectForKey:@"name"];
@@ -363,17 +410,47 @@
                 return img;
             }
         } else if ([tableColumn.identifier isEqualToString:@"M"]) {  //  column (M)
-            NSImage* img=[NSImage imageNamed:@"Check_on.png"];
-            return img;
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(1, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
         } else if ([tableColumn.identifier isEqualToString:@"T"]) {  //  column (T)
-            NSImage* img=[NSImage imageNamed:@"Check_off.png"];
-            return img;
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(2, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
         } else if ([tableColumn.identifier isEqualToString:@"W"]) {  //  column (W)
-            NSImage* img=[NSImage imageNamed:@"Check_on.png"];
-            return img;
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(3, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
         } else if ([tableColumn.identifier isEqualToString:@"Th"]) {  //  column (Th)
-            NSImage* img=[NSImage imageNamed:@"Check_on.png"];
-            return img;
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(4, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
+        } else if ([tableColumn.identifier isEqualToString:@"F"]) {  //  column (F)
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(5, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
+        } else if ([tableColumn.identifier isEqualToString:@"Sa"]) {  //  column (S)
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(6, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
+        } else if ([tableColumn.identifier isEqualToString:@"Su"]) {  //  column (S)
+            if ([[[[self.timerArray objectAtIndex:row]objectForKey:@"day"] substringWithRange:NSMakeRange(0, 1)]intValue]==1){
+                NSImage* img=[NSImage imageNamed:@"Check_on.png"];return img;
+            }else{
+                NSImage* img=[NSImage imageNamed:@"Check_off.png"];return img;
+            }
         }
         
     } else if (aTableView == triggerTableView) {
@@ -461,7 +538,7 @@
         }
     } else if (aTableView == lcatTableView) {
         self.selectedLcatId = [[self.lcatArray objectAtIndex:aTableView.selectedRow]objectForKey:@"id"];
-        NSLog(@"selectedLcatId %@",self.selectedLcatId );
+        //NSLog(@"selectedLcatId %@",self.selectedLcatId );
         NSMutableArray *_linkArray = [[NSMutableArray alloc] init];
         for(int i=0;i<[self.linkAllArray count];i++)
         {
@@ -498,7 +575,7 @@
 
 - (void) loadActionsFromJS  
 {
-    NSLog(@"loadActionsFromJS");
+    //NSLog(@"loadActionsFromJS");
     NSString *str=@"http://192.168.7.2:4000/actionJSON";
     NSURL *url=[NSURL URLWithString:str];
     NSData *data=[NSData dataWithContentsOfURL:url];
@@ -517,7 +594,7 @@
     NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@", str, action, name, str2, recid]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url=[NSURL URLWithString:strRR];
     [NSData dataWithContentsOfURL:url];
-    NSLog(@"run url %@",strRR);
+    //NSLog(@"run url %@",strRR);
 }
 
 - (IBAction)action_new:(id)sender {
@@ -525,9 +602,9 @@
     self.myMS_ActionNew = [[MS_ActionNew alloc] initWithWindowNibName:@"MS_ActionNew"];
     [self.window beginSheet:self.myMS_ActionNew.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
+            case NSModalResponseOK:;
                 //NSLog(@"New Name: %@", [[self.myMS_ActionNew ActionName] stringValue]);
-                NSLog(@"Save button tapped ");
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/action?client_type=OSX%20Cient%200.23&";
                 NSString *action=@"action=new&id=0&name=";
                 NSString *name= [[self.myMS_ActionNew ActionName] stringValue];
@@ -536,7 +613,7 @@
                 [NSData dataWithContentsOfURL:url];
                 break;
             case NSModalResponseCancel:
-                NSLog(@"Cancel button tapped in Custom Sheet");
+                //NSLog(@"Cancel button tapped in Custom Sheet");
                 break;
             default:
                 break;
@@ -546,7 +623,7 @@
 }
 
 - (IBAction)action_edit:(id)sender{
-    NSLog(@"action_edit");
+    //NSLog(@"action_edit");
     self.selectedActionId = [[self.actionArray objectAtIndex:[self.actionTableView selectedRow]]objectForKey:@"id"];
     self.myMS_ActionEdit = [[MS_ActionEdit alloc] initWithWindowNibName:@"MS_ActionEdit"];
     NSNumber *recid= self.selectedActionId;
@@ -560,21 +637,19 @@
     }
     [self.window beginSheet:self.myMS_ActionEdit.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedActionId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
                 NSString *str=@"http://192.168.7.2:4000/api/action?client_type=OSX%20Cient%200.23&";
                 NSString *action=@"action=edit&name=";
                 NSString *name= [[self.myMS_ActionEdit ActionName] stringValue];
                 NSString *act2=@"&id=";
                 NSNumber *recid= self.selectedActionId ;
                 NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@", str, action, name, act2, recid]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
-                NSLog(@"theURL %@",strRR);
+                //NSLog(@"theURL %@",strRR);
                 NSURL *url=[NSURL URLWithString:strRR];
                 [NSData dataWithContentsOfURL:url];
                 break;
             case NSModalResponseCancel:
-                NSLog(@"Cancel button tapped in Custom Sheet");
+                //NSLog(@"Cancel button tapped in Custom Sheet");
                 break;
             default:
                 break;
@@ -584,7 +659,7 @@
 }
 
 - (IBAction)action_delete:(id)sender{
-    NSLog(@"action_delete");
+    //NSLog(@"action_delete");
     self.selectedActionId = [[self.actionArray objectAtIndex:[self.actionTableView selectedRow]]objectForKey:@"id"];
     self.myMS_ActionDelete = [[MS_ActionDelete alloc] initWithWindowNibName:@"MS_ActionDelete"];
     NSNumber *recid= self.selectedActionId;
@@ -596,9 +671,9 @@
     }
     [self.window beginSheet:self.myMS_ActionDelete.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedActionId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedActionId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/action?client_type=OSX%20Cient%200.23&";
                 NSString *action=@"action=delete&name=";
                 NSString *name= self.myMS_ActionDelete.VarActionName;
@@ -609,7 +684,7 @@
                 [NSData dataWithContentsOfURL:url];
                 break;
             case NSModalResponseCancel:
-                NSLog(@"Cancel button tapped in Custom Sheet");
+                //NSLog(@"Cancel button tapped in Custom Sheet");
                 break;
             default:
                 break;
@@ -642,7 +717,7 @@
     //self.selectedActionId = [[self.actionArray objectAtIndex:0]objectForKey:@"id"];
     self.eventArray = _eventArray;
     [eventTableView reloadData];
-    NSLog(@"count %lu",(unsigned long)[self.eventAllArray count] );
+    //NSLog(@"count %lu",(unsigned long)[self.eventAllArray count] );
 }
 
 - (IBAction)event_new:(id)sender {
@@ -651,8 +726,7 @@
     self.myMS_EventNew.deviceArray = self.deviceArray ;
     [self.window beginSheet:self.myMS_EventNew.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
                 NSString *str1=@"http://192.168.7.2:4000/api/event?client_type=OSX%20Cient%200.23&";
                 NSString *str2=@"action=new&id=0&action_id=";
                 NSString *actionid= [self.selectedActionId stringValue];
@@ -767,7 +841,7 @@
 
 - (void) loadTimersFromJS
 {
-    NSLog(@"loadTimersFromJS");
+    //NSLog(@"loadTimersFromJS");
     NSString *str=@"http://192.168.7.2:4000/timerJSON";
     NSURL *url=[NSURL URLWithString:str];
     NSData *data=[NSData dataWithContentsOfURL:url];
@@ -792,14 +866,19 @@
                 NSNumber *time= @([[self.myMS_TimerNew TimerHour]intValue]*3600+[[self.myMS_TimerNew TimerMin]intValue]*60);
                 NSString *etext=@"&enable=";
                 NSString *enabletext = @"";
-                if ([[self.myMS_TimerNew TimerEnable]state]){
-                    enabletext=@"1";
-                } else {
-                    enabletext=@"0";
-                }
+                if ([[self.myMS_TimerNew TimerEnable]state]){enabletext=@"1";}else{enabletext=@"0";}
+                NSString *enWeek=@"&day=";
+                NSString *enMon = @""; if ([[self.myMS_TimerNew TimerEnMon]state]){enMon=@"1";}else{enMon=@"0";}
+                NSString *enTue = @""; if ([[self.myMS_TimerNew TimerEnTue]state]){enTue=@"1";}else{enTue=@"0";}
+                NSString *enWed = @""; if ([[self.myMS_TimerNew TimerEnWed]state]){enWed=@"1";}else{enWed=@"0";}
+                NSString *enThu = @""; if ([[self.myMS_TimerNew TimerEnThu]state]){enThu=@"1";}else{enThu=@"0";}
+                NSString *enFri = @""; if ([[self.myMS_TimerNew TimerEnFri]state]){enFri=@"1";}else{enFri=@"0";}
+                NSString *enSat = @""; if ([[self.myMS_TimerNew TimerEnSat]state]){enSat=@"1";}else{enSat=@"0";}
+                NSString *enSun = @""; if ([[self.myMS_TimerNew TimerEnSun]state]){enSun=@"1";}else{enSun=@"0";}
+                
                 NSString *atext=@"&action_id=";
                 NSString *actionid=[[self.myMS_TimerNew varActionId]stringValue];
-                NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@", str, timer, name, ttext, time, etext, enabletext, atext, actionid]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@", str, timer, name, ttext, time, etext, enabletext, atext, actionid, enWeek,enSun,enMon,enTue,enWed,enThu,enFri,enSat]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 NSURL *url=[NSURL URLWithString:strRR];
                 [NSData dataWithContentsOfURL:url];
                 break;
@@ -813,7 +892,7 @@
     }];
 }
 - (IBAction)timer_edit:(id)sender{
-    NSLog(@"timer_edit");
+    //NSLog(@"timer_edit");
     self.selectedTimerId = [[self.timerArray objectAtIndex:[self.timerTableView selectedRow]]objectForKey:@"id"];
     self.myMS_TimerEdit = [[MS_TimerEdit alloc] initWithWindowNibName:@"MS_TimerEdit"];
     self.myMS_TimerEdit.actionArray = self.actionArray;
@@ -827,6 +906,7 @@
             self.myMS_TimerEdit.varTimerHour= [NSString stringWithFormat:@"%d",hourInt];
             self.myMS_TimerEdit.varTimerMin = [NSString stringWithFormat:@"%d",minInt];
             self.myMS_TimerEdit.varTimerEnable = [[self.timerArray objectAtIndex:i]objectForKey:@"enable"];
+            self.myMS_TimerEdit.varTimerDay = [[self.timerArray objectAtIndex:i]objectForKey:@"day"];
             
         }
     }
@@ -836,9 +916,9 @@
     
     [self.window beginSheet:self.myMS_TimerEdit.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedTimerId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedTimerId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/timer?client_type=OSX%20Cient%200.23&";
                 NSString *timer=@"action=edit&name=";
                 NSString *name= [[self.myMS_TimerEdit TimerName] stringValue];
@@ -853,10 +933,19 @@
                 } else {
                     enabletext=@"0";
                 }
+                NSString *enWeek=@"&day=";
+                NSString *enMon = @""; if ([[self.myMS_TimerEdit TimerEnMon]state]){enMon=@"1";}else{enMon=@"0";}
+                NSString *enTue = @""; if ([[self.myMS_TimerEdit TimerEnTue]state]){enTue=@"1";}else{enTue=@"0";}
+                NSString *enWed = @""; if ([[self.myMS_TimerEdit TimerEnWed]state]){enWed=@"1";}else{enWed=@"0";}
+                NSString *enThu = @""; if ([[self.myMS_TimerEdit TimerEnThu]state]){enThu=@"1";}else{enThu=@"0";}
+                NSString *enFri = @""; if ([[self.myMS_TimerEdit TimerEnFri]state]){enFri=@"1";}else{enFri=@"0";}
+                NSString *enSat = @""; if ([[self.myMS_TimerEdit TimerEnSat]state]){enSat=@"1";}else{enSat=@"0";}
+                NSString *enSun = @""; if ([[self.myMS_TimerEdit TimerEnSun]state]){enSun=@"1";}else{enSun=@"0";}
+                
                 NSString *atext=@"&action_id=";
                 NSNumber *actionid=[self.myMS_TimerEdit varActionId];
 
-                NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@", str, timer, name, act2, recid,ttext, time, etext, enabletext, atext, actionid]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@", str, timer, name, act2, recid,ttext, time, etext, enabletext, atext, actionid,enWeek,enSun,enMon,enTue,enWed,enThu,enFri,enSat]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 NSLog(@"theURL %@",strRR);
                 NSURL *url=[NSURL URLWithString:strRR];
                 [NSData dataWithContentsOfURL:url];
@@ -872,7 +961,7 @@
 }
 
 - (IBAction)timer_delete:(id)sender{
-    NSLog(@"timer_delete");
+    //NSLog(@"timer_delete");
     self.selectedTimerId = [[self.timerArray objectAtIndex:[self.timerTableView selectedRow]]objectForKey:@"id"];
     self.myMS_TimerDelete = [[MS_TimerDelete alloc] initWithWindowNibName:@"MS_TimerDelete"];
     NSNumber *recid= self.selectedTimerId;
@@ -884,9 +973,9 @@
     }
     [self.window beginSheet:self.myMS_TimerDelete.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedTimerId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedTimerId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/timer?client_type=OSX%20Cient%200.23&";
                 NSString *timer=@"action=delete&id=";
                 NSNumber *recid= self.selectedTimerId ;
@@ -910,7 +999,7 @@
 
 - (void) loadTriggersFromJS
 {
-    NSLog(@"loadTriggersFromJS");
+    //NSLog(@"loadTriggersFromJS");
     NSString *str=@"http://192.168.7.2:4000/triggerJSON";
     NSURL *url=[NSURL URLWithString:str];
     NSData *data=[NSData dataWithContentsOfURL:url];
@@ -924,9 +1013,9 @@
     self.myMS_TriggerNew = [[MSTriggerNew alloc] initWithWindowNibName:@"MSTriggerNew"];
     [self.window beginSheet:self.myMS_TriggerNew.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
+            case NSModalResponseOK:;
                 //NSLog(@"New Name: %@", [[self.myMS_TriggerNew TriggerName] stringValue]);
-                NSLog(@"Save button tapped ");
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/trigger?client_type=OSX%20Cient%200.23&";
                 NSString *trigger=@"action=new&id=0&name=";
                 NSString *name= [[self.myMS_TriggerNew TriggerName] stringValue];
@@ -944,7 +1033,7 @@
     }];
 }
 - (IBAction)trigger_edit:(id)sender{
-    NSLog(@"trigger_edit");
+    //NSLog(@"trigger_edit");
     self.selectedTriggerId = [[self.triggerArray objectAtIndex:[self.triggerTableView selectedRow]]objectForKey:@"id"];
     self.myMS_TriggerEdit = [[MSTriggerEdit alloc] initWithWindowNibName:@"MSTriggerEdit"];
     NSNumber *recid= self.selectedTriggerId;
@@ -958,9 +1047,9 @@
     }
     [self.window beginSheet:self.myMS_TriggerEdit.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedTriggerId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedTriggerId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/trigger?client_type=OSX%20Cient%200.23&";
                 NSString *trigger=@"action=edit&name=";
                 NSString *name= [[self.myMS_TriggerEdit TriggerName] stringValue];
@@ -982,7 +1071,7 @@
 }
 
 - (IBAction)trigger_delete:(id)sender{
-    NSLog(@"trigger_delete");
+    //NSLog(@"trigger_delete");
     self.selectedTriggerId = [[self.triggerArray objectAtIndex:[self.triggerTableView selectedRow]]objectForKey:@"id"];
     self.myMS_TriggerDelete = [[MSTriggerDelete alloc] initWithWindowNibName:@"MSTriggerDelete"];
     NSNumber *recid= self.selectedTriggerId;
@@ -994,9 +1083,9 @@
     }
     [self.window beginSheet:self.myMS_TriggerDelete.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedTriggerId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedTriggerId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/trigger?client_type=OSX%20Cient%200.23&";
                 NSString *trigger=@"action=delete&id=";
                 NSNumber *recid= self.selectedTriggerId ;
@@ -1020,7 +1109,7 @@
 
 - (void) loadLcatsFromJS
 {
-    NSLog(@"loadLcatsFromJS");
+    //NSLog(@"loadLcatsFromJS");
     NSString *str=@"http://192.168.7.2:4000/lcatJSON";
     NSURL *url=[NSURL URLWithString:str];
     NSData *data=[NSData dataWithContentsOfURL:url];
@@ -1034,9 +1123,9 @@
     self.myMS_LcatNew = [[MS_LcatNew alloc] initWithWindowNibName:@"MS_LcatNew"];
     [self.window beginSheet:self.myMS_LcatNew.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
+            case NSModalResponseOK:;
                 //NSLog(@"New Name: %@", [[self.myMS_LcatNew LcatName] stringValue]);
-                NSLog(@"Save button tapped ");
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/lcat?client_type=OSX%20Cient%200.23&";
                 NSString *lcat=@"action=new&id=0&name=";
                 NSString *name= [[self.myMS_LcatNew LcatName] stringValue];
@@ -1045,7 +1134,7 @@
                 [NSData dataWithContentsOfURL:url];
                 break;
             case NSModalResponseCancel:
-                NSLog(@"Cancel button tapped in Custom Sheet");
+                //NSLog(@"Cancel button tapped in Custom Sheet");
                 break;
             default:
                 break;
@@ -1054,7 +1143,7 @@
     }];
 }
 - (IBAction)lcat_edit:(id)sender{
-    NSLog(@"lcat_edit");
+    //NSLog(@"lcat_edit");
     self.selectedLcatId = [[self.lcatArray objectAtIndex:[self.lcatTableView selectedRow]]objectForKey:@"id"];
     self.myMS_LcatEdit = [[MS_LcatEdit alloc] initWithWindowNibName:@"MS_LcatEdit"];
     NSNumber *recid= self.selectedLcatId;
@@ -1068,16 +1157,16 @@
     }
     [self.window beginSheet:self.myMS_LcatEdit.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedLcatId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedLcatId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/lcat?client_type=OSX%20Cient%200.23&";
                 NSString *lcat=@"action=edit&name=";
                 NSString *name= [[self.myMS_LcatEdit LcatName] stringValue];
                 NSString *act2=@"&id=";
                 NSNumber *recid= self.selectedLcatId ;
                 NSString* strRR = [[NSString stringWithFormat:@"%@%@%@%@%@", str, lcat, name, act2, recid]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];;
-                NSLog(@"theURL %@",strRR);
+                //NSLog(@"theURL %@",strRR);
                 NSURL *url=[NSURL URLWithString:strRR];
                 [NSData dataWithContentsOfURL:url];
                 break;
@@ -1104,9 +1193,9 @@
     }
     [self.window beginSheet:self.myMS_LcatDelete.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedLcatId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedLcatId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/lcat?client_type=OSX%20Cient%200.23&";
                 NSString *lcat=@"action=delete&id=";
                 NSNumber *recid= self.selectedLcatId ;
@@ -1130,7 +1219,7 @@
 
 - (void) loadLinksFromJS
 {
-    NSLog(@"loadLinksFromJS");
+    //NSLog(@"loadLinksFromJS");
     NSString *str=@"http://192.168.7.2:4000/linkJSON";
     NSURL *url=[NSURL URLWithString:str];
     NSData *data=[NSData dataWithContentsOfURL:url];
@@ -1141,8 +1230,8 @@
     for(int i=0;i<[self.linkAllArray count];i++)
     {
         NSNumber *temp = (NSNumber *)[[self.linkAllArray objectAtIndex:i]objectForKey:@"cat"];
-        NSLog(@"temp %@",temp );
-        NSLog(@"selectedLcatId %@",self.selectedLcatId );
+        //NSLog(@"temp %@",temp );
+        //NSLog(@"selectedLcatId %@",self.selectedLcatId );
         if (temp == self.selectedLcatId)
         {
             [_linkArray addObject:[self.linkAllArray objectAtIndex:i]];
@@ -1151,7 +1240,7 @@
     //self.selectedLcatId = [[self.lcatArray objectAtIndex:0]objectForKey:@"id"];
     self.linkArray = _linkArray;
     [linkTableView reloadData];
-    NSLog(@"count %lu",(unsigned long)[self.linkAllArray count] );
+    //NSLog(@"count %lu",(unsigned long)[self.linkAllArray count] );
 }
 
 - (IBAction)link_new:(id)sender {
@@ -1162,8 +1251,8 @@
     self.myMS_LinkNew.catID = [[self.lcatArray objectAtIndex:[self.lcatTableView selectedRow]]objectForKey:@"id"];
     [self.window beginSheet:self.myMS_LinkNew.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"Save button tapped ");
                 NSString *str1=@"http://192.168.7.2:4000/api/link?client_type=OSX%20Cient%200.23&";
                 NSString *str2=@"action=new&id=0&cat_id=";
                 NSString *lcatid= [self.myMS_LinkNew.catID stringValue];
@@ -1185,7 +1274,7 @@
     }];
 }
 - (IBAction)link_edit:(id)sender{
-    NSLog(@"link_edit");
+    //NSLog(@"link_edit");
     self.selectedLinkId = [[self.linkArray objectAtIndex:[self.linkTableView selectedRow]]objectForKey:@"id"];
     self.myMS_LinkEdit = [[MS_LinkEdit alloc] initWithWindowNibName:@"MS_LinkEdit"];
     self.myMS_LinkEdit.catArray = self.lcatArray ;
@@ -1230,9 +1319,9 @@
     self.myMS_LinkDelete.VarName = [[self.linkArray objectAtIndex:[self.linkTableView selectedRow]]objectForKey:@"name"];
     [self.window beginSheet:self.myMS_LinkDelete.window  completionHandler:^(NSModalResponse returnCode) {
         switch (returnCode) {
-            case NSModalResponseOK:
-                NSLog(@"curr id: %@", self.selectedLinkId);
-                NSLog(@"Save button tapped ");
+            case NSModalResponseOK:;
+                //NSLog(@"curr id: %@", self.selectedLinkId);
+                //NSLog(@"Save button tapped ");
                 NSString *str=@"http://192.168.7.2:4000/api/link?client_type=OSX%20Cient%200.23&";
                 NSString *link=@"action=delete&id=";
                 NSNumber *recid= self.selectedLinkId ;

@@ -25,6 +25,15 @@
     }
 }
 
+- (IBAction)didTapAction:(id)sender {
+    NSLog(@"didTapAction ");
+    if([[self.Action stringValue]  isEqual: @"on"]){
+        [self.Value setStringValue:@"100"];
+    } else if([[self.Action stringValue]  isEqual: @"off"]){
+        [self.Value setStringValue:@"0"];
+    }
+}
+
 - (IBAction)deviceMenu:(id)sender{
     NSUInteger currentRow = [self.Device indexOfSelectedItem];
     self.deviceID = [[self.deviceArray objectAtIndex:currentRow]objectForKey:@"id"];

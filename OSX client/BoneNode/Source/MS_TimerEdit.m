@@ -25,12 +25,22 @@
     } else {
          [self.TimerEnable setState:0];
     }
-    NSLog(@"self.actionArray%lu",(unsigned long)[self.actionArray count]);
+    
+    
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(1, 1)]intValue]==1){[self.TimerEnMon setState:1];}
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(2, 1)]intValue]==1){[self.TimerEnTue setState:1];}
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(3, 1)]intValue]==1){[self.TimerEnWed setState:1];}
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(4, 1)]intValue]==1){[self.TimerEnThu setState:1];}
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(5, 1)]intValue]==1){[self.TimerEnFri setState:1];}
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(6, 1)]intValue]==1){[self.TimerEnSat setState:1];}
+    if ([[self.varTimerDay substringWithRange:NSMakeRange(0, 1)]intValue]==1){[self.TimerEnSun setState:1];}
+    
+    //NSLog(@"self.actionArray%lu",(unsigned long)[self.actionArray count]);
     for (int i = 0; i < [self.actionArray count]; ++i)
     {
         
         [self.Action addItemWithObjectValue:[[self.actionArray objectAtIndex:i]objectForKey:@"name"]];
-        NSLog(@"self. %@  %@",[[self.actionArray objectAtIndex:i]objectForKey:@"id"],self.varActionId);
+        //NSLog(@"self. %@  %@",[[self.actionArray objectAtIndex:i]objectForKey:@"id"],self.varActionId);
         if ([[self.actionArray objectAtIndex:i]objectForKey:@"id"] == self.varActionId){
             [self.Action setStringValue:[[self.actionArray objectAtIndex:i]objectForKey:@"name"]];
         }

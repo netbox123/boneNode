@@ -21,7 +21,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="300" height="93"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c3H-Tc-RA9">
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c3H-Tc-RA9">
                         <rect key="frame" x="99" y="55" width="181" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="TIq-p9-GnZ">
                             <font key="font" metaFont="system"/>
@@ -29,7 +29,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xgx-tN-8az">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xgx-tN-8az">
                         <rect key="frame" x="138" y="13" width="83" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nLU-y1-ntG">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -42,7 +42,7 @@ Gw
                             <action selector="didTapCancelButton:" target="-2" id="rGl-J3-rha"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b9O-nD-6dn">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b9O-nD-6dn">
                         <rect key="frame" x="221" y="13" width="65" height="32"/>
                         <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xm6-Z4-kAH">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -55,8 +55,11 @@ Gw
                             <action selector="didTapDoneButton:" target="-2" id="SCh-f7-6aE"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LaM-XJ-qeM">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LaM-XJ-qeM">
                         <rect key="frame" x="18" y="57" width="59" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="55" id="ge9-Hd-JmM"/>
+                        </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Name" id="kYg-qh-Ww6">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -65,8 +68,15 @@ Gw
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Xgx-tN-8az" firstAttribute="trailing" secondItem="b9O-nD-6dn" secondAttribute="leading" constant="-10" id="QTA-2B-zAN"/>
-                    <constraint firstItem="Xgx-tN-8az" firstAttribute="bottom" secondItem="b9O-nD-6dn" secondAttribute="bottom" id="gly-ed-W0S"/>
+                    <constraint firstItem="b9O-nD-6dn" firstAttribute="trailing" secondItem="c3H-Tc-RA9" secondAttribute="trailing" id="0n9-sm-kJj"/>
+                    <constraint firstItem="c3H-Tc-RA9" firstAttribute="leading" secondItem="LaM-XJ-qeM" secondAttribute="trailing" constant="24" id="3kw-Hh-gQs"/>
+                    <constraint firstAttribute="bottom" secondItem="Xgx-tN-8az" secondAttribute="bottom" constant="20" symbolic="YES" id="GAx-MM-ctm"/>
+                    <constraint firstItem="b9O-nD-6dn" firstAttribute="leading" secondItem="Xgx-tN-8az" secondAttribute="trailing" constant="12" symbolic="YES" id="N6d-3s-lIs"/>
+                    <constraint firstItem="Xgx-tN-8az" firstAttribute="top" secondItem="c3H-Tc-RA9" secondAttribute="bottom" constant="14" id="S5W-1s-Ojg"/>
+                    <constraint firstAttribute="trailing" secondItem="c3H-Tc-RA9" secondAttribute="trailing" constant="20" symbolic="YES" id="Yw3-F0-KAQ"/>
+                    <constraint firstItem="c3H-Tc-RA9" firstAttribute="baseline" secondItem="LaM-XJ-qeM" secondAttribute="baseline" id="f7P-9C-qqk"/>
+                    <constraint firstItem="LaM-XJ-qeM" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" symbolic="YES" id="vaz-Mp-E0p"/>
+                    <constraint firstItem="Xgx-tN-8az" firstAttribute="baseline" secondItem="b9O-nD-6dn" secondAttribute="baseline" id="zWT-sw-a0W"/>
                 </constraints>
             </view>
             <connections>

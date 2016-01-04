@@ -45,6 +45,8 @@
                 <outlet property="powerSlider" destination="bak-5o-jc5" id="ZvQ-k3-FsJ"/>
                 <outlet property="status" destination="VD1-Uz-m4o" id="YZa-g6-cVy"/>
                 <outlet property="timeString" destination="pdG-xR-uBa" id="YEx-dK-e7V"/>
+                <outlet property="timeSunrise" destination="Dgw-R1-LTo" id="79c-Bh-MDR"/>
+                <outlet property="timeSunset" destination="hUS-WA-dzr" id="GeN-TV-JKZ"/>
                 <outlet property="timerTableView" destination="cDn-mI-DFL" id="GTp-iq-yyR"/>
                 <outlet property="triggerTableView" destination="hTg-mw-Ycf" id="Uyh-Ve-vuO"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -56,7 +58,7 @@
         <window title="Main" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="495" height="462"/>
+            <rect key="contentRect" x="575" y="315" width="495" height="462"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="495" height="462"/>
@@ -348,15 +350,6 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BBa-Ny-LcJ">
-                                            <rect key="frame" x="284" y="31" width="51" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sunset :" id="xdO-ll-h4p">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5Vg-i0-5nM">
                                             <rect key="frame" x="258" y="45" width="22" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -383,10 +376,19 @@
                                                 <color key="backgroundColor" white="0.83137254901960789" alpha="0.0" colorSpace="deviceWhite"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField focusRingType="none" verticalHuggingPriority="750" id="tZh-Wp-b9l">
-                                            <rect key="frame" x="331" y="47" width="42" height="16"/>
+                                        <textField focusRingType="none" verticalHuggingPriority="750" id="Dgw-R1-LTo">
+                                            <rect key="frame" x="333" y="48" width="37" height="16"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" focusRingType="none" title="06:30" drawsBackground="YES" id="sYa-iI-1Xm">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" focusRingType="none" drawsBackground="YES" id="PbW-Q3-Jna">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" white="0.83137254900000002" alpha="0.0" colorSpace="deviceWhite"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField focusRingType="none" verticalHuggingPriority="750" id="hUS-WA-dzr">
+                                            <rect key="frame" x="333" y="32" width="37" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" focusRingType="none" drawsBackground="YES" id="hdZ-Mr-kT1">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.83137254900000002" alpha="0.0" colorSpace="deviceWhite"/>
@@ -401,13 +403,13 @@
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField focusRingType="none" verticalHuggingPriority="750" id="xye-gl-v5O">
-                                            <rect key="frame" x="331" y="32" width="42" height="16"/>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="BBa-Ny-LcJ">
+                                            <rect key="frame" x="281" y="31" width="54" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" focusRingType="none" title="17:45" drawsBackground="YES" id="GuS-2L-C17">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Sunset  :" id="xdO-ll-h4p">
                                                 <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" white="0.83137254900000002" alpha="0.0" colorSpace="deviceWhite"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                     </subviews>
@@ -901,7 +903,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" headerView="mQm-Xy-uSb" id="Ozf-Ie-w1b">
-                                                        <rect key="frame" x="0.0" y="0.0" width="460" height="19"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="453" height="19"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -958,7 +960,7 @@
                                                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="val"/>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="id" width="40" minWidth="40" maxWidth="1000" id="J05-83-aDC">
+                                                            <tableColumn identifier="id" width="42" minWidth="40" maxWidth="1000" id="J05-83-aDC">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="id">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1066,7 +1068,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" headerView="ye1-JI-Ikk" id="cDn-mI-DFL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="455" height="19"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412.5" height="19"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1081,7 +1083,7 @@
                                                                 <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bxk-Sj-b4c"/>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="name" width="59.171875" minWidth="40" maxWidth="1000" id="pO2-TY-lw8">
+                                                            <tableColumn identifier="name" width="88" minWidth="40" maxWidth="1000" id="pO2-TY-lw8">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="name">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1109,7 +1111,7 @@
                                                                 <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="id"/>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="action" width="70" minWidth="10" maxWidth="3.4028234663852886e+38" id="cA5-Tf-sjG">
+                                                            <tableColumn identifier="action" width="93" minWidth="10" maxWidth="3.4028234663852886e+38" id="cA5-Tf-sjG">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="action">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1164,11 +1166,7 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" identifier="F" title="Text Cell" id="hZm-pe-zib">
-                                                                    <font key="font" metaFont="system"/>
-                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
+                                                                <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="cVO-re-4Ds"/>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                             <tableColumn identifier="Sa" width="16" minWidth="10" maxWidth="3.4028234663852886e+38" id="FlV-DP-io0">
@@ -1177,11 +1175,7 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" identifier="Sa" title="Text Cell" id="RO1-Tu-ocN">
-                                                                    <font key="font" metaFont="system"/>
-                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
+                                                                <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="v5u-yB-Ki9"/>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                             <tableColumn identifier="Su" width="16" minWidth="10" maxWidth="3.4028234663852886e+38" id="9UY-K8-dBH">
@@ -1190,14 +1184,10 @@
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
-                                                                <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" identifier="Su" title="Text Cell" id="XsG-zQ-3pN">
-                                                                    <font key="font" metaFont="system"/>
-                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
+                                                                <imageCell key="dataCell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="4ap-03-Wdk"/>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="enabled" width="54.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="VYJ-Pm-Gau">
+                                                            <tableColumn identifier="enabled" width="44" minWidth="10" maxWidth="3.4028234663852886e+38" id="VYJ-Pm-Gau">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="enable">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1601,7 +1591,7 @@
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="VD1-Uz-m4o">
                         <rect key="frame" x="462" y="442" width="18" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Airport" id="fio-PJ-fv9"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Airport_red" id="fio-PJ-fv9"/>
                     </imageView>
                 </subviews>
             </view>
@@ -1612,7 +1602,7 @@
         </window>
     </objects>
     <resources>
-        <image name="Airport" width="32" height="32"/>
+        <image name="Airport_red" width="32" height="32"/>
         <image name="Check_off" width="32" height="32"/>
         <image name="Check_on" width="32" height="32"/>
         <image name="IDPNG_Buffer" width="260" height="365"/>

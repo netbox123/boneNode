@@ -1,0 +1,15 @@
+body {
+	background-color: #EEEEEE;
+    background-image: url("images/floorplan85.png");
+    background-repeat: no-repeat;
+    margin: 20px ;
+    padding: 20px ;
+    color: #212121 ;
+    font-family: Helvetica ;
+    font-size: 14px ;
+}
+
+.lampclass{
+	display:none;
+	cursor:pointer;
+}

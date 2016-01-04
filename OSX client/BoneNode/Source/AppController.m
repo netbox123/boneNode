@@ -14,6 +14,7 @@
 #import "PrefGeneralView.h"
 #import "MainWindow.h"
 #import "BrowserWindow.h"
+#import "LogWindow.h"
 
 
 @implementation AppController
@@ -59,9 +60,10 @@
     [mainwindow showWindow:self];
 }
 
-- (IBAction)MenuAction01:(id)sender {[floorplanWindow MAction01:self];}
-- (IBAction)MenuAction02:(id)sender {[floorplanWindow MAction02:self];}
-- (IBAction)MenuUpdateDevices:(id)sender {[floorplanWindow MenuUpdateDevices:self];}
+- (IBAction)showLogWindow:(id)sender {
+    if (!logWindow) {logWindow = [[LogWindow alloc] initWithWindowNibName:@"LogWindow"];}
+    [logWindow showWindow:self];
+}
 
 
 - (void)dealloc {[super dealloc];}

@@ -1,0 +1,215 @@
+<!doctype html>
+<!--[if IE 8]><html class="ie8 lt-ie10"><![endif]-->
+<!--[if IE 9]><html class="ie9 lt-ie10"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="en"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>Slideout.js - A touch slideout navigation menu for your mobile web apps.</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="MobileOptimized" content="320">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Slideout.js is a touch slideout navigation menu for your mobile web apps.">
+    <meta name="keywords" content="slideout, offcanvas, javascript, menu, touch">
+    <meta name="author" content="Mango">
+     
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <script src="script/jquery-1.7.min.js" type="application/x-javascript" charset="utf-8"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script/index.js"></script>
+  </head>
+  <body>
+
+    <nav id="menu" class="menu">
+      <a href="https://github.com/mango/slideout" target="_blank">
+        <header class="menu-header">
+          <span class="menu-header-title">View on Github</span>
+        </header>
+      </a>
+
+      <section class="menu-section">
+        <div id="page_mheader" class="page_mheader"></div>
+        <h3 class="menu-section-title">Menu</h3>
+        <ul class="menu-section-list">
+          <li class="arrow"><div class='listIconOn '><img src='img/action_icon.png'></img></div><a id="home" href="#">&nbsp;&nbsp;Home <small class="counter"><div id="1actionCounter">0</div></small></a> </li>
+          <li class="arrow"><div class='listIconOn '><img src='img/action_icon.png'></img></div><a id="floorplan" href="#">&nbsp;&nbsp;Floorplan <small class="counter"><div id="2actionCounter">0</div></small></a> </li>
+          <li class="arrow"><div class='listIconOn '><img src='img/action_icon.png'></img></div><a id="action" href="#">&nbsp;&nbsp;Action <small class="counter"><div id="actionCounter">0</div></small></a> </li>
+          <li class="arrow"><div class='listIconOn '><img src='img/bulb_on.png'></img></div><a id="device" href="#">&nbsp;&nbsp;Device <small class="counter"><div id="deviceCounter">0</div></small></a></li>
+          <li class="arrow"><div class='listIconOn '><img src='img/temp_icon.png'></img></div><a id="temp" href="#">&nbsp;&nbsp;Temp <small class="counter"><div id="tempCounter">0</div></small></a> </li>
+          <li class="arrow"><div class='listIconOn '><img src='img/url_icon.png'></img></div><a id="link" href="#">&nbsp;&nbsp;Link <small class="counter"><div id="linkCounter">0</div></small></a></li>
+          <li class="arrow"><div class='listIconOn '><img src='img/timer_icon.png'></img></div><a id="timer" href="#">&nbsp;&nbsp;Timer <small class="counter"><div id="timerCounter">0</div></small></a> </li>
+          <li class="arrow"><div class='listIconOn '><img src='img/power_icon.png'></img></div><a id="power" href="#">&nbsp;&nbsp;Power <small class="counter"><div id="powerCounter">0</div></small></a> </li>
+          <li class="arrow"><div class='listIconOn '><img src='img/setting_icon.png'></img></div><a id="settings" href="#">&nbsp;&nbsp;&nbsp;Settings </a> </li>
+        </ul>
+      </section>
+    </nav>
+
+    <main id="main" class="panel">
+      <div id="page_header" class="page_header"></div>
+      <header class="panel-header">
+        <button class="btn-hamburger js-slideout-toggle"></button>
+      </header>
+
+      <div id="page_main" class="PageOn, pageDefault">
+        <div style="top:46px; left:31px" class="label">Home</div>
+        <div style="height:397px; width:400px; top:70px; left:16px" class="grey_box"></div>
+        <div style="top:112px; left:-40px;" class='plaatje'><img style="width:50%;"  src='img/IDPNG_home.png'></img></div>
+        
+        <div style="top:478px; left:31px" class="label">Power</div>
+        <div style="height:240px; width:400px; top:502px; left:16px" class="grey_box"></div>
+        <div style="top:510px; left:-27px;" class='plaatje'><img style="width:20%;"  src='img/IDPNG_Trojan.png'></img></div>
+        <div style="top:520px; left:31px" class="label" id="mainPowerVal3001"></div>
+        <div style="top:552px; left:31px" class="label" id="mainPowerVal3002"></div>
+        <div style="top:584px; left:31px" class="label" id="mainPowerVal3008"></div>
+        <div style="top:616px; left:31px" class="label" id="mainPowerVal3003"></div>
+        <div style="top:648px; left:31px" class="label" id="mainPowerVal3004"></div>
+               
+        <div style="top:46px; left:450px" class="label">Kachel</div>
+        <div style="height:177px; width:405px; top:70px; left:435px" class="grey_box"></div>
+        <div style="top:89px; left:657px;" class='plaatje'><img style="width:63%;"  src='img/IDPNG_Kachel.png'></img></div>
+        <div style="top:88px; left:450px" class="label" id="mainTempVal4002"></div>
+        <div style="top:120px; left:450px" class="label" id="mainTempVal4003"></div>
+        
+        <div style="top:264px; left:450px" class="label">Buffer</div>
+        <div style="height:177px; width:405px; top:289px; left:435px" class="grey_box"></div>
+        <div style="top:309px; left:490px;" class='plaatje'><img style="width:18%;"  src='img/IDPNG_Buffer.png'></img></div>
+        <div style="top:306px; left:450px" class="label" id="mainTempVal4004"></div>
+        <div style="top:338px; left:450px" class="label" id="mainTempVal4005"></div>
+        <div style="top:370px; left:450px" class="label" id="mainTempVal4006"></div>
+        
+        <div style="top:478px; left:450px" class="label">Generator</div>
+        <div style="height:177px; width:405px; top:502px; left:435px" class="grey_box"></div>
+        <div style="top:515px; left:445px;" class='plaatje'><img style="width:26%;"  src='img/IDPNG_Yanmar.png'></img></div>
+        <div style="top:510px; left:450px" class="label" id="mainTempVal4007"></div>
+        <div style="top:542px; left:450px" class="label" id="mainTempVal4009"></div>
+        
+      </div>
+
+      <div id="page_floorplan" class="PageOff">
+        <div id="page_img" class="page_img"></div>
+        <div id="page" class="page"></div>
+      </div>
+  
+      <div id="page_action" class="PageOff, pageDefault">
+        Action
+      </div>
+      
+      <div id="page_device" class="PageOff, pageDefault">
+        Device
+      </div>
+      
+      <div id="page_temp" class="PageOff, pageDefault">
+        Temp
+      </div>
+      
+      <div id="page_link" class="PageOff, pageDefault">
+        Link
+      </div>
+      
+      <div id="page_timer" class="PageOff, pageDefault">
+        Timer
+      </div>
+      
+      <div id="page_power" class="PageOff, pageDefault">
+        Power
+      </div>
+
+    </main>
+
+   
+      
+    <script src="script/slideout.js" type="application/x-javascript" charset="utf-8"></script>
+    <script>
+      var slideout = new Slideout({
+        'panel': document.getElementById('main'),
+        'menu': document.getElementById('menu'),
+        'padding': 256,
+        'tolerance': 70
+      });
+
+      document.querySelector('.js-slideout-toggle').addEventListener('click', function() {
+        slideout.toggle();
+      });
+
+      document.querySelector('.menu').addEventListener('click', function(eve) {
+        
+        console.log('selector '+eve.target.id);
+        
+        if (eve.target.id=="home"){
+          $("#page_main").removeClass("PageOff");
+          $("#page_main").addClass("PageOn");
+        } else {
+          $("#page_main").removeClass("PageOn");
+          $("#page_main").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="floorplan"){
+          $("#page_floorplan").removeClass("PageOff");
+          $("#page_floorplan").addClass("PageOn");
+        } else {
+          $("#page_floorplan").removeClass("PageOn");
+          $("#page_floorplan").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="action"){
+          $("#page_action").removeClass("PageOff");
+          $("#page_action").addClass("PageOn");
+        } else {
+          $("#page_action").removeClass("PageOn");
+          $("#page_action").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="device"){
+          $("#page_device").removeClass("PageOff");
+          $("#page_device").addClass("PageOn");
+        } else {
+          $("#page_device").removeClass("PageOn");
+          $("#page_device").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="temp"){
+          $("#page_temp").removeClass("PageOff");
+          $("#page_temp").addClass("PageOn");
+        } else {
+          $("#page_temp").removeClass("PageOn");
+          $("#page_temp").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="link"){
+          $("#page_link").removeClass("PageOff");
+          $("#page_link").addClass("PageOn");
+        } else {
+          $("#page_link").removeClass("PageOn");
+          $("#page_link").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="timer"){
+          $("#page_timer").removeClass("PageOff");
+          $("#page_timer").addClass("PageOn");
+        } else {
+          $("#page_timer").removeClass("PageOn");
+          $("#page_timer").addClass("PageOff");
+        }
+        
+        if (eve.target.id=="power"){
+          $("#page_power").removeClass("PageOff");
+          $("#page_power").addClass("PageOn");
+        } else {
+          $("#page_power").removeClass("PageOn");
+          $("#page_power").addClass("PageOff");
+        }
+        
+        
+        if (eve.target.nodeName === 'A') { slideout.close(); }
+        
+      });
+
+
+    </script>
+  </body>
+</html>
+
